@@ -1,12 +1,8 @@
 import React from "react";
-import reactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import PokemonList from "./PokemonList.js";
+import App from "./App";
 
-const App = () => {
-  return <div className="App">
-    <PokemonList />
-  </div>
-}
-
-reactDOM.render(<App />, document.getElementById("root"));
+const container = document.getElementById("root");
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(<App />);
