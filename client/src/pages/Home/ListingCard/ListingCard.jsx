@@ -14,6 +14,7 @@ function ListingCard({ listing }) {
         to={`/details/${listing.listing_id}`}
         sx={() => ({
           transition: '.3s',
+          height: '100%',
           '&:hover': {
             transform: 'scale(1.03)',
           },
@@ -21,17 +22,31 @@ function ListingCard({ listing }) {
       >
         <Card.Section>
           <Image height={160} src={listing.image_url} />
-        </Card.Section>
-        <Group position="apart" style={{ marginBottom: 5, marginTop: 15 }}>
-          <Text weight={500}>{listing.title}</Text>
           <Badge
             variant="light"
             color={listing.type === 'favor' ? 'violet' : 'blue'}
+            style={{ position: 'absolute', top: 10, right: 10 }}
           >
             {listing.type}
           </Badge>
-        </Group>
-        <Text lineClamp={3} component="em">
+        </Card.Section>
+        {/* <Group position="apart" style={{ marginBottom: 5, marginTop: 15 }}> */}
+        <Text
+          weight="bold"
+          transform="uppercase"
+          style={{ marginBottom: 5, marginTop: 10, 'letter-spacing': '1px' }}
+        >
+          {listing.title}
+        </Text>
+        {/* <Badge
+            variant="light"
+            color={listing.type === 'favor' ? 'violet' : 'blue'}
+            // style={{ position: 'absolute', top: 10, right: 10 }}
+          >
+            {listing.type}
+          </Badge> */}
+        {/* </Group> */}
+        <Text size="sm" lineClamp={3} component="em">
           {listing.description}
         </Text>
       </Card>
