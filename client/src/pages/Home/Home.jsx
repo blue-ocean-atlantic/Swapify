@@ -1,57 +1,90 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Stack,
+  TextInput,
+  Group,
+  ActionIcon,
+  Center,
+  Space,
+  Transition,
+  Container,
+} from '@mantine/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
+import { useInputState } from '@mantine/hooks';
 
 function Home() {
+  const [query, setQuery] = useInputState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate(`/results?query=${query}`);
+  };
+
   return (
     <>
       <NavBar />
       <main>
-        <h1>1</h1>
-        <a href="/dashboard">Link to Dashboard (anchor)</a>
-        <br />
-        <Link to="/dashboard">Link to Dashboard (Link)</Link>
-        <h1>2Home</h1>
-        <h1>3Home</h1>
-        <h1>4Home</h1>
-        <h1>5Home</h1>
-        <h1>6Home</h1>
-        <h1>7Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
-        <h1>Home</h1>
+        <Space h={50} />
+        <Stack spacing={50}>
+          {/* <Group position="center"> */}
+          <Container style={{ position: 'relative', width: '70%' }}>
+            <TextInput
+              size="xl"
+              placeholder="Search for swaps or favors"
+              radius="xl"
+              icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
+              // style={{ width: '70%', transition: 300 }}
+              value={query}
+              onChange={setQuery}
+              onKeyUp={(e) => {
+                if (e.code === 'Enter') {
+                  handleSearch();
+                }
+              }}
+            />
+            <Transition
+              mounted={query.length > 0}
+              transition="slide-right"
+              duration={200}
+              timingFunction="ease"
+            >
+              {(styles) => (
+                <ActionIcon
+                  style={{
+                    ...styles,
+                    position: 'absolute',
+                    right: 30,
+                    top: 16,
+                  }}
+                  onClick={handleSearch}
+                  // color="gray"
+                >
+                  <FontAwesomeIcon size="xl" icon={faArrowRight} />
+                </ActionIcon>
+              )}
+            </Transition>
+          </Container>
+          {/* </Group> */}
+          <Center>
+            <Button radius="xl" size="lg">
+              Get Started
+            </Button>
+          </Center>
+          <Space />
+          {query.length ? (
+            <Center>
+              <strong>{query}</strong>
+            </Center>
+          ) : null}
+        </Stack>
       </main>
     </>
   );
