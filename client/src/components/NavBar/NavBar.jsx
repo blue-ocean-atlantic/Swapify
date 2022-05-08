@@ -17,7 +17,7 @@ function NavBar({ loggedIn = false }) {
     <>
       <div className="navbar">
         <Text color="dark" component={Link} id="nav-logo" to="/">
-          BARTR
+          LOGO
         </Text>
 
         {loggedIn ? (
