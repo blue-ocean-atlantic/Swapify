@@ -4,13 +4,16 @@ import {
   Button,
   Stack,
   TextInput,
-  Group,
   ActionIcon,
   Center,
   Space,
   Transition,
   Container,
+  SimpleGrid,
+  Title,
+  Divider,
 } from '@mantine/core';
+import { useInputState } from '@mantine/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
@@ -18,23 +21,33 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
-import { useInputState } from '@mantine/hooks';
+import ListingCard from './ListingCard/ListingCard.jsx';
+import { data } from './dummy';
+console.log('🚀 ~ data', data);
 
 function Home() {
   const [query, setQuery] = useInputState('');
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    navigate(`/results?query=${query}`);
+    navigate(`/results?query=${query.toLowerCase()}`);
   };
 
   return (
     <>
       <NavBar />
       <main>
+        <Space h="xl" />
+        <Title order={1} align="center">
+          No money. Just people.
+        </Title>
         <Space h={50} />
         <Stack spacing={50}>
-          {/* <Group position="center"> */}
+          <Center>
+            <Button radius="xl" size="lg" component={Link} to="/signup">
+              Create an account
+            </Button>
+          </Center>
           <Container style={{ position: 'relative', width: '70%' }}>
             <TextInput
               size="xl"
@@ -58,67 +71,34 @@ function Home() {
             >
               {(styles) => (
                 <ActionIcon
+                  variant="transparent"
                   style={{
                     ...styles,
                     position: 'absolute',
-                    right: 30,
+                    right: 35,
                     top: 16,
                   }}
                   onClick={handleSearch}
-                  // color="gray"
+                  color="blue"
                 >
                   <FontAwesomeIcon size="xl" icon={faArrowRight} />
                 </ActionIcon>
               )}
             </Transition>
           </Container>
-          {/* </Group> */}
-          <Center>
-            <Button radius="xl" size="lg">
-              Get Started
-            </Button>
-          </Center>
-          <Space />
-          {query.length ? (
-            <Center>
-              <strong>{query}</strong>
-            </Center>
-          ) : null}
         </Stack>
+        <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
+        <SimpleGrid cols={4} spacing="xl">
+          {data.results.map((listing) => (
+            <ListingCard listing={listing} />
+          ))}
+          {data.results.map((listing) => (
+            <ListingCard listing={listing} />
+          ))}
+        </SimpleGrid>
       </main>
     </>
   );
 }
 
 export default Home;
-
-// const request = '/api/listings/landing'; // GET
-// const dreamData = {
-//   results: [
-//     {
-//       listing_id: Number,
-//       type: String, // "swap" or "favor"
-//       title: String,
-//       description: String,
-//       image_url: String,
-//       user_id: String, // Should be same as email I think
-//       user_avatar_url: String,
-//     },
-//   ],
-// };
-
-// const request = "/api/listings";
-// const dreamData = {
-//   "results": [
-//      {
-//         "listing_id":19975,
-//         "type":"swap",
-//         "title":"Chair",
-//         "description":"This is a chair in good condition, I bought it a while ago but don't need it anymore. Open to see what you want to trade!",
-//         "image_url":"https://imagekit.io/url-path",
-//         "username":"joshandromidas@gmail.com",
-//         "user_avatar_url":"https://imagekit.io/avatar-pic-url-path"
-//      },
-//      ...
-//   ]
-// }
