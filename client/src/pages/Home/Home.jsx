@@ -1,14 +1,103 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Stack,
+  TextInput,
+  ActionIcon,
+  Center,
+  Space,
+  Transition,
+  Container,
+  SimpleGrid,
+  Title,
+  Divider,
+} from '@mantine/core';
+import { useInputState } from '@mantine/hooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
+import uuid from 'react-uuid';
+
+import NavBar from '../../components/NavBar/NavBar.jsx';
+import ListingCard from './ListingCard/ListingCard.jsx';
+import { data } from './dummy';
+// console.log('🚀 ~ data', data);
 
 function Home() {
+  const [query, setQuery] = useInputState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate(`/results?query=${query.toLowerCase()}`);
+  };
+
   return (
-    <div>
-      <a href="/dashboard">Link to Dashboard (anchor)</a>
-      <br />
-      <Link to="/dashboard">Link to Dashboard (Link)</Link>
-      <h1>Home</h1>
-    </div>
+    <>
+      <NavBar disableSearch />
+      <main>
+        <Space h="xl" />
+        <Title order={1} align="center">
+          No money. Just people.
+        </Title>
+        <Space h={50} />
+        <Stack spacing={50}>
+          <Center>
+            <Button radius="xl" size="lg" component={Link} to="/signup">
+              Create an account
+            </Button>
+          </Center>
+          <Container style={{ position: 'relative', width: '70%' }}>
+            <TextInput
+              size="xl"
+              placeholder="Search for swaps or favors"
+              radius="xl"
+              icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
+              value={query}
+              onChange={setQuery}
+              onKeyUp={(e) => {
+                if (e.code === 'Enter') {
+                  handleSearch();
+                }
+              }}
+            />
+            <Transition
+              mounted={query.length > 0}
+              transition="slide-right"
+              duration={200}
+              timingFunction="ease"
+            >
+              {(styles) => (
+                <ActionIcon
+                  variant="transparent"
+                  style={{
+                    ...styles,
+                    position: 'absolute',
+                    right: 35,
+                    top: 16,
+                  }}
+                  onClick={handleSearch}
+                  color="blue"
+                >
+                  <FontAwesomeIcon size="xl" icon={faArrowRight} />
+                </ActionIcon>
+              )}
+            </Transition>
+          </Container>
+        </Stack>
+        <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
+        <SimpleGrid cols={4} spacing="xl">
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+        </SimpleGrid>
+      </main>
+    </>
   );
 }
 

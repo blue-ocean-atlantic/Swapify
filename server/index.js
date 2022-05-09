@@ -1,8 +1,8 @@
 /* === External Modules === */
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 
-require("dotenv").config();
+require('dotenv').config();
 
 /* === Internal Modules === */
 // const { Pokemon } = require("../database");
@@ -17,14 +17,22 @@ const app = express();
 app.use(express.json());
 
 // serve static files
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 /* === Routes === */
 
 // serve react frontend
 // optional but i suggest doing so to ensure consistent result
-app.get("*", function (req, res) {
-  return res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+app.get('*', function (req, res) {
+  if (req.path.endsWith('bundle.js')) {
+    res.sendFile(
+      path.resolve(path.join(__dirname, '../client/dist'), 'bundle.js')
+    );
+  } else {
+    res.sendFile(
+      path.resolve(path.join(__dirname, '../client/dist'), 'index.html')
+    );
+  }
 });
 
 // api routes
