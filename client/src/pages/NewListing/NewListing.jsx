@@ -5,15 +5,17 @@ import {
   Container,
   SegmentedControl,
   Space,
-  Stack,
+  Textarea,
   TextInput,
   Title,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
+import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { z } from 'zod';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
+import { DropzoneChildren } from './DropzoneChildren/DropzoneChildren.jsx';
 
 const schema = z.object({
   title: z.string().min(2, { message: 'Name should have at least 2 letters' }),
@@ -21,6 +23,8 @@ const schema = z.object({
     message: 'Please give a longer description (at least 10 characters)',
   }),
 });
+
+const dropzoneChildren = () => {};
 
 function NewListing() {
   const [type, setType] = useState('swap');
@@ -55,10 +59,10 @@ function NewListing() {
             ]}
           />
         </Center>
-        <Stack align="center">
+        <Container style={{ width: '70%' }}>
           <form
             onSubmit={form.onSubmit((values) => {
-              console.log(values);
+              console.log('Submitted!', values);
             })}
           >
             <TextInput
@@ -67,10 +71,12 @@ function NewListing() {
               placeholder="My cool item"
               {...form.getInputProps('title')}
             />
-            <TextInput
+            <Textarea
               size="lg"
               label="Description"
               placeholder="This item is cool"
+              autosize
+              minRows={2}
               {...form.getInputProps('description')}
             />
             <DatePicker
@@ -85,9 +91,10 @@ function NewListing() {
               label="Set up image upload here"
               placeholder="imagekit.io"
             />
+            <Dropzone>{() => DropzoneChildren()}</Dropzone>
             <Button type="submit">Submit</Button>
           </form>
-        </Stack>
+        </Container>
       </Container>
     </>
   );
