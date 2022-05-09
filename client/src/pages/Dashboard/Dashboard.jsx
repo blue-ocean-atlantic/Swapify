@@ -6,8 +6,10 @@ import LoginButton from './LoginButton.jsx';
 import UserInfo from './UserInfo.jsx';
 import Posts from './Posts.jsx';
 import ChatButton from './ChatButton.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
 
 import dashStore from './dashStore.js';
+import './Dashboard.scss';
 
 function Dashboard() {
   const userInfo = dashStore((state) => state.userInfo);
@@ -21,18 +23,19 @@ function Dashboard() {
   //     <h1>Dashboard</h1>
   //   </div>
   // );
+
   return (
     <div className="dash-page">
-      <div className="dash-nav-bar">
-        <h4>Logo</h4>
-        <SearchBar />
-        <h4>Welcome {userInfo.username}!</h4>
-        <LoginButton />
-      </div>
-      <div className="dash-basic-info">
-        <UserInfo />
-        <Posts />
-        <ChatButton />
+      <NavBar />
+      <h1 className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</h1>
+      <div className="dash-container">
+        <div className="dash-basic-info">
+          <UserInfo />
+          <ChatButton />
+        </div>
+        <div className="dash-user-post">
+          <Posts />
+        </div>
       </div>
     </div>
   );
