@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Container, Image, Group, Text, Badge } from '@mantine/core';
 
 function ListingCard({ listing }) {
-  console.log('🚀 ~ ListingCard ~ listing', listing);
+  // console.log('🚀 ~ ListingCard ~ listing', listing);
   return (
     <Container px={0}>
       <Card
@@ -34,7 +34,7 @@ function ListingCard({ listing }) {
         <Text
           weight="bold"
           transform="uppercase"
-          style={{ marginBottom: 5, marginTop: 10, 'letter-spacing': '1px' }}
+          style={{ marginBottom: 5, marginTop: 10, letterSpacing: '1px' }}
         >
           {listing.title}
         </Text>

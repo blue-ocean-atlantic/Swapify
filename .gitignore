@@ -176,3 +176,4 @@ sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/yarn,node,react
 .prettierrc
+client/dist/bundle.js

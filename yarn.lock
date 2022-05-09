@@ -3175,6 +3175,11 @@ react-textarea-autosize@^8.3.2:
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
 
+react-uuid@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-uuid/-/react-uuid-1.0.2.tgz#c77cea91cf38eafb1aaa7910f92621b2ed91b969"
+  integrity sha512-5e0GM16uuQj9MdRJlZ0GdLC8LKMwpU9PIqYmF27s3fIV2z+rLyASTaiW4aKzSY4DyGanz+ImzsECkftwGWfAwA==
+
 react@^18.1.0:
   version "18.1.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.1.0.tgz#6f8620382decb17fdc5cc223a115e2adbf104890"
@@ -3905,6 +3910,11 @@ yallist@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+
+zod@^3.15.1:
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.15.1.tgz#9e404cd8002ccffb03baa94cff2e1638ed49d82f"
+  integrity sha512-WAdjcoOxa4S9oc/u7fTbC3CC7uVqptLLU0LKqS8RDBOrCXp2t5avM8BUfgNVZJymGWAx6SEUYxWPPoYuQ5rgwQ==
 
 zustand@^4.0.0-rc.1:
   version "4.0.0-rc.1"

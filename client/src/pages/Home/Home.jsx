@@ -19,11 +19,12 @@ import {
   faArrowRight,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
+import uuid from 'react-uuid';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
-console.log('🚀 ~ data', data);
+// console.log('🚀 ~ data', data);
 
 function Home() {
   const [query, setQuery] = useInputState('');
@@ -54,7 +55,6 @@ function Home() {
               placeholder="Search for swaps or favors"
               radius="xl"
               icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
-              // style={{ width: '70%', transition: 300 }}
               value={query}
               onChange={setQuery}
               onKeyUp={(e) => {
@@ -90,10 +90,10 @@ function Home() {
         <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
         <SimpleGrid cols={4} spacing="xl">
           {data.results.map((listing) => (
-            <ListingCard listing={listing} />
+            <ListingCard key={uuid()} listing={listing} />
           ))}
           {data.results.map((listing) => (
-            <ListingCard listing={listing} />
+            <ListingCard key={uuid()} listing={listing} />
           ))}
         </SimpleGrid>
       </main>
