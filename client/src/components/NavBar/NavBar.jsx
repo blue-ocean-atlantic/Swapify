@@ -18,6 +18,7 @@ import {
   faTableColumns,
   faPlus,
   faComments,
+  faAngleDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './NavBar.scss';
@@ -67,19 +68,32 @@ function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
           {loggedIn ? (
             <>
               <Menu
+                size="xl"
+                styles={{
+                  root: {
+                    zIndex: 10,
+                  },
+                  label: {
+                    fontSize: 18,
+                  },
+                  item: {
+                    fontSize: 18,
+                    padding: 20,
+                  },
+                }}
                 control={
                   <Button
                     size="lg"
-                    // style={{ padding: 10 }}
                     variant="white"
                     color="dark"
-                    rightIcon={
+                    leftIcon={
                       <Avatar
                         src={data.user.avatar}
                         alt="profile avatar"
                         radius="xl"
                       />
                     }
+                    rightIcon={<FontAwesomeIcon icon={faAngleDown} />}
                   >
                     {data.user.firstName}
                   </Button>
