@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 /* === Routes === */
 
 // serve react frontend
-// optional but i suggest doing so to ensure consistent result
 app.get('*', function (req, res) {
   if (req.path.endsWith('bundle.js')) {
     res.sendFile(
@@ -34,38 +33,6 @@ app.get('*', function (req, res) {
     );
   }
 });
-
-// api routes
-
-// // index route
-// app.get("/api/pokemon", function(req,res){
-//   Pokemon.find({}).sort("num").exec(function(err, allPokemon){
-//     if(err) {
-//       console.log(err);
-//       return res.status(500).json({message: "Internal Server Error"})
-//     }
-
-//     return res.status(200).json({
-//       pokemon: allPokemon,
-//     });
-
-//   });
-// });
-
-// //create
-// app.post("/api/pokemon", function(req,res){
-//   Pokemon.create(req.body, function(err, newPokemon){
-//     if(err) {
-//       console.log(err);
-//       return res.status(500).json({message: "Internal Server Error"})
-//     }
-
-//     return res.status(200).json({
-//       pokemon: newPokemon,
-//     });
-
-//   });
-// });
 
 /* === Server Listener === */
 app.listen(PORT, function () {
