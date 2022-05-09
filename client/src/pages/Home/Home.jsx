@@ -36,7 +36,7 @@ function Home() {
 
   return (
     <>
-      <NavBar />
+      <NavBar disableSearch />
       <main>
         <Space h="xl" />
         <Title order={1} align="center">
