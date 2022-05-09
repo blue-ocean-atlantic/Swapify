@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import './details.scss'
 
-function ImageGallery() {
+function ImagesGallery({ images }) {
+
+  const imagesDisplay = [];
+  images.forEach((image) => {
+    imagesDisplay.push({original: image, thumbnail: image})
+  });
 
   return (
-          <div>Image</div>
+          <div className="images-gallery">
+            <ImageGallery items={imagesDisplay} showIndex={true}/>
+          </div>
   )
 }
 
-export default ImageGallery;
+export default ImagesGallery;
