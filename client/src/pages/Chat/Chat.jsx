@@ -3,6 +3,7 @@ import socket from './socket.js'
 import { Input, Button, Box, Avatar } from '@mantine/core';
 import { getChatInfo } from './getChatInfo.js'
 
+
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'short',
@@ -40,8 +41,12 @@ function Chat({ toUser }) {
     socket.on('login', (data) => {
       console.log(data)
     })
+
     getChatInfo('qiqi', toUserName)
-      .then(({ data }) => setMessageList(prevList => prevList.concat(data)))
+      .then(({ data }) => {
+        data = data.map(x => { x.userName = x.fromUser; return x })
+        setMessageList(prevList => prevList.concat(data));
+      })
   }, [])
 
   const onMessageSubmit = (e) => {

@@ -9,6 +9,9 @@ import {
 
 import ModalChat from './ModalChat.jsx';
 import { getUserLists } from './getChatInfo.js'
+import JoshChatIdea from './JoshChatIdea.jsx';
+import NavBar from '../../components/NavBar/NavBar.jsx';
+import BackButton from './BackButton.jsx'
 
 // grab all the userName in database that has send message to the user or be sent message from the user
 const userNames = ['qiqi', 'eric', 'wendy']
@@ -33,37 +36,51 @@ const ContactLists = () => {
   }, [])
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Card sx={{ width: '30%', marginTop: '10%' }}>
-        <Text sx={{ fontWeight: 'bold', textAlign: 'center' }}>Chat Lists</Text>
-        {
-          userNames.map(x => {
-            return (
-              <Box key={x} onClick={() => onUsernameClicked(x)} sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar radius='xl' />
-                <Text>{x}</Text>
-              </Box>
-            )
-          })
-        }
+    <>
+      <NavBar />
+      <main>
+        <BackButton />
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Card sx={{ width: '30%', marginTop: '10%' }}>
+            <Text sx={{ fontWeight: 'bold', textAlign: 'center' }}>Chat Lists</Text>
+            {
+              userNames.map(x => {
+                return (
+                  <Box key={x} onClick={() => onUsernameClicked(x)} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Avatar radius='xl' />
+                    <Text>{x}</Text>
+                  </Box>
+                )
+              })
+            }
 
-      </Card>
-      <Modal
-        overflow="inside"
-        size='md'
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title={'send to ' + user}
-        style={{
-          title: { color: 'gray' }
-        }}
-      >
-        <Box sx={{ height: '300px' }}>
-          <ModalChat toUser={user} />
-        </Box>
-      </Modal>
-    </Box >
+          </Card>
+          <Modal
+            overflow="inside"
+            size='md'
+            opened={opened}
+            onClose={() => setOpened(false)}
+            title={'send to ' + user}
+            style={{
+              title: { color: 'gray' }
+            }}
+          >
+            <Box sx={{ height: '300px' }}>
+              <ModalChat toUser={user} />
+            </Box>
+          </Modal>
+        </Box >
+      </main>
+    </>
   )
+  // return (
+  //   <>
+  //     <NavBar />
+  //     <main>
+  //       <JoshChatIdea />
+  //     </main>
+  //   </>
+  // );
 
 }
 
