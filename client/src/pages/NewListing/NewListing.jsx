@@ -14,6 +14,7 @@ import {
   Stack,
   SimpleGrid,
   Image,
+  Select,
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
@@ -23,6 +24,7 @@ import axios from 'axios';
 import uuid from 'react-uuid';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
+import { categories, conditions } from './categories.js';
 
 const schema = z.object({
   title: z.string().min(2, { message: 'Name should have at least 2 letters' }),
@@ -40,6 +42,8 @@ function NewListing() {
       title: '',
       description: '',
       available_date: new Date(),
+      category: '',
+      condition: '',
     },
     schema: zodResolver(schema),
   });
@@ -125,12 +129,14 @@ function NewListing() {
           >
             <Stack spacing="lg">
               <TextInput
+                required
                 size="lg"
                 label="Title"
                 placeholder="My cool item"
                 {...form.getInputProps('title')}
               />
               <Textarea
+                required
                 size="lg"
                 label="Description"
                 placeholder="This item is cool"
@@ -139,6 +145,7 @@ function NewListing() {
                 {...form.getInputProps('description')}
               />
               <DatePicker
+                required
                 size="lg"
                 label="Available date"
                 placeholder="Pick date"
@@ -146,6 +153,22 @@ function NewListing() {
                 minDate={new Date()}
                 {...form.getInputProps('available_date')}
               />
+              <Select
+                required
+                size="lg"
+                label="Category"
+                data={categories}
+                {...form.getInputProps('category')}
+              />
+              {type === 'swap' && (
+                <Select
+                  required
+                  size="lg"
+                  label="Condition"
+                  data={conditions}
+                  {...form.getInputProps('condition')}
+                />
+              )}
               <Group grow direction="column" spacing="xs">
                 <Text weight={500} size="lg">
                   Upload photos
@@ -165,20 +188,6 @@ function NewListing() {
                   {() => DropzoneChildren()}
                 </Dropzone>
               </Group>
-              {/* <IKContext
-                publicKey="public_FMjtxsWyzDWFsDCkU+3LPha1J2E="
-                authenticationEndpoint="/api/imagekit"
-                urlEndpoint="https://ik.imagekit.io/joshandromidas"
-              >
-                <IKUpload
-                  onError={(err) => {
-                    console.log('error uploading file', err);
-                  }}
-                  onSuccess={() => {
-                    console.log('success uploading file!');
-                  }}
-                />
-              </IKContext> */}
               <Space h="xl" />
               <Button size="xl" type="submit">
                 Submit
