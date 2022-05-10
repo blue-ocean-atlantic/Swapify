@@ -20,8 +20,8 @@ mongoose.connect(url, {autoIndex: false}, () => {
 let schema = new mongoose.Schema({},{strict: false});
 
 const Listings = mongoose.model('listings', schema);
-const Chatroom = mongoose.model('chatroom', schema);
-const Messages = mongoose.model('messages', schema);
+const Chatroom = mongoose.model('chats', schema);
+const Messages = mongoose.model('chats_messages', schema);
 const Ratings = mongoose.model('ratings', schema);
 const Users = mongoose.model('users', schema);
 
