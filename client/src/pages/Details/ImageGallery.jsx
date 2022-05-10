@@ -12,7 +12,7 @@ function ImagesGallery({ images }) {
 
   return (
           <div className="images-gallery">
-            <ImageGallery items={imagesDisplay} showIndex={true}/>
+            <ImageGallery items={imagesDisplay} />
           </div>
   )
 }
