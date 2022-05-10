@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const tempSchema = new mongoose.Schema({},{strict: false});
+
 const chatSchema = new mongoose.Schema({
   chat_id: {
     type: Number,
@@ -45,7 +47,7 @@ const chatMessageSchema = new mongoose.Schema({
 chatMessageSchema.index({ chat_message_id: 1 });
 
 const Chats = mongoose.model('chats', chatSchema);
-const ChatMessages = mongoose.model('chats_messages', chatMessageSchema);
+const ChatMessages = mongoose.model('chats_messages', tempSchema);
 
 module.exports = {
   Chats,

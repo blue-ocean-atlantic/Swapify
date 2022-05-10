@@ -8,7 +8,8 @@
     "build": "webpack --mode=production",
     "dev:react": "webpack --mode=development -w",
     "dev:server": "nodemon server/index.js",
-    "dev": "yarn dev:react | yarn dev:server"
+    "dev": "yarn dev:react | yarn dev:server",
+    "load-db": "node db-loader"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
