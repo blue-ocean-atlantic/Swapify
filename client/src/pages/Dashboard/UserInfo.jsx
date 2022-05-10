@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-
-import { Avatar } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Button, Modal, Space, Title } from '@mantine/core';
+import { useToggle } from '@mantine/hooks';
+import { IKContext, IKUpload } from 'imagekitio-react';
 
 import axios from 'axios';
 
 import dashStore from './dashStore.js';
-import NavBar from '../../components/NavBar/NavBar.jsx';
 import './UserInfo.scss';
 
 function UserInfo() {
@@ -30,15 +30,69 @@ function UserInfo() {
   // });
 
   // use variable populate return with real data
+
+  const [showEdit, toggleShowEdit] = useToggle(false, [false, true]);
+
+  const handleUpload = (response) => {
+    const newUrl = response.url;
+    // console.log('🚀 ~ handleUpload ~ newUrl', newUrl);
+
+    // UPDATE request with Axios to update DB with new profile image url (newUrl from above)
+    // axios
+    //   .put('/api/profile', { username: 'josh', url: newUrl })
+    //   .then(() => {
+    //     // Close modal after success
+    //     toggleShowEdit();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    toggleShowEdit();
+    // Maybe trigger a refresh or rerender to allow new profile image to be shown on page?
+  };
+
   return (
     <div>
+      <Modal
+        opened={showEdit}
+        onClose={() => {
+          toggleShowEdit();
+        }}
+        title="Change Profile Picture"
+      >
+        <Title order={3}>Upload an image below</Title>
+        <Space h="xl" />
+        <IKContext
+          publicKey="public_FMjtxsWyzDWFsDCkU+3LPha1J2E="
+          urlEndpoint="https://ik.imagekit.io/joshandromidas"
+          authenticationEndpoint="/api/imagekit"
+        >
+          <IKUpload
+            onError={() => {
+              console.log('something went wrong uploading the file');
+            }}
+            onSuccess={handleUpload}
+          />
+        </IKContext>
+      </Modal>
       <Avatar
         src={userInfo.profile_image}
         alt={`${userInfo.user_first_name} ${userInfo.user_last_name}`}
         radius="xl"
-        size={300}>
+        size={300}
+      >
         {`${userInfo.user_first_name[0]} ${userInfo.user_last_name[0]}`}
       </Avatar>
+      <Button
+        onClick={() => {
+          toggleShowEdit();
+        }}
+        fullWidth
+        variant="subtle"
+      >
+        Edit profile picture
+      </Button>
       <div className="user-info">
         <h4>username: {userInfo.username}</h4>
         <h3>{userInfo.personal_rating} out of 5 stars</h3>
