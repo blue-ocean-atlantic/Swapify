@@ -11,7 +11,7 @@ import { Button } from '@mantine/core';
 function ChatButton() {
 
   // const allChats = dashStore((state) => state.allChats);
-  // let unreadChats = null;
+  let unreadChats = 0;
 
   // on page load: grab chat data for specific user
 
@@ -21,7 +21,7 @@ function ChatButton() {
   //     method: 'GET',
   //   })
   //     .then((data) => {
-  //       getUnreadNumber(data)
+  //       unreadChats = getUnreadNumber(data.data)
   //     })
   //     .catch((err) => {
   //       console.log('ERROR! couldn"t get user chat data from DB because :', err);
@@ -31,7 +31,7 @@ function ChatButton() {
   return (
     <Button color="orange" radius="md" size="md" component={Link}
       to="/chat">
-      CHATS! ({getUnreadNumber(chats.chats)} unread)
+      CHATS! ({unreadChats} unread)
     </Button>
   );
 }
