@@ -28,15 +28,6 @@ function JoshChatIdea(props) {
 
   return (
     <div>
-      <Button
-        variant="subtle"
-        onClick={() => {
-          navigate(-1);
-        }}
-        leftIcon={<FontAwesomeIcon icon={faAngleLeft} />}
-      >
-        Back
-      </Button>
       <Space h="md" />
       <Grid grow align="flex-start">
         <Grid.Col span={1}>

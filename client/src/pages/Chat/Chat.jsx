@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import socket from './socket.js'
-import { Input, Button, Box, Avatar } from '@mantine/core';
+// import { Input, Button, Box, Avatar } from '@mantine/core';
 import { getChatInfo } from './getChatInfo.js'
+import {
+  ActionIcon,
+  Avatar,
+  Container,
+  Group,
+  Stack,
+  TextInput,
+  Title,
+  Box
+} from '@mantine/core';
+import {
+  faAngleLeft,
+  faChevronRight,
+  faCircleArrowUp,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { data, chats } from './dummy';
 
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
@@ -62,35 +80,53 @@ function Chat({ toUser }) {
   }
 
   return (
-    <div style={{ marginLeft: '20px' }}>
-      <div>
-        <form onSubmit={e => onLogin(e)}>
-          <input type='text' onChange={e => setUserName(e.target.value)} />
-          <button type='submit'>Login</button>
-        </form>
-        <div>
+    <Container
+      style={{
+        height: '80vh',
+        backgroundColor: '#fff',
+        borderRadius: 15,
+      }}
+    >
+      <Title p={15}>Message</Title>
+      <form onSubmit={e => onLogin(e)}>
+        <input type='text' onChange={e => setUserName(e.target.value)} />
+        <button type='submit'>Login</button>
+      </form>
+      <Group
+        grow
+        position="apart"
+        direction="column"
+        style={{
+          height: '85%',
+          backgroundColor: '#fff',
+        }}
+      >
+        <Stack justify="flex-end" style={{ height: '100%', padding: 5 }}>
           {
             messageList.map(({ createAt, message, userName }) => (
-              <div key={createAt}>
-                {userName} {formatDate(createAt)} {message}
-              </div>
+              <Group key={createAt}>
+                <Avatar radius="xl" />
+                <p>{userName} {formatDate(createAt)} {message}</p>
+              </Group>
             ))
           }
-        </div>
-      </div>
-      <form style={{ paddingRight: '10%' }} onSubmit={e => onMessageSubmit(e)}>
-        <Box sx={{ display: 'flex' }}>
-          <Input
-            type='text'
-            onChange={e => setMessage(e.target.value)}
-          />
-          <Button
-            type='submit'
-          >submit
-          </Button>
-        </Box>
-      </form>
-    </div>)
+          <form onSubmit={e => onMessageSubmit(e)} >
+            <TextInput
+              onChange={e => setMessage(e.target.value)}
+              radius="xl"
+              placeholder="Message"
+              rightSection={
+                <ActionIcon type='submit' color="blue" radius="xl">
+                  <FontAwesomeIcon size="lg" icon={faCircleArrowUp} />
+                </ActionIcon>
+              }
+            />
+          </form>
+        </Stack>
+      </Group>
+    </Container >
+  )
 }
 
 export default Chat;
+
