@@ -1,10 +1,17 @@
-import React from 'react';
-import { Button } from '@mantine/core';
+import React, { useEffect } from 'react';
 
 import NewPostButton from './NewPostButton.jsx';
+
+import dashStore from './dashStore.js';
+
 import './Posts.scss';
+import { Button } from '@mantine/core';
 
 function Posts() {
+  // get all posts on page load (send all three requests at once)
+  // store data in separate in variables in zustand store
+  //
+
   return (
     <div className="dash-all-posts">
       <div className="dash-post-tabs">
