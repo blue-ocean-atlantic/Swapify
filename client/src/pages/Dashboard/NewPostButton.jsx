@@ -5,7 +5,7 @@ import { Button } from '@mantine/core';
 function NewPostButton() {
 
   return (
-    <Button color="orange" radius="xl" size={25} component={Link}
+    <Button color="blue" radius="xl" size={25} component={Link}
       to="/new" className="dash-new-listing">
       +
     </Button>

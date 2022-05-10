@@ -29,7 +29,7 @@ function ChatButton() {
   // }, []);
 
   return (
-    <Button color="orange" radius="md" size="md" component={Link}
+    <Button color="blue" radius="md" size="md" component={Link}
       to="/chat">
       CHATS! ({unreadChats} unread)
     </Button>
