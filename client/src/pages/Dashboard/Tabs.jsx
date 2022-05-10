@@ -12,21 +12,18 @@ function Tabs() {
   const setRec = dashStore((state) => state.setRec);
 
   const handleActiveClick = () => {
-    console.log('a')
     setAct(true)
     setGiv(false)
     setRec(false)
   }
 
   const handleGivenClick = () => {
-    console.log('g')
     setAct(false)
     setGiv(true)
     setRec(false)
   }
 
   const handleReceivedClick = () => {
-    console.log('r')
     setAct(false)
     setGiv(false)
     setRec(true)
