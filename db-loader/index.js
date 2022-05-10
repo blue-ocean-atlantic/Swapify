@@ -5,9 +5,6 @@ const ratingsData = require('./rating_mock_data.json');
 const usersData = require('./users_mock_data.json');
 const mongoose = require('mongoose');
 
-
-
-
 var url = 'mongodb://localhost:27017/BlueOceanDummy';
 
 mongoose.connect(url, {autoIndex: false}, () => {
