@@ -1,14 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Group,
-  Space,
-  Text,
-  TextInput,
-  Avatar,
-  Menu,
-} from '@mantine/core';
+import { Button, Group, Space, Text, Avatar, Menu } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { useToggle } from '@mantine/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,6 +15,7 @@ import {
 
 import './NavBar.scss';
 import { data } from './dummy';
+import SearchBar from '../SearchBar/SearchBar.jsx';
 
 const hover = (theme) => ({
   '&:hover': {
@@ -46,22 +39,7 @@ function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
           <Text color="dark" component={Link} id="nav-logo" to="/">
             LOGO
           </Text>
-          {!disableSearch && (
-            <TextInput
-              size="md"
-              placeholder="Search for swaps or favors"
-              radius="xl"
-              icon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
-              value={query}
-              onChange={setQuery}
-              onKeyUp={(e) => {
-                if (e.code === 'Enter') {
-                  handleSearch();
-                }
-              }}
-              style={{ width: '60%', minWidth: 225 }}
-            />
-          )}
+          {!disableSearch && <SearchBar size={'md'} />}
         </Group>
 
         <div className="nav-menu">
@@ -99,7 +77,7 @@ function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
                   </Button>
                 }
               >
-                <Menu.Label>Menu</Menu.Label>
+                {/* <Menu.Label>Menu</Menu.Label> */}
                 <Menu.Item
                   component={Link}
                   to="/dashboard"
