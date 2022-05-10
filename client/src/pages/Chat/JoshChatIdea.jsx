@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   ActionIcon,
   Avatar,
@@ -6,6 +6,7 @@ import {
   Container,
   Grid,
   Group,
+  ScrollArea,
   Space,
   Stack,
   Text,
@@ -22,9 +23,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
 import { data, chats } from './dummy';
+import { DatePicker } from '@mantine/dates';
 
-function JoshChatIdea(props) {
+function JoshChatIdea() {
   const navigate = useNavigate();
+  const viewport = useRef();
+
+  useEffect(() => {
+    viewport.current.scrollTo({
+      top: viewport.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  });
 
   return (
     <div>
@@ -43,7 +53,6 @@ function JoshChatIdea(props) {
           <Container
             style={{
               height: '80vh',
-              // width: '30%',
               backgroundColor: '#fff',
               borderRadius: 15,
             }}
@@ -62,7 +71,7 @@ function JoshChatIdea(props) {
             </Stack>
           </Container>
         </Grid.Col>
-        <Grid.Col span={5}>
+        <Grid.Col span={6}>
           <Container
             style={{
               height: '80vh',
@@ -71,7 +80,13 @@ function JoshChatIdea(props) {
               borderRadius: 15,
             }}
           >
-            <Title p={15}>Message</Title>
+            <Group position="apart">
+              <Title p={15}>Message</Title>
+              <DatePicker
+                placeholder="Click to schedule swap!"
+                firstDayOfWeek="sunday"
+              />
+            </Group>
             <Group
               grow
               position="apart"
@@ -79,21 +94,27 @@ function JoshChatIdea(props) {
               style={{
                 // border: '1px solid black',
                 height: '85%',
-                backgroundColor: '#fff',
-                // borderRadius: 15,
+                maxHeight: '85%',
+                // backgroundColor: '#fff',
               }}
             >
-              <Stack justify="flex-end" style={{ height: '100%', padding: 15 }}>
-                {data.map((message) => {
-                  console.log(message);
-                  return (
-                    <Group>
-                      <Avatar radius="xl" src={message.avatar_url} />
-                      <p>{message.message}</p>
-                    </Group>
-                  );
-                })}
-                {/* <Group grow> */}
+              <Stack style={{ height: '100%', padding: 15 }}>
+                <ScrollArea viewportRef={viewport}>
+                  <Stack
+                    justify="flex-end"
+                    style={{ height: '100%', padding: 15 }}
+                  >
+                    {data.map((message) => {
+                      console.log(message);
+                      return (
+                        <Group noWrap align="flex-start">
+                          <Avatar radius="xl" src={message.avatar_url} />
+                          <Text>{message.message}</Text>
+                        </Group>
+                      );
+                    })}
+                  </Stack>
+                </ScrollArea>
                 <TextInput
                   radius="xl"
                   placeholder="Message"
@@ -103,7 +124,6 @@ function JoshChatIdea(props) {
                     </ActionIcon>
                   }
                 />
-                {/* </Group> */}
               </Stack>
             </Group>
           </Container>
