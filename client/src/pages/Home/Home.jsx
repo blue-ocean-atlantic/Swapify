@@ -24,6 +24,7 @@ import uuid from 'react-uuid';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
+import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 // console.log('🚀 ~ data', data);
 
 function Home() {
@@ -33,6 +34,8 @@ function Home() {
   const handleSearch = () => {
     navigate(`/results?query=${query.toLowerCase()}`);
   };
+
+  // const data = await axios.get(...)
 
   return (
     <>
@@ -49,43 +52,7 @@ function Home() {
               Create an account
             </Button>
           </Center>
-          <Container style={{ position: 'relative', width: '70%' }}>
-            <TextInput
-              size="xl"
-              placeholder="Search for swaps or favors"
-              radius="xl"
-              icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
-              value={query}
-              onChange={setQuery}
-              onKeyUp={(e) => {
-                if (e.code === 'Enter') {
-                  handleSearch();
-                }
-              }}
-            />
-            <Transition
-              mounted={query.length > 0}
-              transition="slide-right"
-              duration={200}
-              timingFunction="ease"
-            >
-              {(styles) => (
-                <ActionIcon
-                  variant="transparent"
-                  style={{
-                    ...styles,
-                    position: 'absolute',
-                    right: 35,
-                    top: 16,
-                  }}
-                  onClick={handleSearch}
-                  color="blue"
-                >
-                  <FontAwesomeIcon size="xl" icon={faArrowRight} />
-                </ActionIcon>
-              )}
-            </Transition>
-          </Container>
+          <SearchBar />
         </Stack>
         <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
         <SimpleGrid cols={4} spacing="xl">
