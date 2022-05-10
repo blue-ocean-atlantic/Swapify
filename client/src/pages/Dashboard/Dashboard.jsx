@@ -15,13 +15,13 @@ function Dashboard() {
   const userInfo = dashStore((state) => state.userInfo);
   // notes for later
   // return (
-  //   <div>
-  //     <a href="/">Home (anchor)</a>
-  //     <br />
-  //     <Link to="/">Home (Link)</Link>
-  //     <br />
-  //     <h1>Dashboard</h1>
-  //   </div>
+  // <div>
+  //   <a href="/">Home (anchor)</a>
+  //   <br />
+  //   <Link to="/">Home (Link)</Link>
+  //   <br />
+  //   <h1>Dashboard</h1>
+  // </div>
   // );
 
   return (
