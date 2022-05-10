@@ -4,6 +4,10 @@ const path = require('path');
 
 require('dotenv').config();
 
+const Auth = require('./middleware/auth');
+const CookiesParser = require('./middleware/cookieParser');
+const models = require('./models');
+
 /* === ImageKit authentication === */
 const ImageKit = require('imagekit');
 // const fs = require('fs');
@@ -16,6 +20,8 @@ const app = express();
 
 /* === Middleware === */
 app.use(express.json());
+app.use(CookiesParser);
+app.use(Auth.createSession);
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../client/dist')));
