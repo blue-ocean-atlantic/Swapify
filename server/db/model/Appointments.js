@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const tempSchema = new mongoose.Schema({},{strict: false});
+
 const appointmentSchema = new mongoose.Schema({
   appointment_id: {
     type: Number,
@@ -25,4 +27,4 @@ const appointmentSchema = new mongoose.Schema({
 });
 appointmentSchema.index({ appointment_id: 1 });
 
-module.exports = mongoose.model('appointments', appointmentSchema);
+module.exports = mongoose.model('appointments', tempSchema);
