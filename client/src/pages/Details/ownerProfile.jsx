@@ -17,18 +17,34 @@ function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, r
   return (
     <div style={{ width: 340, margin: 'auto' }}>
       <Card shadow="sm" p="lg">
-        <Card.Section>
-          <Image src={profilePhoto} height={160} alt="Owner's photo" />
-        </Card.Section>
-
         <Group position="apart" style={{ marginBottom: 5, marginTop: theme.spacing.sm }}>
-          <Text weight={500}>
-            {firstName}
-            {' '}
-            {lastName}
-          </Text>
+          <Card.Section>
+            <Image
+              src={profilePhoto}
+              height={160}
+              width={160}
+              alt="Owner's photo"
+              radius={160}
+              withPlaceholder
+              placeholder={<Text align="center">This Owenr didn't provide a photo</Text>}/>
+          </Card.Section>
+
+            <Text weight={700} size="xl">
+              {firstName}
+              {' '}
+              {lastName}
+            </Text>
+        </Group>
+
+        <Group position="left" style={{ marginBottom: 5, marginTop: theme.spacing.sm }}>
+          <Badge color="yellow" variant="light">
+            4 Star +
+          </Badge>
           <Badge color="pink" variant="light">
-            Respond in 12 hours
+            Fast responder
+          </Badge>
+          <Badge color="green" variant="light">
+            Reliable
           </Badge>
         </Group>
 
