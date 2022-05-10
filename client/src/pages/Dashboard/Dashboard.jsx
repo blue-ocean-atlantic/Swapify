@@ -6,6 +6,8 @@ import Posts from './Posts.jsx';
 import ChatButton from './ChatButton.jsx';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 
+import { Title, Container } from '@mantine/core';
+
 import dashStore from './dashStore.js';
 import './Dashboard.scss';
 
@@ -25,16 +27,23 @@ function Dashboard() {
   return (
     <div className="dash-page">
       <NavBar />
-      <h1 className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</h1>
-      <div className="dash-container">
-        <div className="dash-basic-info">
-          <UserInfo />
-          <ChatButton />
+      <Container
+        className="dash-mant-container"
+        radius="xl"
+        p={30}
+        style={{ backgroundColor: 'white', borderRadius: 15 }}
+      >
+        <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title>
+        <div className="dash-container">
+          <div className="dash-basic-info">
+            <UserInfo />
+            <ChatButton />
+          </div>
+          <div className="dash-user-post">
+            <Posts />
+          </div>
         </div>
-        <div className="dash-user-post">
-          <Posts />
-        </div>
-      </div>
+      </Container>
     </div>
   );
 }
