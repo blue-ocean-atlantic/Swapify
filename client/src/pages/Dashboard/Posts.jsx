@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NewPostButton from './NewPostButton.jsx';
+import Tabs from './Tabs.jsx';
 import dashStore from './dashStore.js';
 
 import './Posts.scss';
@@ -18,6 +19,9 @@ function Posts() {
   const setActiveChats = dashStore((state) => state.setActiveChats);
   const setGivenChats = dashStore((state) => state.setGivenChats);
   const setReceivedChats = dashStore((state) => state.setReceivedChats);
+  const active = dashStore((state) => state.active);
+  const given = dashStore((state) => state.given);
+  const received = dashStore((state) => state.received);
 
   // useEffect(() => {
   //     axios({
@@ -59,27 +63,58 @@ function Posts() {
   //       })
   // }, [])
 
-
-
-  return (
-    <div className="dash-all-posts">
-      <div className="dash-post-tabs">
-        <Button color="blue" radius="md" size="sx" onClick={() => console.log('hi from active')}>Active</Button>
-        <Button color="blue" radius="md" size="sx" onClick={() => console.log('hi from Given')}>Given</Button>
-        <Button color="blue" radius="md" size="sx" onClick={() => console.log('hi from Received')}>Received</Button>
+  if (active) {
+    return (
+      <div className="dash-all-posts">
+        <div className="dash-post-tabs">
+          <Tabs />
+        </div>
+        <div className="dash-post-box">
+          <NewPostButton />
+          <ul>
+            <li>Act</li>
+            <li>Act</li>
+            <li>Act</li>
+            <li>Act</li>
+          </ul>
+        </div>
       </div>
-      <div className="dash-post-box">
-        <NewPostButton />
-        <ul>
-          <li>Post</li>
-          <li>Post</li>
-          <li>Post</li>
-          <li>Post</li>
-        </ul>
+    )
+  } else if (given) {
+    return (
+      <div className="dash-all-posts">
+        <div className="dash-post-tabs">
+          <Tabs />
+        </div>
+        <div className="dash-post-box">
+          <NewPostButton />
+          <ul>
+            <li>Given</li>
+            <li>Given</li>
+            <li>Given</li>
+            <li>Given</li>
+          </ul>
+        </div>
       </div>
-    </div>
-
-  )
+    )
+  } else if (received) {
+    return (
+      <div className="dash-all-posts">
+        <div className="dash-post-tabs">
+          <Tabs />
+        </div>
+        <div className="dash-post-box">
+          <NewPostButton />
+          <ul>
+            <li>Rec</li>
+            <li>Rec</li>
+            <li>Rec</li>
+            <li>Rec</li>
+          </ul>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Posts;

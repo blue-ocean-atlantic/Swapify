@@ -20,6 +20,12 @@ const dashStore = create(
     setGivenChats: (data) => set(() => ({ givenChats: data })),
     receivedChats: [],
     setReceivedChats: (data) => set(() => ({ receivedChats: data })),
+    active: true,
+    setAct: (bool) => set((state) => ({ active: bool })),
+    given: false,
+    setGiv: (bool) => set((state) => ({ given: bool })),
+    received: false,
+    setRec: (bool) => set((state) => ({ received: bool })),
   })),
 );
 
