@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import './index.scss';
 import {
-  Chat,
+  ContactLists,
   Dashboard,
   Details,
   Home,
@@ -26,7 +26,7 @@ root.render(
       <Route path="/details/:id" element={<Details />} />
       <Route path="/new" element={<NewListing />} />
       <Route path="/results" element={<SearchResults />} />
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/chat" element={<ContactLists />} />
     </Routes>
   </BrowserRouter>
 );

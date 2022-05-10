@@ -1,4 +1,4 @@
-export { default as Chat } from './Chat/Chat.jsx';
+export { default as ContactLists } from './Chat/ContactLists.jsx';
 export { default as Dashboard } from './Dashboard/Dashboard.jsx';
 export { default as Details } from './Details/Details.jsx';
 export { default as Home } from './Home/Home.jsx';
