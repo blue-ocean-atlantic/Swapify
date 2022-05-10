@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import SearchBar from './SearchBar.jsx';
-import LoginButton from './LoginButton.jsx';
 import UserInfo from './UserInfo.jsx';
 import Posts from './Posts.jsx';
 import ChatButton from './ChatButton.jsx';
