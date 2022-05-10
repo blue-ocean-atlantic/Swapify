@@ -1,6 +1,8 @@
 /* === External Modules === */
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
+const bp = require('body-parser');
 
 require('dotenv').config();
 
@@ -16,11 +18,14 @@ const app = express();
 
 /* === Middleware === */
 app.use(express.json());
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
+app.use(cors());
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-/* === Routes === */
+/* === API Routes === */
 
 app.get('/api/imagekit', (req, res) => {
   // Look into if this needs to have additional measures for security.
@@ -36,6 +41,8 @@ app.get('/api/imagekit', (req, res) => {
 
   res.json(authenticationParameters);
 });
+
+/* === Page Routes === */
 
 // serve react frontend
 app.get('*', (req, res) => {
