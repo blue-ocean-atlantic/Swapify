@@ -1,11 +1,14 @@
 /* === External Modules === */
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
+const bp = require('body-parser');
 
 require('dotenv').config();
 
-/* === Internal Modules === */
-// const { Pokemon } = require("../database");
+/* === ImageKit authentication === */
+const ImageKit = require('imagekit');
+// const fs = require('fs');
 
 /* === Server Configuration === */
 const PORT = process.env.PORT || 3000;
@@ -15,15 +18,34 @@ const app = express();
 
 /* === Middleware === */
 app.use(express.json());
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
+app.use(cors());
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-/* === Routes === */
+/* === API Routes === */
+
+app.get('/api/imagekit', (req, res) => {
+  // Look into if this needs to have additional measures for security.
+  // i.e. send only if source of request is our website?
+
+  const imagekit = new ImageKit({
+    publicKey: 'public_FMjtxsWyzDWFsDCkU+3LPha1J2E=',
+    privateKey: process.env.IMGKIT_PRIVATE_KEY,
+    urlEndpoint: 'https://ik.imagekit.io/joshandromidas/',
+  });
+
+  const authenticationParameters = imagekit.getAuthenticationParameters();
+
+  res.json(authenticationParameters);
+});
+
+/* === Page Routes === */
 
 // serve react frontend
-// optional but i suggest doing so to ensure consistent result
-app.get('*', function (req, res) {
+app.get('*', (req, res) => {
   if (req.path.endsWith('bundle.js')) {
     res.sendFile(
       path.resolve(path.join(__dirname, '../client/dist'), 'bundle.js')
@@ -35,39 +57,7 @@ app.get('*', function (req, res) {
   }
 });
 
-// api routes
-
-// // index route
-// app.get("/api/pokemon", function(req,res){
-//   Pokemon.find({}).sort("num").exec(function(err, allPokemon){
-//     if(err) {
-//       console.log(err);
-//       return res.status(500).json({message: "Internal Server Error"})
-//     }
-
-//     return res.status(200).json({
-//       pokemon: allPokemon,
-//     });
-
-//   });
-// });
-
-// //create
-// app.post("/api/pokemon", function(req,res){
-//   Pokemon.create(req.body, function(err, newPokemon){
-//     if(err) {
-//       console.log(err);
-//       return res.status(500).json({message: "Internal Server Error"})
-//     }
-
-//     return res.status(200).json({
-//       pokemon: newPokemon,
-//     });
-
-//   });
-// });
-
 /* === Server Listener === */
-app.listen(PORT, function () {
+app.listen(PORT, () => {
   console.log(`Server is live at localhost:${PORT}.`);
 });
