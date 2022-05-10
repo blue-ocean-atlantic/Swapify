@@ -23,7 +23,7 @@ import {
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
-console.log('🚀 ~ data', data);
+// console.log('🚀 ~ data', data);
 
 function Home() {
   const [query, setQuery] = useInputState('');
