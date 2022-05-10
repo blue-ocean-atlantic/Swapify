@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import socket from './socket.js'
 import { Input, Button, Box, Avatar } from '@mantine/core';
-
+import { getChatInfo } from './getChatInfo.js'
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
-  weekday: 'short',
   hour: 'numeric',
   minute: 'numeric'
 })
@@ -16,11 +15,15 @@ const formatDate = (dateStr) => {
   return dateTimeFormat.format(new Date(dateStr))
 }
 
+
 function Chat({ toUser }) {
+
   const [message, setMessage] = useState(null)
   const [userName, setUserName] = useState(null)
   const [toUserName, setToUserName] = useState(toUser)
   const [messageList, setMessageList] = useState([])
+
+
 
   useEffect(() => {
     socket.on('success', (data) => {
@@ -37,6 +40,8 @@ function Chat({ toUser }) {
     socket.on('login', (data) => {
       console.log(data)
     })
+    getChatInfo('qiqi', toUserName)
+      .then(({ data }) => setMessageList(prevList => prevList.concat(data)))
   }, [])
 
   const onMessageSubmit = (e) => {
@@ -69,14 +74,16 @@ function Chat({ toUser }) {
         </div>
       </div>
       <form style={{ paddingRight: '10%' }} onSubmit={e => onMessageSubmit(e)}>
-        <Input
-          type='text'
-          onChange={e => setMessage(e.target.value)}
-        />
-        <Button
-          type='submit'
-        >submit
-        </Button>
+        <Box sx={{ display: 'flex' }}>
+          <Input
+            type='text'
+            onChange={e => setMessage(e.target.value)}
+          />
+          <Button
+            type='submit'
+          >submit
+          </Button>
+        </Box>
       </form>
     </div>)
 }

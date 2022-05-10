@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Avatar,
@@ -8,9 +8,11 @@ import {
 } from '@mantine/core';
 
 import ModalChat from './ModalChat.jsx';
+import { getUserLists } from './getChatInfo.js'
 
 // grab all the userName in database that has send message to the user or be sent message from the user
 const userNames = ['qiqi', 'eric', 'wendy']
+
 
 const ContactLists = () => {
   const [opened, setOpened] = useState(false);
@@ -19,6 +21,16 @@ const ContactLists = () => {
     setOpened(true)
     setUser(userName)
   }
+
+  useEffect(() => {
+    getUserLists(userNames[0])
+      .then(({ data }) => {
+        let chatLists = data.map(x => x.toUser).concat(data.map(x => x.fromUser))
+        chatLists = [...new Set(chatLists)].filter(x => x !== userNames[0])
+        //console.log(chatLists)
+        // this is the chat lists of users
+      })
+  }, [])
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -37,7 +49,8 @@ const ContactLists = () => {
 
       </Card>
       <Modal
-        overflow="outside"
+        overflow="inside"
+        size='md'
         opened={opened}
         onClose={() => setOpened(false)}
         title={'send to ' + user}
@@ -45,7 +58,9 @@ const ContactLists = () => {
           title: { color: 'gray' }
         }}
       >
-        <ModalChat toUser={user} />
+        <Box sx={{ height: '300px' }}>
+          <ModalChat toUser={user} />
+        </Box>
       </Modal>
     </Box >
   )
