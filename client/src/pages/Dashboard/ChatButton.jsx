@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import chats from './dashDummy.js';
 
+import chats from './dashDummy.js';
+import axios from 'axios';
 import { getUnreadNumber } from './models.js';
 
 import dashStore from './dashStore.js';
-
 import { Button } from '@mantine/core';
 
 function ChatButton() {
@@ -26,7 +26,7 @@ function ChatButton() {
   //     .catch((err) => {
   //       console.log('ERROR! couldn"t get user chat data from DB because :', err);
   //     })
-  // });
+  // }, []);
 
   return (
     <Button color="orange" radius="md" size="md" component={Link}
