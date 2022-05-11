@@ -9,9 +9,6 @@ import './Posts.scss';
 import { Button } from '@mantine/core';
 
 function Posts() {
-  // get all posts on page load (send all three requests at once)
-  // store data in separate in variables in zustand store
-  // render posts based on click to tab
 
   const activeChats = dashStore((state) => state.activeChats);
   const givenChats = dashStore((state) => state.givenChats);
