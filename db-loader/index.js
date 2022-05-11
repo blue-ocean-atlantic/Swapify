@@ -5,9 +5,6 @@ const ratingsData = require('./rating_mock_data.json');
 const usersData = require('./users_mock_data.json');
 const mongoose = require('mongoose');
 
-
-
-
 var url = 'mongodb://localhost:27017/BlueOceanDummy';
 
 mongoose.connect(url, {autoIndex: false}, () => {
@@ -20,8 +17,8 @@ mongoose.connect(url, {autoIndex: false}, () => {
 let schema = new mongoose.Schema({},{strict: false});
 
 const Listings = mongoose.model('listings', schema);
-const Chatroom = mongoose.model('chatroom', schema);
-const Messages = mongoose.model('messages', schema);
+const Chatroom = mongoose.model('chats', schema);
+const Messages = mongoose.model('chats_messages', schema);
 const Ratings = mongoose.model('ratings', schema);
 const Users = mongoose.model('users', schema);
 
