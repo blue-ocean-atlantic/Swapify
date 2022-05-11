@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Calendar } from '@mantine/dates';
 import { Indicator, Group, Button, useMantineTheme, Space } from '@mantine/core';
+import { TimeInput } from '@mantine/dates';
 import emailjs from '@emailjs/browser';
 import moment from 'moment';
-import  { USER_ID, TEMPLATE_ID } from '../../../../config.js';
+import USER_ID from '../../../../config.js';
+import TEMPLATE_ID from '../../../../config.js';
 
 function AvailCalender({ availableDate }) {
   const theme = useMantineTheme();
   const available = new Date(availableDate);
   const [value, setValue] = useState(available);
+  const [timeValue, setTimeValue] = useState(new Date());
   const scheduleButton = () => {
     console.log(moment(value).format("MMM Do YYYY"))
+    console.log(moment(timeValue).format('LT'))
   }
  //...........................
 
@@ -44,6 +48,18 @@ function AvailCalender({ availableDate }) {
           : null
       }
     />
+      </Group>
+      <Space h="xl"/>
+      <Group position="center">
+      <TimeInput
+      defaultValue={new Date()}
+      onChange={setTimeValue}
+      label="Pick time"
+      size="md"
+      format="12"
+      required
+      clearable
+      />
       </Group>
       <Space h="xl"/>
       <Group position="center">
