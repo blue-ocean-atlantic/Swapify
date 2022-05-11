@@ -37,6 +37,9 @@ function NewListing() {
   const [type, setType] = useState('swap');
   const [uploadedImages, setUploadedImages] = useState([]);
 
+  // TODO: import zipcode from Zustand
+  const userZip = 37090;
+
   const form = useForm({
     initialValues: {
       title: '',
@@ -44,6 +47,7 @@ function NewListing() {
       available_date: new Date(),
       category: '',
       condition: '',
+      zip: userZip,
     },
     schema: zodResolver(schema),
   });
@@ -143,6 +147,12 @@ function NewListing() {
                 autosize
                 minRows={2}
                 {...form.getInputProps('description')}
+              />
+              <TextInput
+                required
+                size="lg"
+                label="ZIP Code"
+                {...form.getInputProps('zip')}
               />
               <DatePicker
                 required
