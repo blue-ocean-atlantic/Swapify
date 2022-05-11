@@ -1,29 +1,55 @@
 import React, { useState } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Indicator, Group } from '@mantine/core';
+import { Indicator, Group, Button, useMantineTheme, Space } from '@mantine/core';
+import emailjs from '@emailjs/browser';
+import moment from 'moment';
+import  { USER_ID, TEMPLATE_ID } from '../../../../config.js';
 
 function AvailCalender({ availableDate }) {
-  const today = new Date();
-  const [value, setValue] = useState(today);
+  const theme = useMantineTheme();
   const available = new Date(availableDate);
-  const availableDay = available.getDate();
+  const [value, setValue] = useState(available);
+  const scheduleButton = () => {
+    console.log(moment(value).format("MMM Do YYYY"))
+  }
+ //...........................
+
+  const sendEmail = (e) => {
+    const templateParams = {
+      user: 'James',
+      owner: 'Check this out!',
+      email: 'justinchen9387@gmail.com',
+      message: 'hello',
+      date: moment(value).format("MMM Do YYYY")
+    };
+
+    emailjs.send('service_0pikbde', TEMPLATE_ID, templateParams, USER_ID)
+    .then(function(response) {
+       console.log('SUCCESS!', response.status, response.text);
+    }, function(error) {
+       console.log('FAILED...', error);
+    });
+  };
 
   return (
-    <Group position="center">
-    <Calendar
-      disableOutsideEvents
+    <div>
+      <Group position="center">
+        <Calendar
       value={value}
       onChange={setValue}
-      renderDay={(date) => {
-        const day = date.getDate();
-        return (
-          <Indicator size={10} color="red" offset={8} inline label="Available" disabled={day !== availableDay}>
-            <div>{day}</div>
-          </Indicator>
-        );
-      }}
+      minDate={available}
+      dayStyle={(date) =>
+        date.getMonth() === available.getMonth() && date.getDate() === available.getDate()
+          ? { backgroundColor: theme.colors.red[9], color: theme.white }
+          : null
+      }
     />
-  </Group>
+      </Group>
+      <Space h="xl"/>
+      <Group position="center">
+        <Button radius="xl" size="lg" onClick={() => scheduleButton()}>Confirm</Button>
+      </Group>
+    </div>
   )
 }
 
