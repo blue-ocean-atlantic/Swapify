@@ -12,8 +12,10 @@ import {
   Login,
   NewListing,
   SearchResults,
-  Signup,
+  Signup
 } from './pages';
+
+
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
