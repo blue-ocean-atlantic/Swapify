@@ -1,4 +1,5 @@
 const ownerProfile = { profilePicture: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/jon-snow-rhaegar-targaryen-1554321615.jpg?crop=0.482xw:0.962xh;0,0&resize=480:*',
+                      username: 'JonSnow123',
                       profileFirstName: 'Jon',
                       profileLastName: 'Snow',
                       profileDescription: 'Jon Snow, born Aegon Targaryen, is the son of Lyanna Stark and Rhaegar Targaryen, the late Prince of Dragonstone. From infancy, Jon is presented as the bastard son of Lord Eddard Stark, Lyanna\'s brother, and raised alongside Eddard\'s lawful children at Winterfell. Jon\'s true parentage is kept secret from everyone, including Jon himself, in order to protect him from those that sought the complete annihilation of House Targaryen.',

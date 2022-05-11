@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Title } from '@mantine/core';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Modal, Button, Group, Popover, Text, Space } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
@@ -77,6 +78,8 @@ function ListingDetails({ title, category, condition, availableDate, postTime })
             <Button
               leftIcon={<FontAwesomeIcon icon={faComment}/>} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
               size='xl'
+              component={Link}
+              to="/chat"
             >
               Chat Now
             </Button>

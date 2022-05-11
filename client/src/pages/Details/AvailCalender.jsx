@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Calendar } from '@mantine/dates';
-import { Indicator, Group, Button, useMantineTheme, Space } from '@mantine/core';
+import { Indicator, Group, Button, useMantineTheme, Space, MantineProvider } from '@mantine/core';
+import { showNotification, NotificationsProvider } from '@mantine/notifications';
 import { TimeInput } from '@mantine/dates';
 import emailjs from '@emailjs/browser';
 import moment from 'moment';
-import USER_ID from '../../../../config.js';
-import TEMPLATE_ID from '../../../../config.js';
+import EMAIL_ID from '../../../../config.js';
 
 function AvailCalender({ availableDate }) {
   const theme = useMantineTheme();
@@ -18,16 +18,16 @@ function AvailCalender({ availableDate }) {
   }
  //...........................
 
-  const sendEmail = (e) => {
+  const sendEmail = () => {
     const templateParams = {
       user: 'James',
       owner: 'Check this out!',
-      email: 'justinchen9387@gmail.com',
-      message: 'hello',
-      date: moment(value).format("MMM Do YYYY")
+      email: 'justinchen9387@gmail.com, siennaj1121@gmail.com',
+      location: '12345',
+      date: moment(value).format("MMM Do YYYY") + 'at' +  moment(timeValue).format('LT')
     };
 
-    emailjs.send('service_0pikbde', TEMPLATE_ID, templateParams, USER_ID)
+    emailjs.send('service_0pikbde', EMAIL_ID.TEMPLATE_ID, templateParams, EMAIL_ID.USER_ID)
     .then(function(response) {
        console.log('SUCCESS!', response.status, response.text);
     }, function(error) {
@@ -37,6 +37,8 @@ function AvailCalender({ availableDate }) {
 
   return (
     <div>
+      <MantineProvider>
+      <NotificationsProvider>
       <Group position="center">
         <Calendar
       value={value}
@@ -63,8 +65,15 @@ function AvailCalender({ availableDate }) {
       </Group>
       <Space h="xl"/>
       <Group position="center">
-        <Button radius="xl" size="lg" onClick={() => scheduleButton()}>Confirm</Button>
+        <Button radius="xl" size="lg" onClick={() =>
+          showNotification({
+            title: 'Confirmed',
+            message: 'You will receive a confirmation email soon.'
+          })
+        }>Confirm</Button>
       </Group>
+      </NotificationsProvider>
+      </MantineProvider>
     </div>
   )
 }
