@@ -34,6 +34,7 @@ class Sessions extends Model {
    * match the options, the promise will only be fulfilled with one.
    */
   get(options) {
+    console.log('options', options);
     return super.get.call(this, options)
       .then(session => {
         if (!session || !session.userId) {
@@ -52,9 +53,14 @@ class Sessions extends Model {
    * an insert query or rejected with the error that occured.
    */
   create() {
+    var sessionObj = {userID: ''};
     let data = utils.createRandom32String();
     let hash = utils.createHash(data);
-    return super.create.call(this, { hash });
+
+    sessionObj.userID = hash;
+    return sessionObj; //creates new hash
+    // console.log(sessionObj);
+
   }
 }
 

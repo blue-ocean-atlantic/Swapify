@@ -57,8 +57,9 @@ class Signup extends React.Component {
       password: this.state.password,
     })
     .then((data) => {
-      console.log(data);
-      window.location = '/login';
+      console.log('data from servert:', data);
+      alert('Profile Created');
+      window.location = '/signup';
     })
     .catch((err) => {
       console.log('err at signup', err);

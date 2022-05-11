@@ -22,10 +22,22 @@ class Model {
   }
 
   get(options) {
-    let inputUsername = parseData(options).values[0];
-
-    CreateUserSchema.find({inputUsername});
-  // return (executeQuery(queryString).then(results => console.log('results at get', results)));
+    let inputEmail = parseData(options).values[0];
+    // console.log('fad', inputEmail);
+    return CreateUserSchema.find({ 'email': inputEmail });
+    // return (executeQuery(queryString).then(results => console.log('results at get', results)));
+  }
+  update(options, values) {
+    console.log('option at update', options);
+    console.log('values at update', values);
+    let parsedOptions = parseData(options);
+    // let queryString = `UPDATE ${this.tablename} SET ? WHERE ${parsedOptions.string.join(' AND ')}`;
+    // return executeQuery(queryString, Array.prototype.concat(values, parsedOptions.values));
+  }
+  delete(options) {
+    let parsedOptions = parseData(options);
+    let queryString = `DELETE FROM ${this.tablename} WHERE ${parsedOptions.string.join(' AND ')}`;
+    return executeQuery(queryString, parsedOptions.values);
   }
 
 }

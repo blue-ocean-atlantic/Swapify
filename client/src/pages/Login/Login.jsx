@@ -5,16 +5,16 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      userName: '',
+      email: '',
       password: '',
     };
-    this.setUserName = this.setUserName.bind(this);
+    this.setEmail = this.setEmail.bind(this);
     this.setPW = this.setPW.bind(this);
     this.loginbutton = this.loginbutton.bind(this);
   }
 
-  setUserName(event) {
-    this.setState({ userName: event.target.value })
+  setEmail(event) {
+    this.setState({ email: event.target.value })
   }
 
   setPW(event) {
@@ -24,11 +24,20 @@ class Login extends React.Component {
   loginbutton() {
     console.log('state at login', this.state);
     axios.post('/login', {
-      userName: this.state.userName,
+      email: this.state.email,
       password: this.state.password,
+    })
+    .then((data) =>{
+      //when correct email and pw combo, redirect to main page
+      //CHANGE GLOBAL STATE HERE
+      alert('successful login!');
+      window.location = '/';
+      console.log('userName is passed back', data);
     })
     .catch((err) => {
       console.log('err at login button', err);
+      window.alert('incorrect login credential');
+      window.location = '/login';
     })
   }
 
@@ -37,8 +46,8 @@ class Login extends React.Component {
     return (
       <div className="form">
         <h2>Log In Page</h2>
-        <label>User Name:
-          <input type="text" value={this.state.userName} onChange={this.setUserName}></input>
+        <label>Email:
+          <input type="text" value={this.state.email} onChange={this.setEmail}></input>
         </label>
         <label>Password:
           <input type="text" value={this.state.password} onChange={this.setPW}></input>

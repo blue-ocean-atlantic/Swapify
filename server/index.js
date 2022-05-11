@@ -7,6 +7,8 @@ require('dotenv').config();
 
 const Users = require('./models/user.js');
 const Sessions = require('./models/session.js');
+const Model = require('./models/model.js');
+
 
 const CreateSession = require('./middleware/auth');
 const CookiesParser = require('./middleware/cookieParser');
@@ -23,35 +25,33 @@ const app = express();
 
 /* === Middleware === */
 app.use(express.json());
-// app.use(CookiesParser);
-// app.use(CreateSession);
+app.use(CookiesParser);
+app.use(CreateSession);
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 /* === Authentication Routes === */
 app.post('/login', (req, res, next) => {
-  // console.log('req', req.body);
-  var username = req.body.userName;
+  console.log('req.session', req.body);
+  var email = req.body.email;
   var password = req.body.password;
 
-  return Users.get({ username })
-    .then(user => {
-      if (!user || !Users.compare(password, user.password, user.salt)) {
-        // user doesn't exist or the password doesn't match
-        throw new Error('Username and password do not match');
+  return Users.get({ email })
+    .then(result => {
+      console.log('result at post login', result);
+      if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
+        throw new Error('Email and password do not match');
+      } else {
+        console.log('correct email and pw match');
+        res.send(result.username);
+        // console.log('hello', result);
       }
-      return Sessions.update({ hash: req.session.hash }, { userId: user.id });
     })
-    .then(() => {
-      res.redirect('/');
+    .catch(error => {
+      console.log('hi error', error);
+      res.redirect(308, '/')
     })
-    .error(error => {
-      res.status(500).send(error);
-    })
-    .catch(() => {
-      res.redirect('/login');
-    });
 });
 
 app.post('/signup', (req, res, next) => {
@@ -62,33 +62,26 @@ app.post('/signup', (req, res, next) => {
   var username = req.body.userName;
   var password = req.body.password;
 
-  Users.create({ firstName, lastName, email, zipCode, username, password })
+  return Users.get({ email })
     .then(result => {
-      console.log('dfad',result);
-      res.send('hello')
+      console.log('result', result)
+      if (result[0]) {
+        console.log('email or username already exists')
+      } else {
+        Users.create({ firstName, lastName, email, zipCode, username, password })
+          .then(result => {
+            console.log('profile created successfully')
+            res.send('hello')
+          })
+          .catch(error => {
+            console.log('errpr at catch', error);
+          })
+      }
     })
-    // .then(()=>{
-    //   res.redirect('http://www.google.com');
-    // })
     .catch(error => {
-        console.log('errpr at catch', error);
-        // res.redirect('/');
+      console.log('error caught', error);
+      res.send('error at duplicate email')
     })
-
-  // res.redirect('/signup');
-    // // .then(results => {console.log('dfasd',results)})
-    // // .then(results => {
-    // //   return Sessions.update({ hash: req.session.hash }, { userId: results.insertId });
-    // // })
-    // // .then(() => {
-    // //   res.redirect('/');
-    // // })
-    // .error(error => {
-    //   res.status(500).send(error);
-    // })
-    // .catch(user => {
-    //   res.redirect('/signup');
-    // });
 });
 
 app.get('/logout', (req, res, next) => {
