@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const tempSchema = new mongoose.Schema({},{strict: false});
+
 const userSchema = new mongoose.Schema({
   user_id: {
     type: Number,
@@ -44,4 +46,4 @@ const userSchema = new mongoose.Schema({
 });
 userSchema.index({ user_id: 1 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('users', tempSchema);

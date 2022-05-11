@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const tempSchema = new mongoose.Schema({},{strict: false});
+
 const ratingSchema = new mongoose.Schema({
   rating_id: {
     type: Number,
@@ -29,4 +31,4 @@ const ratingSchema = new mongoose.Schema({
 });
 ratingSchema.index({ rating_id: 1 });
 
-module.exports = mongoose.model('ratings', ratingSchema);
+module.exports = mongoose.model('ratings', tempSchema);

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const tempSchema = new mongoose.Schema({},{strict: false});
+
 const listingSchema = new mongoose.Schema({
   listing_id: {
     type: Number,
@@ -85,4 +87,4 @@ const locationSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('listings', listingSchema);
+module.exports = mongoose.model('listings', tempSchema);

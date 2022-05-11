@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import chats from './dashDummy.js';
 
+import chats from './dashDummy.js';
+import axios from 'axios';
 import { getUnreadNumber } from './models.js';
 
 import dashStore from './dashStore.js';
-
 import { Button } from '@mantine/core';
 
 function ChatButton() {
@@ -26,10 +26,10 @@ function ChatButton() {
   //     .catch((err) => {
   //       console.log('ERROR! couldn"t get user chat data from DB because :', err);
   //     })
-  // });
+  // }, []);
 
   return (
-    <Button color="orange" radius="md" size="md" component={Link}
+    <Button color="blue" radius="md" size="md" component={Link}
       to="/chat">
       CHATS! ({unreadChats} unread)
     </Button>
@@ -37,6 +37,3 @@ function ChatButton() {
 }
 
 export default ChatButton;
-
-// on page load: renders a button to show unread chats
-// onClick: takes you to chats page or shows you a list of chats to checkout
