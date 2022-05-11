@@ -8,6 +8,7 @@ import ImagesGallery from './ImageGallery.jsx';
 import ListingDetails from './ListingDetails.jsx';
 import OwnerProfile from './OwnerProfile.jsx';
 import Description from './Description.jsx';
+import ownerProfileStore from '../../store.js';
 
 function Details() {
   const { listingId } = useParams();
@@ -25,6 +26,8 @@ function Details() {
   const [lastName, setLastName] = useState('');
   const [profileDescription, setProfileDescription] = useState('');
   const [rating, setRating] = useState([]);
+  const [location, setLocation] = useState('');
+  const ownerProfileUpdate = ownerProfileStore(state => state.updateOwnerProfile);
 
   useEffect(() => {
     setType(listingInfo.typeOfTranscation);
@@ -35,11 +38,13 @@ function Details() {
     setDescription(listingInfo.listingDescription);
     setAvailableDate(listingInfo.availableDate);
     setPostTime(listingInfo.postTime);
+    setLocation(listingInfo.location);
     setProfilePhoto(ownerProfile.profilePicture);
     setFirstName(ownerProfile.profileFirstName);
     setLastName(ownerProfile.profileLastName);
     setProfileDescription(ownerProfile.profileDescription);
     setRating(ownerProfile.profileRatings);
+    ownerProfileUpdate({toUserName: ownerProfile.username, toUserProfile: ownerProfile.profilePicture})
   });
 
   return (
@@ -56,7 +61,7 @@ function Details() {
                                       availableDate={availableDate}
                                       postTime={postTime}
                                     /></Grid.Col>
-                <Grid.Col span={8}><Description description={description}/></Grid.Col>
+                <Grid.Col span={8}><Description description={description} location={location}/></Grid.Col>
                 <Grid.Col span={4}><OwnerProfile
                                      profilePhoto={profilePhoto}
                                      firstName={firstName}
