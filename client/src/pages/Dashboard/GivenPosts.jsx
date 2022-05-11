@@ -1,6 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import dashStore from './dashStore.js';
 import { active, given, received } from './dashDummy.js'
+import { data } from '../Home/dummy.js';
+
 import { Title, Container } from '@mantine/core';
 
 function GivenPosts() {
@@ -8,24 +12,30 @@ function GivenPosts() {
   const givenPosts = dashStore((state) => state.givenPosts);
 
   const mapPosts = (data) => {
-    // iterate over collection of posts
-    return data.map((post) => {
+
+    return data.results.slice(0, 2).map((listing) => {
       return (
-        <Container key={post.post_id}>
-          <Title>{post.title}</Title>
-          <h3>{post.message}</h3>
-          <span>rating: {post.rating} out of 5 stars</span>
-          <img src={post.images[0].thumbnail_url}></img>
+        <Container key={listing.listing_id}
+          style={{
+            display: "flex", height: "110px", width: "550px", margin: "5px 0px", justifyContent: "space-between", backgroundColor: "white", borderRadius: "5px", alignItems: "center"
+          }}>
+          <img style={{ height: "100px", width: "100px" }} src={listing.image_url}></img>
+          <div style={{ height: "100px", width: "400px" }}>
+            <h3 component={Link} to={`/details/${listing.listing_id}`}>
+              {listing.title}
+            </h3>
+            <p>{listing.description}</p>
+          </div>
         </Container>
       )
     })
   }
 
   return (
-    <ul>
+    <>
       {/* currently using dummy data being imported */}
-      {mapPosts(given)}
-    </ul>
+      {mapPosts(data)}
+    </>
   )
 }
 
