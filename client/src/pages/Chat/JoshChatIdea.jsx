@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   ActionIcon,
   Avatar,
@@ -18,6 +18,7 @@ import {
   faAngleLeft,
   faChevronRight,
   faCircleArrowUp,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
@@ -29,12 +30,18 @@ function JoshChatIdea() {
   const navigate = useNavigate();
   const viewport = useRef();
 
+  const [date, setDate] = useState(new Date());
+
   useEffect(() => {
     viewport.current.scrollTo({
       top: viewport.current.scrollHeight,
       behavior: 'smooth',
     });
   });
+
+  const handleSendDate = () => {
+    console.log('Send invitation with date:', date);
+  };
 
   return (
     <div>
@@ -83,8 +90,15 @@ function JoshChatIdea() {
             <Group position="apart">
               <Title p={15}>Message</Title>
               <DatePicker
+                value={date}
+                onChange={setDate}
                 placeholder="Click to schedule swap!"
                 firstDayOfWeek="sunday"
+                rightSection={
+                  <ActionIcon color="blue" onClick={handleSendDate}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                  </ActionIcon>
+                }
               />
             </Group>
             <Group
