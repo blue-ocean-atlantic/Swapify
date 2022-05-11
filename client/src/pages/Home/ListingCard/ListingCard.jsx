@@ -34,7 +34,7 @@ function ListingCard({ listing }) {
         <Text
           weight="bold"
           transform="uppercase"
-          style={{ marginBottom: 5, marginTop: 10, 'letter-spacing': '1px' }}
+          style={{ marginBottom: 5, marginTop: 10, letterSpacing: '1px' }}
         >
           {listing.title}
         </Text>

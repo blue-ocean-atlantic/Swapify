@@ -91,6 +91,8 @@ class SearchResults extends React.Component {
   };
 
   render() {
+    // find out default zoom to be based on furthest item locations
+    // (audjustable/dynamically render default zoom)
     return (
       <>
         <Space h="xl" />
@@ -99,7 +101,7 @@ class SearchResults extends React.Component {
         <Space h="xl" />
         <Grid gutter="lg" columns={12} justify="center">
           <Grid.Col span={6}>
-            <Map height={700} defaultCenter={[30.2634, -97.714517]} defaultZoom={10}>
+            <Map height={700} defaultCenter={[30.2634, -97.714517]} defaultZoom={6}>
               {Object.keys(dummy_zip_to_coordinates).map((coordinate) => {
                 const uu_id = uuidv4()
                 return (

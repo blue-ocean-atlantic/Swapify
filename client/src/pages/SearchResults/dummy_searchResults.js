@@ -40,6 +40,9 @@ const test_searchResults = {
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
       zipcode: 78758,
+      distance: 0.78, // changes based on user location
+      longitude: 32.0478,
+      latitude: -97.34,
     },
     {
       listing_id: 3,

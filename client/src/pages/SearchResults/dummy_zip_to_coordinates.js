@@ -8,8 +8,8 @@
 const coordinates = {
   "78702": {
     "zip_code": "78702",
-    "lat": 30.2634,
-    "lng": -97.714517,
+    "lat": 30.26,
+    "lng": -97.71,
     "city": "Austin",
     "state": "TX",
     "timezone": {
@@ -25,8 +25,8 @@ const coordinates = {
 },
   "78704": {
       "zip_code": "78704",
-      "lat": 30.243005,
-      "lng": -97.764937,
+      "lat": 30.24,
+      "lng": -97.76,
       "city": "Austin",
       "state": "TX",
       "timezone": {
@@ -47,8 +47,8 @@ const coordinates = {
   },
   "78708": {
       "zip_code": "78708",
-      "lat": 30.260023,
-      "lng": -97.739727,
+      "lat": 30.26,
+      "lng": -97.73,
       "city": "Austin",
       "state": "TX",
       "timezone": {
@@ -64,8 +64,8 @@ const coordinates = {
   },
   "78741": {
       "zip_code": "78741",
-      "lat": 30.230455,
-      "lng": -97.713943,
+      "lat": 30.23,
+      "lng": -97.71,
       "city": "Austin",
       "state": "TX",
       "timezone": {

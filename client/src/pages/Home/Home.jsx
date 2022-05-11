@@ -24,10 +24,12 @@ import {
   faArrowRight,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
+import uuid from 'react-uuid';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
+import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 // console.log('🚀 ~ data', data);
 
 function Home() {
