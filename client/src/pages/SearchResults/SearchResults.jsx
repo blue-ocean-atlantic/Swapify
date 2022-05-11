@@ -20,7 +20,7 @@ class SearchResults extends React.Component {
   }
 
   selectedMarker = (zip) => {
-    console.log("clicked marker!!!!", zip)
+    // console.log("clicked marker!!!!", zip)
     this.setState({ selected_marker: zip });
  };
 
@@ -73,7 +73,7 @@ class SearchResults extends React.Component {
     }
     const query_matches_within_radius = LIST_A.filter(post => qualified_zips_map[post.zipcode]);
     this.setState({ query_matches_within_radius: query_matches_within_radius })
-    console.log('query_matches_within_radius: ', query_matches_within_radius);
+    // console.log('query_matches_within_radius: ', query_matches_within_radius);
 
     // convert all relevant zipcodes to lat and long in prep to make markers on map
     // this can be done by using the zipcodeapi.com "Multiple US Zip Codes to Location Information API"
@@ -82,7 +82,7 @@ class SearchResults extends React.Component {
     //   .then((response) => {
     //     this.setState({ coodinates: response.data.body.params }) // fix this syntax
     //   })
-    console.log("dummy_zip_to_coordinates: ", dummy_zip_to_coordinates)
+    // console.log("dummy_zip_to_coordinates: ", dummy_zip_to_coordinates)
     this.setState({ dummy_zip_to_coordinates })
 
   };
