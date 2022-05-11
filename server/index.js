@@ -67,11 +67,14 @@ app.post('/signup', (req, res, next) => {
       console.log('result', result)
       if (result[0]) {
         console.log('email or username already exists')
+        res.write('fail')
+        res.end()
       } else {
         Users.create({ firstName, lastName, email, zipCode, username, password })
           .then(result => {
             console.log('profile created successfully')
-            res.send('hello')
+            res.write('success');
+            res.end();
           })
           .catch(error => {
             console.log('errpr at catch', error);

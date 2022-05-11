@@ -57,9 +57,14 @@ class Signup extends React.Component {
       password: this.state.password,
     })
     .then((data) => {
-      console.log('data from servert:', data);
-      alert('Profile Created');
-      window.location = '/signup';
+      console.log('data from server:', data);
+      if (data.data === 'fail') {
+        alert('Email or username already exists, choose a different one!')
+        window.location = '/signup';
+      } else if (data.data ==='success') {
+        alert('Profile Created!');
+        window.location = '/login';
+      }
     })
     .catch((err) => {
       console.log('err at signup', err);
