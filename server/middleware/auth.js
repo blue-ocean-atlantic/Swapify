@@ -1,14 +1,15 @@
 const Promise = require('bluebird');
-const models = require('../models');
+const Sessions = require('../models/session.js');
+const Model = require('../models/model.js');
 
-module.exports.createSession = (req, res, next) => {
+const createSession = (req, res, next) => {
 
   Promise.resolve(req.cookies.shortlyid)
     .then(hash => {
       if (!hash) {
         throw hash;
       }
-      return models.Sessions.get({ hash });
+      return Sessions.get({ hash });
     })
     .tap(session => {
       if (!session) {
@@ -17,9 +18,9 @@ module.exports.createSession = (req, res, next) => {
     })
     // initializes a new session
     .catch(() => {
-      return models.Sessions.create()
+      return Sessions.create()
         .then(results => {
-          return models.Sessions.get({ id: results.insertId });
+          return Sessions.get({ id: results.insertId });
         })
         .tap(session => {
           res.cookie('userId_db', session.hash);
@@ -31,10 +32,14 @@ module.exports.createSession = (req, res, next) => {
     });
   };
 
-  module.exports.verifySession = (req, res, next) => {
-    if (!models.Sessions.isLoggedIn(req.session)) {
-      res.redirect('/login');
+  const verifySession = (req, res, next) => {
+    if (!Sessions.isLoggedIn(req.session)) {
+      console.log('Message from verifySession: user not signed in')
+      // res.redirect('/login');
     } else {
       next();
     }
   };
+
+  module.exports = createSession;
+  module.exports = verifySession;

@@ -48,6 +48,9 @@ function Home() {
             <Button radius="xl" size="lg" component={Link} to="/signup">
               Create an account
             </Button>
+            <Button radius="xl" size="lg" component={Link} to="/login">
+              Login
+            </Button>
           </Center>
           <Container style={{ position: 'relative', width: '70%' }}>
             <TextInput

@@ -1,12 +1,15 @@
 /* === External Modules === */
 const express = require('express');
 const path = require('path');
+const db = require('/Users/wendyzhang/HR_RFC2202/blueocean/blue-ocean/server/db/index.js');
 
 require('dotenv').config();
 
-const Auth = require('./middleware/auth');
+const Users = require('./models/user.js');
+const Sessions = require('./models/session.js');
+
+const CreateSession = require('./middleware/auth');
 const CookiesParser = require('./middleware/cookieParser');
-const models = require('./models');
 
 /* === ImageKit authentication === */
 const ImageKit = require('imagekit');
@@ -20,12 +23,85 @@ const app = express();
 
 /* === Middleware === */
 app.use(express.json());
-app.use(CookiesParser);
-app.use(Auth.createSession);
+// app.use(CookiesParser);
+// app.use(CreateSession);
 
 // serve static files
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+/* === Authentication Routes === */
+app.post('/login', (req, res, next) => {
+  // console.log('req', req.body);
+  var username = req.body.userName;
+  var password = req.body.password;
+
+  return Users.get({ username })
+    .then(user => {
+      if (!user || !Users.compare(password, user.password, user.salt)) {
+        // user doesn't exist or the password doesn't match
+        throw new Error('Username and password do not match');
+      }
+      return Sessions.update({ hash: req.session.hash }, { userId: user.id });
+    })
+    .then(() => {
+      res.redirect('/');
+    })
+    .error(error => {
+      res.status(500).send(error);
+    })
+    .catch(() => {
+      res.redirect('/login');
+    });
+});
+
+app.post('/signup', (req, res, next) => {
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var email = req.body.email;
+  var zipCode = req.body.zipCode;
+  var username = req.body.userName;
+  var password = req.body.password;
+
+  Users.create({ firstName, lastName, email, zipCode, username, password })
+    .then(result => {
+      console.log('dfad',result);
+      res.send('hello')
+    })
+    // .then(()=>{
+    //   res.redirect('http://www.google.com');
+    // })
+    .catch(error => {
+        console.log('errpr at catch', error);
+        // res.redirect('/');
+    })
+
+  // res.redirect('/signup');
+    // // .then(results => {console.log('dfasd',results)})
+    // // .then(results => {
+    // //   return Sessions.update({ hash: req.session.hash }, { userId: results.insertId });
+    // // })
+    // // .then(() => {
+    // //   res.redirect('/');
+    // // })
+    // .error(error => {
+    //   res.status(500).send(error);
+    // })
+    // .catch(user => {
+    //   res.redirect('/signup');
+    // });
+});
+
+app.get('/logout', (req, res, next) => {
+
+  return Sessions.delete({ hash: req.cookies.shortlyid })
+    .then(() => {
+      res.clearCookie('shortlyid');
+      res.redirect('/login');
+    })
+    .error(error => {
+      res.status(500).send(error);
+    });
+});
 /* === Routes === */
 
 app.get('/api/imagekit', (req, res) => {

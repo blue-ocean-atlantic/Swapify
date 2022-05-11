@@ -1,5 +1,7 @@
 import React from 'react';
-import Test from './Test/Test.jsx';
+// import Test from './Test/Test.jsx';
+import axios from 'axios';
+
 class Signup extends React.Component {
   constructor(props) {
     super(props)
@@ -45,8 +47,8 @@ class Signup extends React.Component {
   }
 
   signupbutton() {
-    console.log('state at register', this.state);
-    axios.post('/rsvps', {
+    // console.log('state at signup', this.state);
+    axios.post('/signup', {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       email: this.state.email,
@@ -54,14 +56,16 @@ class Signup extends React.Component {
       zipCode: this.state.zipCode,
       password: this.state.password,
     })
+    .then((data) => {
+      console.log(data);
+      window.location = '/login';
+    })
     .catch((err) => {
-      console.log('err at register', err);
+      console.log('err at signup', err);
     })
   }
 
   render() {
-    // console.log('state at submit signup', this.state);
-
     return (
       <div className="form">
         <h2>Sign Up Page</h2>
