@@ -5,7 +5,7 @@ import regeneratorRuntime from 'regenerator-runtime';
 
 import './index.scss';
 import {
-  ContactLists,
+  Chat,
   Dashboard,
   Details,
   Home,
@@ -27,7 +27,7 @@ root.render(
       <Route path="/details/:id" element={<Details />} />
       <Route path="/new" element={<NewListing />} />
       <Route path="/results" element={<SearchResults />} />
-      <Route path="/chat" element={<ContactLists />} />
+      <Route path="/chat" element={<Chat />} />
     </Routes>
   </BrowserRouter>
 );

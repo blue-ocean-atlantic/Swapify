@@ -42,7 +42,7 @@ app.get('/userLists', (req, res) => {
 })
 
 app.get('/getChatInfo', (req, res) => {
-  const { toUser, userName } = req.query;
+  const { userName, toUser } = req.query;
   //console.log(toUser, userName)
   Message.find({ $or: [{ fromUser: userName, toUser }, { fromUser: toUser, toUser: userName }] }).then(data => {
     res.send(data)
@@ -51,6 +51,7 @@ app.get('/getChatInfo', (req, res) => {
 
 //socket
 io.on('connection', socket => {
+  // console.log(`${socket.id} connected`)
   socket.emit('success', `${socket.id} connected`)
   socket.on('disconnect', () => {
     io.emit('quit', `${socket.id} disconnected`)
