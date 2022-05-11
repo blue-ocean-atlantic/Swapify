@@ -13,12 +13,6 @@ class Sessions extends Model {
     super('sessions');
   }
 
-  /**
-   * Determines if a session is associated with a logged in user.
-   * @params {Object} session - Session object (requires a user property)
-   * @returns {boolean} A boolean indicating if the session is associated
-   * with a user that is logged in.
-   */
   isLoggedIn(session) {
     // console.log(session)
     // return !!session.user;
@@ -37,10 +31,10 @@ class Sessions extends Model {
     console.log('options', options);
     return super.get.call(this, options)
       .then(session => {
-        if (!session || !session.userId) {
+        if (!session || !session.userID) {
           return session;
         }
-        return Users.get({ id: session.userId }).then(user => {
+        return Users.get({ id: session.userID }).then(user => {
           session.user = user;
           return session;
         });
@@ -49,18 +43,14 @@ class Sessions extends Model {
 
   /**
    * Creates a new session. Within this function, a hash is randomly generated.
-   * @returns {Promise<Object>} A promise that is fulfilled with the results of
-   * an insert query or rejected with the error that occured.
    */
   create() {
     var sessionObj = {userID: ''};
     let data = utils.createRandom32String();
     let hash = utils.createHash(data);
-
     sessionObj.userID = hash;
     return sessionObj; //creates new hash
-    // console.log(sessionObj);
-
+    console.log('sessionObj', sessionObj);
   }
 }
 

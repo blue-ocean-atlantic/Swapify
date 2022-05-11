@@ -33,25 +33,24 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 /* === Authentication Routes === */
 app.post('/login', (req, res, next) => {
-  console.log('req.session', req.body);
-  var email = req.body.email;
+  // console.log('post login res', res);
+  var username = req.body.username;
   var password = req.body.password;
 
-  return Users.get({ email })
-    .then(result => {
-      console.log('result at post login', result);
-      if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
-        throw new Error('Email and password do not match');
-      } else {
-        console.log('correct email and pw match');
-        res.send(result.username);
-        // console.log('hello', result);
-      }
-    })
-    .catch(error => {
-      console.log('hi error', error);
-      res.redirect(308, '/')
-    })
+  return Users.get({ username })
+  .then(result => {
+    // console.log('result at post login', result);
+    if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
+      throw new Error('UserName and password do not match');
+    } else {
+    res.send(result.username);
+    }
+  })
+  .catch(error => {
+    console.log('hi error', error);
+    res.redirect(308, '/')
+  })
+
 });
 
 app.post('/signup', (req, res, next) => {
@@ -87,11 +86,20 @@ app.post('/signup', (req, res, next) => {
     })
 });
 
+app.get('/test', (req, res, next) => {
+  if(req.cookies.userName === '') {
+    res.sendStatus(401);
+  }
+  console.log('current reqs username', req.cookies.userName);
+  // console.log(res);
+})
+
 app.get('/logout', (req, res, next) => {
 
-  return Sessions.delete({ hash: req.cookies.shortlyid })
+
+  return Sessions.delete({ hash: req.cookies.user_id })
     .then(() => {
-      res.clearCookie('shortlyid');
+      res.clearCookie('user_id');
       res.redirect('/login');
     })
     .error(error => {
