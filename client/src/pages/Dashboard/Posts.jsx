@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import NewPostButton from './NewPostButton.jsx';
+import ActivePosts from './ActivePosts.jsx';
+import GivenPosts from './GivenPosts.jsx';
+import ReceivedPosts from './ReceivedPosts.jsx';
 import Tabs from './Tabs.jsx';
+
+import { active, given, received } from './dashDummy.js'
 import dashStore from './dashStore.js';
 
 import './Posts.scss';
@@ -10,12 +15,12 @@ import { Button } from '@mantine/core';
 
 function Posts() {
 
-  const activeChats = dashStore((state) => state.activeChats);
-  const givenChats = dashStore((state) => state.givenChats);
-  const receivedChats = dashStore((state) => state.receivedChats);
-  const setActiveChats = dashStore((state) => state.setActiveChats);
-  const setGivenChats = dashStore((state) => state.setGivenChats);
-  const setReceivedChats = dashStore((state) => state.setReceivedChats);
+  const activePosts = dashStore((state) => state.activePosts);
+  const givenPosts = dashStore((state) => state.givenPosts);
+  const receivedPosts = dashStore((state) => state.receivedPosts);
+  const setActivePosts = dashStore((state) => state.setActivePosts);
+  const setGivenPosts = dashStore((state) => state.setGivenPosts);
+  const setReceivedPosts = dashStore((state) => state.setReceivedPosts);
   const active = dashStore((state) => state.active);
   const given = dashStore((state) => state.given);
   const received = dashStore((state) => state.received);
@@ -26,7 +31,7 @@ function Posts() {
   //       method: 'GET',
   //     })
   //       .then((data) => {
-  //         setActiveChats(data.data);
+  //         setActivePosts(data.data);
   //       })
   //       .then(() => {
   //         axios({
@@ -34,7 +39,7 @@ function Posts() {
   //               method: 'GET',
   //             })
   //               .then((data) => {
-  //                 setGivenChats(data.data);
+  //                 setGivenPosts(data.data);
   //               })
   //               .catch((err) => {
   //                 throw err;
@@ -46,7 +51,7 @@ function Posts() {
   //               method: 'GET',
   //             })
   //               .then((data) => {
-  //                 setReceivedChats(data.data);
+  //                 setReceivedPosts(data.data);
   //               })
   //               .then(() => {
   //                 console.log('ALL POST SAVED IN STORE!')
@@ -68,12 +73,7 @@ function Posts() {
         </div>
         <div className="dash-post-box">
           <NewPostButton />
-          <ul>
-            <li>Act</li>
-            <li>Act</li>
-            <li>Act</li>
-            <li>Act</li>
-          </ul>
+          <ActivePosts />
         </div>
       </div>
     )
@@ -85,12 +85,7 @@ function Posts() {
         </div>
         <div className="dash-post-box">
           <NewPostButton />
-          <ul>
-            <li>Given</li>
-            <li>Given</li>
-            <li>Given</li>
-            <li>Given</li>
-          </ul>
+          <GivenPosts />
         </div>
       </div>
     )
@@ -102,12 +97,7 @@ function Posts() {
         </div>
         <div className="dash-post-box">
           <NewPostButton />
-          <ul>
-            <li>Rec</li>
-            <li>Rec</li>
-            <li>Rec</li>
-            <li>Rec</li>
-          </ul>
+          <ReceivedPosts />
         </div>
       </div>
     )

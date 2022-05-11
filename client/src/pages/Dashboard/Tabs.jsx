@@ -31,9 +31,9 @@ function Tabs() {
 
   return (
     <>
-      <Button color="blue" radius="md" size="sx" onClick={handleActiveClick}>Active</Button>
-      <Button color="blue" radius="md" size="sx" onClick={handleGivenClick}>Given</Button>
-      <Button color="blue" radius="md" size="sx" onClick={handleReceivedClick}>Received</Button>
+      <Button color="blue" size="sx" onClick={handleActiveClick}>Active</Button>
+      <Button color="blue" size="sx" onClick={handleGivenClick}>Given</Button>
+      <Button color="blue" size="sx" onClick={handleReceivedClick}>Received</Button>
     </>
   )
 }
