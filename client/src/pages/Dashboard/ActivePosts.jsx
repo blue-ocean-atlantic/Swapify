@@ -16,11 +16,11 @@ function ActivePosts() {
     return data.results.slice(0, 5).map((listing) => {
       return (
         <Container key={listing.listing_id} style={{ display: "flex", height: "110px", width: "550px", margin: "5px 0px", justifyContent: "space-between", backgroundColor: "white", borderRadius: "5px", alignItems: "center" }}>
-          <img style={{ height: "100px", width: "100px" }} src={listing.image_url}></img>
+          <img style={{ height: "100px", width: "100px" }} src={listing.image_url} component={Link} to={`/details/${listing.listing_id}`}></img>
           <div style={{ height: "100px", width: "400px" }}>
-            <h3 component={Link} to={`/details/${listing.listing_id}`}>
+            <Title order={3} component={Link} to={`/details/${listing.listing_id}`}>
               {listing.title}
-            </h3>
+            </Title>
             <p>{listing.description}</p>
           </div>
         </Container>
