@@ -11,7 +11,7 @@ import {
   Login,
   NewListing,
   SearchResults,
-  Signup,
+  Signup
 } from './pages';
 
 

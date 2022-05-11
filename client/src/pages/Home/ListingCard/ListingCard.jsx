@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Container, Image, Group, Text, Badge } from '@mantine/core';
 
 function ListingCard({ listing }) {
-  console.log('🚀 ~ ListingCard ~ listing', listing);
+  // console.log('🚀 ~ ListingCard ~ listing', listing);
   return (
     <Container px={0}>
       <Card
