@@ -12,7 +12,11 @@ function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, r
   function add(accumulator, a) {
     return accumulator + a;
   }
-  const ratingStar = (rating.reduce(add, 0)) / rating.length;
+  const ratingStar = 0;
+
+  if (rating.length !== 0) {
+    ratingStar = (rating.reduce(add, 0)) / rating.length;
+  }
 
   return (
     <div style={{ width: 340, margin: 'auto' }}>
