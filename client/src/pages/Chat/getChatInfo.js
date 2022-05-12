@@ -19,3 +19,13 @@ export const getChatInfo = (userName, toUser) => {
   return axios(options)
 }
 
+// export const addNewToUser = (userName, profile) => {
+//   console.log(userName, profile)
+//   const options = {
+//     url: '/addNewToUser',
+//     method: 'post',
+//     params: { userName, profile }
+//   }
+//   return axios(options)
+// }
+

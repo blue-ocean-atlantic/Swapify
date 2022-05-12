@@ -33,7 +33,6 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 /* === API Routes === */
 
 // serve react frontend
-// optional but i suggest doing so to ensure consistent result
 app.get('/userLists', (req, res) => {
   const { userName } = req.query;
   Message.find({ $or: [{ fromUser: userName }, { toUser: userName }] }).then(data => {
@@ -48,6 +47,16 @@ app.get('/getChatInfo', (req, res) => {
     res.send(data)
   })
 })
+
+// app.post('/addNewToUser', (req, res) => {
+//   const { userName, profile } = req.query
+//   ChatLogin.findOneAndUpdate({ userName }, { profile }).then(data => {
+//     if (!data) {
+//       let chatlogin = new ChatLogin({ userName, profile })
+//       chatlogin.save().then(() => { })
+//     }
+//   })
+// })
 
 //socket
 io.on('connection', socket => {
@@ -108,6 +117,7 @@ app.get('/api/imagekit', (req, res) => {
 /* === Page Routes === */
 
 // serve react frontend
+// optional but i suggest doing so to ensure consistent result
 app.get('*', (req, res) => {
   if (req.path.endsWith('bundle.js')) {
     res.sendFile(

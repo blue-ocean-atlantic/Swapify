@@ -8,12 +8,8 @@ import {
   Group,
   Stack,
   TextInput,
-  Title,
   Box,
   ScrollArea,
-  Badge,
-  Card,
-  Text
 } from '@mantine/core';
 import {
   faCircleArrowUp,

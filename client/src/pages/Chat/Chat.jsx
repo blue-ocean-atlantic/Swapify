@@ -25,6 +25,7 @@ import ContactLists from './ContactLists.jsx'
 import ChatWindow from './ChatWindow.jsx';
 
 
+
 function Chat(props) {
   const navigate = useNavigate();
 
@@ -32,6 +33,9 @@ function Chat(props) {
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
+
+  // TODO delete this later
+  const [textUserNameInput, setTextUserNameInput] = useState()
 
   const toUserNameRef = useRef(toUserName)
 
@@ -61,6 +65,12 @@ function Chat(props) {
       socket.disconnect()
     }
   }, [])
+
+  useEffect(() => {
+    if (userName) {
+      socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+    }
+  }, [userName])
 
   useEffect(() => {
     getChatInfo(userName, toUserName)
@@ -106,7 +116,8 @@ function Chat(props) {
 
   const handleLoginClick = (e) => {
     e.preventDefault();
-    socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+    setUserName(textUserNameInput)
+    // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
   }
 
   return (
@@ -125,7 +136,7 @@ function Chat(props) {
               Back
             </Button>
             <form onSubmit={e => handleLoginClick(e)}>
-              <input type='text' onChange={e => setUserName(e.target.value)} />
+              <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
             </form>
             <Text sx={{ marginLeft: '10px' }}>

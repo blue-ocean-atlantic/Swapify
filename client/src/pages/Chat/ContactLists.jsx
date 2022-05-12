@@ -2,26 +2,21 @@ import React, { useState, useEffect } from 'react';
 import {
   Avatar,
   Box,
-  Card,
   Indicator,
   Text,
-  Modal,
   Button,
-  Container,
   Stack,
-  Title,
   Group
 } from '@mantine/core';
 
-import { getUserLists } from './getChatInfo.js'
-import NavBar from '../../components/NavBar/NavBar.jsx';
-import BackButton from './BackButton.jsx'
+import { getUserLists, addNewToUser } from './getChatInfo.js'
 
 import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { data, chats } from './dummy';
+
+import ownerProfileStore from '../../store.js';
 
 // grab all the userName in database that has send message to the user or be sent message from the user
 //const userNames = ['qiqi', 'eric', 'wendy']
@@ -30,6 +25,11 @@ import { data, chats } from './dummy';
 const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
   const [activeChatUserName, setActiveChatUserName] = useState()
   const [userNames, setUserNames] = useState([])
+
+  const ownerProfileInfo = ownerProfileStore(state => state.ownerProfile);
+
+  //fake login user
+  const user1 = ownerProfileStore(state => state.user1)
 
   const handleContactClick = (userName) => {
     setActiveChatUserName(userName)
@@ -41,14 +41,17 @@ const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
       .then(({ data }) => {
         let chatLists = data.map(x => x.toUser).concat(data.map(x => x.fromUser))
         chatLists = [...new Set(chatLists)].filter(x => x !== loginUser)
+        if (ownerProfileInfo.toUserName && !chatLists.includes(ownerProfileInfo.toUserName)) {
+          chatLists.unshift(ownerProfileInfo.toUserName)
+        }
         setUserNames(chatLists)
       })
-  }, [loginUser])
+  }, [loginUser, ownerProfileInfo.toUserName])
 
   return (
     <Stack sx={{ alignItems: 'start' }}>
       {
-        userNames.map(userName => {
+        userNames.map((userName) => {
           const pendingCount = pendingUserMessages[userName] || 0
           return (
             <Box key={userName} sx={userName === activeChatUserName ? { backgroundColor: '#eceff1', width: '100%', borderRadius: '10px' } : {}}>
