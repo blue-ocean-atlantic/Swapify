@@ -10,7 +10,8 @@ let messageSchema = mongoose.Schema({
 let chatLoginSchema = mongoose.Schema({
   createAt: String,
   userName: String,
-  socketId: String
+  socketId: String,
+  profile: String
 });
 
 let Message = mongoose.model('message', messageSchema);
