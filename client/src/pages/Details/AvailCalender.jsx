@@ -16,7 +16,7 @@ function AvailCalender({ availableDate }) {
     console.log(moment(value).format("MMM Do YYYY"))
     console.log(moment(timeValue).format('LT'))
   }
- //...........................
+  //...........................
 
   const sendEmail = () => {
     const templateParams = {
@@ -24,55 +24,55 @@ function AvailCalender({ availableDate }) {
       owner: 'Check this out!',
       email: 'justinchen9387@gmail.com, siennaj1121@gmail.com',
       location: '12345',
-      date: moment(value).format("MMM Do YYYY") + 'at' +  moment(timeValue).format('LT')
+      date: moment(value).format("MMM Do YYYY") + 'at' + moment(timeValue).format('LT')
     };
 
     emailjs.send('service_0pikbde', EMAIL_ID.TEMPLATE_ID, templateParams, EMAIL_ID.USER_ID)
-    .then(function(response) {
-       console.log('SUCCESS!', response.status, response.text);
-    }, function(error) {
-       console.log('FAILED...', error);
-    });
+      .then(function (response) {
+        console.log('SUCCESS!', response.status, response.text);
+      }, function (error) {
+        console.log('FAILED...', error);
+      });
   };
 
   return (
     <div>
       <MantineProvider>
-      <NotificationsProvider>
-      <Group position="center">
-        <Calendar
-      value={value}
-      onChange={setValue}
-      minDate={available}
-      dayStyle={(date) =>
-        date.getMonth() === available.getMonth() && date.getDate() === available.getDate()
-          ? { backgroundColor: theme.colors.red[9], color: theme.white }
-          : null
-      }
-    />
-      </Group>
-      <Space h="xl"/>
-      <Group position="center">
-      <TimeInput
-      defaultValue={new Date()}
-      onChange={setTimeValue}
-      label="Pick time"
-      size="md"
-      format="12"
-      required
-      clearable
-      />
-      </Group>
-      <Space h="xl"/>
-      <Group position="center">
-        <Button radius="xl" size="lg" onClick={() =>
-          showNotification({
-            title: 'Confirmed',
-            message: 'You will receive a confirmation email soon.'
-          })
-        }>Confirm</Button>
-      </Group>
-      </NotificationsProvider>
+        <NotificationsProvider>
+          <Group position="center">
+            <Calendar
+              value={value}
+              onChange={setValue}
+              minDate={available}
+              dayStyle={(date) =>
+                date.getMonth() === available.getMonth() && date.getDate() === available.getDate()
+                  ? { backgroundColor: theme.colors.red[9], color: theme.white }
+                  : null
+              }
+            />
+          </Group>
+          <Space h="xl" />
+          <Group position="center">
+            <TimeInput
+              defaultValue={new Date()}
+              onChange={setTimeValue}
+              label="Pick time"
+              size="md"
+              format="12"
+              required
+              clearable
+            />
+          </Group>
+          <Space h="xl" />
+          <Group position="center">
+            <Button radius="xl" size="lg" onClick={() =>
+              showNotification({
+                title: 'Confirmed',
+                message: 'You will receive a confirmation email soon.'
+              })
+            }>Confirm</Button>
+          </Group>
+        </NotificationsProvider>
       </MantineProvider>
     </div>
   )

@@ -19,19 +19,31 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
-import { data, chats } from './dummy';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ContactLists from './ContactLists.jsx'
 import ChatWindow from './ChatWindow.jsx';
+import ownerProfileStore from '../../store.js';
+
 
 
 function Chat(props) {
   const navigate = useNavigate();
 
+  //TODO uncomment this,fake login user
+  //const user1 = ownerProfileStore(state => state.user1)
+
+  // TODO delete this later
   const [userName, setUserName] = useState()
+
+  // TODO uncomment this
+  //const userName = user1.userName
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
+  const [toUserProfile, setToUserProfile] = useState()
+
+  // TODO delete this later
+  const [textUserNameInput, setTextUserNameInput] = useState()
 
   const toUserNameRef = useRef(toUserName)
 
@@ -61,6 +73,12 @@ function Chat(props) {
       socket.disconnect()
     }
   }, [])
+
+  useEffect(() => {
+    if (userName) {
+      socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+    }
+  }, [userName])
 
   useEffect(() => {
     getChatInfo(userName, toUserName)
@@ -95,7 +113,6 @@ function Chat(props) {
   }
 
   const handleContactClick = (toUserName) => {
-    // console.log('toUserName=', toUserName)
     setPendingUserMessages(prevObj => {
       const obj = { ...prevObj }
       obj[toUserName] = 0
@@ -105,9 +122,15 @@ function Chat(props) {
     setToUserName(toUserName)
   }
 
+  const handleUserProfile = (profile) => {
+    setToUserProfile(profile)
+  }
+
+  // TODO delete this later
   const handleLoginClick = (e) => {
     e.preventDefault();
-    socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+    setUserName(textUserNameInput)
+    // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
   }
 
   return (
@@ -125,10 +148,14 @@ function Chat(props) {
             >
               Back
             </Button>
+
+            {/* // TODO delete this later */}
+
             <form onSubmit={e => handleLoginClick(e)}>
-              <input type='text' onChange={e => setUserName(e.target.value)} />
+              <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
             </form>
+
             <Text sx={{ marginLeft: '10px' }}>
               Logged in as: {userName}
             </Text>
@@ -149,6 +176,7 @@ function Chat(props) {
                   onContactClick={handleContactClick}
                   pendingUserMessages={pendingUserMessages}
                   loginUser={userName}
+                  handleUserProfile={handleUserProfile}
                 />
               </Container>
             </Grid.Col>
@@ -156,9 +184,8 @@ function Chat(props) {
               <ChatWindow
                 messageList={toUserMessageList}
                 onMessageSubmit={handleMessageSubmit}
-              // socket={socket}
-              // userName={userName}
-              // toUserName={toUserName}
+                toUserName={toUserName}
+                toUserProfile={toUserProfile}
               />
             </Grid.Col>
           </Grid>
