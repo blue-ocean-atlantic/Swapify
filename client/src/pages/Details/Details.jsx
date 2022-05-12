@@ -13,7 +13,7 @@ import axios from 'axios';
 
 function Details() {
   const { listingId } = useParams();
-  //console.log(listingId);
+  // console.log(listingId);
   const [images, setImages] = useState(['https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640']);
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
@@ -34,7 +34,7 @@ function Details() {
   useEffect(() => {
     axios.get(`http://localhost:3001/api/listing/?id=${listingId}`)
       .then((results) => {
-        console.log(results.data)
+        // console.log(results.data)
         setType(results.data.type);
         setImages(results.data.image_urls);
         setTitle(results.data.title);
@@ -59,7 +59,7 @@ function Details() {
     <div className="details-page">
       <NavBar />
       <main>
-        <Title order={1} className="type-of-transcation">{type.toUpperCase()}</Title>
+        <Title order={1} className="type-of-transcation">{type ? type.toUpperCase() : 'SWAP'}</Title>
         <Grid justify="space-between">
           <Grid.Col span={8}><ImagesGallery images={images} /></Grid.Col>
           <Grid.Col span={4}><ListingDetails
