@@ -17,6 +17,8 @@ import {
   Group,
   Box,
   Select,
+  ThemeIcon,
+  Grid,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useInputState } from '@mantine/hooks';
@@ -24,6 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faMagnifyingGlass,
+  faLocationCrosshairs,
 } from '@fortawesome/free-solid-svg-icons';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
@@ -34,39 +37,35 @@ import axios from 'axios';
 // console.log('🚀 ~ data', data);
 
 function Home() {
-  const [query, setQuery] = useInputState('');
   const navigate = useNavigate();
+  const [query, setQuery] = useInputState('');
   const [zip, setZip] = useState();
-
-  // const handleSearch = () => {
-  //   navigate(`/results?query=${query.toLowerCase()}`);
-  // };
+  const [userinfo, setUserinfo] = useState();
+  console.log('🚀 ~ Home ~ userinfo', userinfo);
 
   useEffect(() => {
     const getZip = async () => {
       const ipResults = await axios.get('https://ipapi.co/json');
-      console.log('🚀 ~ getZip ~ ipResults', ipResults.data.postal);
       setZip(ipResults.data.postal);
     };
     getZip();
+
+    const username = document.cookie.split('=')[1];
+
+    const getUser = async () => {
+      try {
+        const user = await axios.get('/api/users', { username }); // -> { userinfo }
+        setUserinfo(user.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
   }, []);
-
-  const form = useForm({
-    initialValues: {
-      query: '',
-      zipcode: '',
-    },
-  });
-
-  const handleSearch = ({ query, zipcode }) => {
-    zipcode = zipcode || zip;
-    console.log('🚀 ~ handleSearch ~ zipcode', zipcode);
-    navigate(`/results?query=${query.toLowerCase()}&zipcode=${zipcode}`);
-  };
 
   return (
     <>
-      <NavBar />
+      <NavBar disableSearch />
       <main>
         <Space h="xl" />
         <Title order={1} align="center">
@@ -79,25 +78,7 @@ function Home() {
               Create an account
             </Button>
           </Center>
-          <Container style={{ position: 'relative', width: '70%' }}>
-            <Box sx={{ maxWidth: 350 }} mx="auto">
-              <form onSubmit={form.onSubmit((values) => handleSearch(values))}>
-                <TextInput
-                  required
-                  placeholder="What are you looking for?"
-                  {...form.getInputProps('query')}
-                />
-                <TextInput
-                  autoComplete="nope"
-                  placeholder="Zip code"
-                  {...form.getInputProps('zipcode')}
-                />
-                <Button fullWidth type="submit">
-                  Submit
-                </Button>
-              </form>
-            </Box>
-          </Container>
+          <SearchBar />
         </Stack>
         <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
         <SimpleGrid cols={4} spacing="xl">
