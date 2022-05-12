@@ -12,8 +12,10 @@ import {
   Login,
   NewListing,
   SearchResults,
-  Signup,
+  Signup
 } from './pages';
+
+
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
@@ -24,7 +26,7 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/details/:id" element={<Details />} />
+      <Route path="/details/:listingId" element={<Details />} />
       <Route path="/new" element={<NewListing />} />
       <Route path="/results" element={<SearchResults />} />
       <Route path="/chat" element={<Chat />} />
