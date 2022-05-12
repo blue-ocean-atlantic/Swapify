@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Text, Divider } from '@mantine/core';
 
-function Description({ description }) {
+function Description({ description, location }) {
   return (
           <div>
             <h2>Description</h2>
@@ -11,7 +11,7 @@ function Description({ description }) {
               <Image
                 width={700}
                 height={300}
-                // src={`https://www.mapquestapi.com/staticmap/v5/map?key=sTS6mcWJbTrsuieY33YkZojWLQQUSQhD&shape=radius:1.2mi|85304&size=700,300&zoom=13`}
+                // src={`https://www.mapquestapi.com/staticmap/v5/map?key=sTS6mcWJbTrsuieY33YkZojWLQQUSQhD&shape=radius:1.2mi|${location}&size=700,300&zoom=13`}
                 src={null}
                 radius="md"
                 alt="With custom placeholder"

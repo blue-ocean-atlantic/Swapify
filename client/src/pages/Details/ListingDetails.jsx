@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Title } from '@mantine/core';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Modal, Button, Group, Popover, Text, Space } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import { ActionIcon } from '@mantine/core';
+import { FacebookShareButton, FacebookIcon, RedditShareButton, RedditIcon, TwitterShareButton, TwitterIcon } from "react-share";
 import './details.scss';
 import AvailCalender from './AvailCalender.jsx';
 
@@ -16,14 +18,16 @@ function ListingDetails({ title, category, condition, availableDate, postTime })
 
   return (
           <div className='listing-details'>
-            <Title order={2} className="listing-title">{title}</Title>
-            <Space h="lg" />
-            <p>Category: {category}</p>
-            <Space h="lg" />
-            <Group spacing="xs">
-              <p>
-                Condition:
-              </p>
+              <Title order={2} className="listing-title">{title}</Title>
+              <Space h="lg" />
+              <Text size="xl">Category: {category}</Text>
+              <Space h="lg" />
+              { condition !== '' &&
+                <div>
+                <Group spacing="xs">
+                <Text size="xl">
+                  Condition:
+                </Text>
                 <Popover
                   opened={conditionOpened}
                   onClose={() => setConditionOpened(false)}
@@ -45,31 +49,61 @@ function ListingDetails({ title, category, condition, availableDate, postTime })
                     <Text size='sm'>Heavily used, has major cosmetic flaws or damage. Non-functional or sold as parts.</Text>
                   </div>
                 </Popover>
-              <p>
-                {condition}
-              </p>
-            </Group>
-            <Space h="lg" />
-            <Group >
-              <p>Available Date: {moment(availableDate).format("MMM Do YY")}</p>
-              <ActionIcon color="blue" size="lg" radius="md">
-                <FontAwesomeIcon icon={faCalendar} onClick={() => setOpened(true)}/>
-              </ActionIcon>
-            </Group>
+                <Text size="xl">
+                  {condition}
+                </Text>
+              </Group>
+              <Space h="lg" />
+            </div>
+            }
+              <Text size="xl">Available Date: {moment(availableDate).format("MMM Do YY")}</Text>
             <Modal
               opened={opened}
               onClose={() => setOpened(false)}
               title="Available Date"
             >
-              <AvailCalender availableDate={availableDate}/>
+              <AvailCalender availableDate={availableDate} />
             </Modal>
             <Space h="lg" />
-            <p>Posted: {moment(postTime).endOf('day').fromNow()} </p>
+            <Text size="xl">Posted: {moment(postTime).endOf('day').fromNow()} </Text>
+            <Space h="xl" />
+            <Button
+              leftIcon={<FontAwesomeIcon icon={faCalendar} />} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+              onClick={() => setOpened(true)}
+              size='xl'
+            >
+              Schedule
+            </Button>
             <Space h="xl" />
             <Button
               leftIcon={<FontAwesomeIcon icon={faComment}/>} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
               size='xl'
-            >Chat Now</Button>
+              component={Link}
+              to="/chat"
+            >
+              Chat Now
+            </Button>
+            <Space h="xl" />
+            <Group>
+              <FacebookShareButton
+                url={window.location.href}
+                quote={title}
+              >
+                <FacebookIcon size={32} borderRadius={5}/>
+              </FacebookShareButton>
+              <RedditShareButton
+                url={window.location.href}
+                title={title}
+              >
+                <RedditIcon size={32} borderRadius={5}/>
+              </RedditShareButton>
+              <TwitterShareButton
+                url={window.location.href}
+                title={title}
+              >
+                <TwitterIcon size={32} borderRadius={5}/>
+              </TwitterShareButton>
+            </Group>
           </div>
   )
 }

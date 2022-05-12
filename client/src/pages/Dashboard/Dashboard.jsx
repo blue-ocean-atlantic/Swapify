@@ -27,23 +27,25 @@ function Dashboard() {
   return (
     <div className="dash-page">
       <NavBar />
-      <Container
-        className="dash-mant-container"
-        radius="xl"
-        p={30}
-        style={{ backgroundColor: 'white', borderRadius: 15 }}
-      >
-        <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title>
-        <div className="dash-container">
-          <div className="dash-basic-info">
-            <UserInfo />
-            <ChatButton />
+      <main>
+        <Container
+          className="dash-mant-container"
+          radius="xl"
+          p={30}
+          style={{ backgroundColor: 'white', borderRadius: 15 }}
+        >
+          <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title>
+          <div className="dash-container">
+            <div className="dash-basic-info">
+              <UserInfo />
+              <ChatButton />
+            </div>
+            <div className="dash-user-post">
+              <Posts />
+            </div>
           </div>
-          <div className="dash-user-post">
-            <Posts />
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </main>
     </div>
   );
 }
