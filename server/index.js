@@ -124,7 +124,6 @@ app.get('/logout', (req, res, next) => {
 
 
 // serve react frontend
-// optional but i suggest doing so to ensure consistent result
 app.get('/userLists', (req, res) => {
   const { userName } = req.query;
   Message.find({ $or: [{ fromUser: userName }, { toUser: userName }] }).then(data => {
@@ -132,11 +131,32 @@ app.get('/userLists', (req, res) => {
   })
 })
 
+app.get('/getUserProfiles', (req, res) => {
+  const { userNames } = req.query;
+  if (userNames) {
+    ChatLogin.find({ 'userName': { $in: userNames } }).then((data) => {
+      res.send(data.map(x => ({ userName: x.userName, profile: x.profile })))
+    })
+  } else {
+    res.send([])
+  }
+})
+
 app.get('/getChatInfo', (req, res) => {
   const { userName, toUser } = req.query;
   //console.log(toUser, userName)
   Message.find({ $or: [{ fromUser: userName, toUser }, { fromUser: toUser, toUser: userName }] }).then(data => {
     res.send(data)
+  })
+})
+
+app.post('/addNewToUser', (req, res) => {
+  const { userName, profile } = req.query
+  ChatLogin.findOneAndUpdate({ userName }, { profile }).then(data => {
+    if (!data) {
+      let chatlogin = new ChatLogin({ userName, profile })
+      chatlogin.save().then(() => { })
+    }
   })
 })
 
@@ -196,22 +216,6 @@ app.get('/api/imagekit', (req, res) => {
   res.json(authenticationParameters);
 });
 
-/* === Page Routes === */
-
-// serve react frontend
-app.get('*', (req, res) => {
-  if (req.path.endsWith('bundle.js')) {
-    res.sendFile(
-      path.resolve(path.join(__dirname, '../client/dist'), 'bundle.js')
-    );
-  } else {
-    res.sendFile(
-      path.resolve(path.join(__dirname, '../client/dist'), 'index.html')
-    );
-  }
-});
-
-/* === Server Listener === */
 server.listen(PORT, () => {
   console.log(`Server is live at localhost:${PORT}.`);
 });

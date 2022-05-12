@@ -7,7 +7,7 @@ const dashStore = create(
   devtools((set) => ({
     userInfo: {
       user_id: 1,
-      username: "cynTel",
+      username: "cynTel", // should be in wendy's zustand store
       user_first_name: "Cynthia",
       user_last_name: "Telfair",
       personal_rating: 0,

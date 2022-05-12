@@ -67,7 +67,7 @@ function NewListing() {
     ) : (
       <SimpleGrid style={{ minHeight: 220, pointerEvents: 'none' }} cols={4}>
         {uploadedImages.map((url) => (
-          <Center>
+          <Center key={url}>
             <Image height={100} width={100} key={uuid()} src={url} />
           </Center>
         ))}
