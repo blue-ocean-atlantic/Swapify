@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.post('/login', async (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-
+  console.log('post login req', req.body.username)
   return await Users.get({ username })
   .then(result => {
     console.log('result at post login', result)
@@ -58,7 +58,7 @@ app.post('/login', async (req, res, next) => {
       throw new Error('UserName and password do not match');
     } else {
       res.cookie("userName", username)
-      res.send(result.username);
+      res.send(result[0].username);
     }
   })
   .catch(error => {
@@ -69,13 +69,13 @@ app.post('/login', async (req, res, next) => {
 });
 
 app.post('/signup', (req, res, next) => {
-  var firstName = req.body.firstName;
-  var lastName = req.body.lastName;
-  var email = req.body.email;
-  var zipCode = req.body.zipCode;
-  var username = req.body.userName;
-  var password = req.body.password;
-
+  var firstName = req.body.values.firstName;
+  var lastName = req.body.values.lastName;
+  var email = req.body.values.email;
+  var zipCode = req.body.values.zipCode;
+  var username = req.body.values.username;
+  var password = req.body.values.password;
+  console.log('req.username', username);
   return Users.get({ username})
     .then(result => {
       console.log('result', result)
