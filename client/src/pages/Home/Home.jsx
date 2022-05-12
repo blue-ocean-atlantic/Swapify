@@ -32,7 +32,10 @@ function Home() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    axios.get('/logout').then(navigate('/'));
+    axios.get('/logout')
+      .then(
+        window.location = '/'
+      );
   }
 
   const isLoggedIn = document.cookie;

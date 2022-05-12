@@ -33,12 +33,10 @@ const Login = () => {
       password: password,
     })
       .then((data) => {
-        console.log('data passed back', data)
-        //when correct email and pw combo, redirect to main page
-        alert('successful login!');
-        // navigate('/signup');
+        alert('Successful Login!');
+      })
+      .then(()=> {
         window.location = '/';
-        // console.log('userName is passed back', data);
       })
       .catch((err) => {
         console.log('err at login button', err);
@@ -47,6 +45,7 @@ const Login = () => {
         setUsername('')
       })
   }
+
   return (
     <>
       <NavBar />
