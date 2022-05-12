@@ -1,7 +1,7 @@
 const utils = require('../lib/hashUtils');
 const Model = require('./model');
-const CreateUserSchema = require('/Users/wendyzhang/HR_RFC2202/blueocean/blue-ocean/server/db/models/users.js');
-const db = require('/Users/wendyzhang/HR_RFC2202/blueocean/blue-ocean/server/db/index.js');
+const CreateUserSchema = require('../db/models/users.js');
+const db = require('../db/index.js');
 
 const parseData = options => {
   // console.log('options', options)
