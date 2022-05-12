@@ -104,19 +104,15 @@ app.post('/signup', (req, res, next) => {
 app.get('/test', (req, res, next) => {
   if (req.cookies.userName === '') {
     res.sendStatus(401);
-    console.log('TEST ROUTE: currently no usrename');
+    console.log('TEST: no cookie/not authorized');
+  } else {
+    // console.log('req.body at get test', req.body)
+    // Users.get({ req.body})
+    // .then(result => {
+    // })
+    console.log('TEST: has cookie/authorized', req.cookies.userName);
   }
-  console.log('TEST ROUTE: current userName', req.cookies.userName);
 })
-
-// app.get('/', (req, res, next) => {
-//   if(req.cookies.userName === '') {
-//     res.send('currently not loggedin')
-//     // console.log('no cookies');
-//   } else
-//   {console.log('currently loggedin');
-//   res.send('currently loggedin')}
-// })
 
 app.get('/logout', (req, res, next) => {
   res.clearCookie('userName');

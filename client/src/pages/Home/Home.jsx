@@ -38,8 +38,12 @@ function Home() {
       );
   }
 
+  const handleTest = () => {
+    navigate('/test');
+  }
+
   const isLoggedIn = document.cookie;
-  console.log('isLoggedIn', isLoggedIn);
+  // console.log('isLoggedIn', isLoggedIn);
 
   const handleSearch = () => {
     navigate(`/results?query=${query.toLowerCase()}`);
@@ -62,6 +66,11 @@ function Home() {
                 <Button radius="xl" size="lg" onClick={() => handleLogout()} >
                   LogOut
                 </Button>
+
+                <Button radius="xl" size="lg" onClick={() => handleTest()}>
+                  Go To Test Page
+                </Button>
+
               </Center>
 
               : <Center><Button radius="xl" size="lg" component={Link} to="/signup" onClick={() => checkLoginStatus()} >
@@ -69,7 +78,8 @@ function Home() {
               </Button>
                 <Button radius="xl" size="lg" component={Link} to="/login">
                   Login
-                </Button></Center>
+                </Button>
+                </Center>
             }
           </div>
 
