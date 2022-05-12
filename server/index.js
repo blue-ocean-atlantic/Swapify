@@ -53,7 +53,7 @@ app.post('/login', async (req, res, next) => {
   console.log('post login req', req.body.username)
   return await Users.get({ username })
     .then(result => {
-      // console.log('result at post login', result)
+      console.log('result at post login', result)
       if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
         throw new Error('UserName and password do not match');
       } else {

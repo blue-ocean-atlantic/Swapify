@@ -42,7 +42,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log('err at login button', err);
-        window.alert('Incorrect Login Credential');
+        alert('Incorrect Login Credential');
         setPassword('')
         setUsername('')
       })
