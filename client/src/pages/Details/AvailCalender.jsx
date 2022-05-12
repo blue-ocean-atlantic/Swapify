@@ -5,7 +5,7 @@ import { showNotification, NotificationsProvider } from '@mantine/notifications'
 import { TimeInput } from '@mantine/dates';
 import emailjs from '@emailjs/browser';
 import moment from 'moment';
-import EMAIL_ID from '../../../../config.js';
+// import EMAIL_ID from '../../../../config.js';
 
 function AvailCalender({ availableDate }) {
   const theme = useMantineTheme();
