@@ -1,30 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import uuid from 'react-uuid';
+import axios from 'axios';
 import {
   Button,
   Stack,
-  TextInput,
-  ActionIcon,
   Center,
   Space,
-  Transition,
-  Container,
   SimpleGrid,
   Title,
   Divider,
-  Checkbox,
-  Group,
-  Box,
-  Select
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { useInputState } from '@mantine/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowRight,
-  faMagnifyingGlass,
-} from '@fortawesome/free-solid-svg-icons';
-import uuid from 'react-uuid';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
@@ -33,117 +20,68 @@ import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 // console.log('🚀 ~ data', data);
 
 function Home() {
-  const [query, setQuery] = useInputState('');
+  const loggedIn = document.cookie.split('=')[1]; // username=josh  "" -> undefined
+
   const navigate = useNavigate();
+  const [query, setQuery] = useInputState('');
+  const [zip, setZip] = useState();
 
-  // const handleSearch = () => {
-  //   navigate(`/results?query=${query.toLowerCase()}`);
-  // };
+  const [userInfo, setUserInfo] = useState();
+  console.log('🚀 ~ Home ~ userInfo', userInfo);
 
-  const form = useForm({
-    initialValues: {
-      query: 'chair',
-      zipcode: '78701',
-      radius: '5',
-    }
-  });
+  useEffect(() => {
+    const getZip = async () => {
+      const ipResults = await axios.get('https://ipapi.co/json');
+      setZip(ipResults.data.postal);
+    };
+    getZip();
 
-  const handleSearch2 = (values) => {
-    return navigate(`/results?query=${values.query.toLowerCase()}&zipcode=${values.zipcode}&radius=${values.radius}`);
-}
+    const id = document.cookie.split('=')[1]; // = ''
 
-return (
-  <>
-    <NavBar />
-    <main>
-      <Space h="xl" />
-      <Title order={1} align="center">
-        No money. Just people.
-      </Title>
-      <Space h={50} />
-      <Stack spacing={50}>
-        <Center>
-          <Button radius="xl" size="lg" component={Link} to="/signup">
-            Create an account
-          </Button>
-        </Center>
-        <Container style={{ position: 'relative', width: '70%' }}>
-          {/* <TextInput
-              size="xl"
-              placeholder="Search for swaps or favors"
-              radius="xl"
-              icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
-              // style={{ width: '70%', transition: 300 }}
-              value={query}
-              onChange={setQuery}
-              onKeyUp={(e) => {
-                if (e.code === 'Enter') {
-                  handleSearch();
-                }
-              }}
-            /> */}
-          <Box sx={{ maxWidth: 300 }} mx="auto">
-            <form onSubmit={ form.onSubmit((values)=>handleSearch2(values))}>
-              <TextInput
-                required
-                placeholder="What are you looking for?"
-                {...form.getInputProps('query')}
-              />
-              <TextInput
-                required
-                placeholder="Zip code"
-                {...form.getInputProps('zipcode')}
-              />
-              <Select
-                label="Radius"
-                placeholder="Pick one"
-                data={[
-                  { value: '5', label: '5 mi' },
-                  { value: '10', label: '10 mi' },
-                ]}
-              />
+    // API GET for listings data (currently dummy data)
 
-              <Group position="right" mt="md">
-                <Button type="submit">Submit</Button>
-              </Group>
-            </form>
-          </Box>
-          <Transition
-            mounted={query.length > 0}
-            transition="slide-right"
-            duration={200}
-            timingFunction="ease"
-          >
-            {(styles) => (
-              <ActionIcon
-                variant="transparent"
-                style={{
-                  ...styles,
-                  position: 'absolute',
-                  right: 35,
-                  top: 16,
-                }}
-                onClick={handleSearch}
-                color="blue"
-              >
-                <FontAwesomeIcon size="xl" icon={faArrowRight} />
-              </ActionIcon>
-            )}
-          </Transition>
-        </Container>
-      </Stack>
-      <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
-      <SimpleGrid cols={4} spacing="xl">
-        {data.results.map((listing) => (
-          <ListingCard listing={listing} />
-        ))}
-        {data.results.map((listing) => (
-          <ListingCard listing={listing} />
-        ))}
-      </SimpleGrid>
-    </main>
-  </>
-);
+    const getUser = async () => {
+      try {
+        const user = await axios.get('/api/user', { params: { id } }); // -> { userinfo }
+        setUserInfo(user.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  }, []);
+
+  return (
+    <>
+      <NavBar disableSearch />
+      <main>
+        <Space h="xl" />
+        <Title order={1} align="center">
+          No money. Just people.
+        </Title>
+        <Space h={50} />
+        <Stack spacing={50}>
+          {!loggedIn && (
+            <Center>
+              <Button radius="xl" size="lg" component={Link} to="/signup">
+                Create an account
+              </Button>
+            </Center>
+          )}
+          <SearchBar />
+        </Stack>
+        <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
+        <SimpleGrid cols={4} spacing="xl">
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+        </SimpleGrid>
+      </main>
+    </>
+  );
 }
 
 export default Home;
