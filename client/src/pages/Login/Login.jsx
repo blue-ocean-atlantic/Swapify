@@ -1,60 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: '',
-      password: '',
-    };
-    this.setUsername = this.setUsername.bind(this);
-    this.setPW = this.setPW.bind(this);
-    this.loginbutton = this.loginbutton.bind(this);
-  }
+const Login = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate();
 
-  setUsername(event) {
-    this.setState({ username: event.target.value })
-  }
-
-  setPW(event) {
-    this.setState({ password: event.target.value })
-  }
-
-  loginbutton() {
-    console.log('state at login', this.state);
+  const loginbutton = () => {
     axios.post('/login', {
-      username: this.state.username,
-      password: this.state.password,
+      username: username,
+      password: password,
     })
     .then((data) =>{
       //when correct email and pw combo, redirect to main page
-      alert('successful login!');
-      window.location = '/';
+      //alert('successful login!');
+      navigate("/");
       console.log('userName is passed back', data);
     })
     .catch((err) => {
       console.log('err at login button', err);
       window.alert('incorrect login credential');
-      window.location = '/login';
+      setPassword('')
+      setUsername('')
     })
   }
-
-  render() {
 
     return (
       <div className="form">
         <h2>Log In Page</h2>
         <label>User Name:
-          <input type="text" value={this.state.username} onChange={this.setUsername}></input>
+          <input type="text" value={username} onChange={(event) => {
+            setUsername(event.target.value)
+          }}></input>
         </label>
         <label>Password:
-          <input type="text" value={this.state.password} onChange={this.setPW}></input>
+          <input type="text" value={password} onChange={(event) => {
+            setPassword(event.target.value)
+          }}></input>
         </label>
-        <button onClick={this.loginbutton}>Click to Log In</button>
+        <button onClick={() => loginbutton()}>Click to Log In</button>
       </div>
     )
-  }
+
 }
 
 export default Login;

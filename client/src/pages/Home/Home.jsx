@@ -24,11 +24,15 @@ import uuid from 'react-uuid';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
+import axios from 'axios';
 // console.log('🚀 ~ data', data);
 
 function Home() {
   const [query, setQuery] = useInputState('');
   const navigate = useNavigate();
+  const handleLogout = () => {
+    axios.get('/logout').then(navigate('/login'));
+  }
 
   const handleSearch = () => {
     navigate(`/results?query=${query.toLowerCase()}`);
@@ -50,6 +54,9 @@ function Home() {
             </Button>
             <Button radius="xl" size="lg" component={Link} to="/login">
               Login
+            </Button>
+            <Button radius="xl" size="lg" onClick={() => handleLogout()} >
+              LogOut
             </Button>
           </Center>
           <Container style={{ position: 'relative', width: '70%' }}>

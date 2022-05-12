@@ -32,18 +32,17 @@ app.use(CreateSession);
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 /* === Authentication Routes === */
-app.post('/login', (req, res, next) => {
-  // console.log('post login res', res);
+app.post('/login', async (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
 
-  return Users.get({ username })
+  return await Users.get({ username })
   .then(result => {
-    // console.log('result at post login', result);
     if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
       throw new Error('UserName and password do not match');
     } else {
-    res.send(result.username);
+      res.cookie("userName", username)
+      res.send(result.username);
     }
   })
   .catch(error => {
@@ -89,22 +88,14 @@ app.post('/signup', (req, res, next) => {
 app.get('/test', (req, res, next) => {
   if(req.cookies.userName === '') {
     res.sendStatus(401);
+    console.log('no cookies');
   }
-  console.log('current reqs username', req.cookies.userName);
-  // console.log(res);
+  console.log('current userName', req.cookies);
 })
 
 app.get('/logout', (req, res, next) => {
-
-
-  return Sessions.delete({ hash: req.cookies.user_id })
-    .then(() => {
-      res.clearCookie('user_id');
-      res.redirect('/login');
-    })
-    .error(error => {
-      res.status(500).send(error);
-    });
+      res.clearCookie('userName');
+      next();
 });
 /* === Routes === */
 
