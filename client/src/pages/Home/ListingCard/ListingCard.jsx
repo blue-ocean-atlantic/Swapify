@@ -10,7 +10,7 @@ import {
   Space,
 } from '@mantine/core';
 
-function ListingCard({ listing, displayLocation = true }) {
+function ListingCard({ listing, displayLocation = false }) {
   return (
     <Container px={0}>
       <Card
