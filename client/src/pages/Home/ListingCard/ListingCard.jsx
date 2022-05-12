@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Container, Image, Group, Text, Badge } from '@mantine/core';
+import {
+  Card,
+  Container,
+  Image,
+  Group,
+  Text,
+  Badge,
+  Space,
+} from '@mantine/core';
 
-function ListingCard({ listing }) {
-  // console.log('🚀 ~ ListingCard ~ listing', listing);
+function ListingCard({ listing, displayLocation = true }) {
   return (
     <Container px={0}>
       <Card
@@ -30,22 +37,22 @@ function ListingCard({ listing }) {
             {listing.type}
           </Badge>
         </Card.Section>
-        {/* <Group position="apart" style={{ marginBottom: 5, marginTop: 15 }}> */}
         <Text
           weight="bold"
           transform="uppercase"
-          style={{ marginBottom: 5, marginTop: 10, letterSpacing: '1px' }}
+          style={{ marginBottom: 5, marginTop: 10 }}
         >
           {listing.title}
         </Text>
-        {/* <Badge
-            variant="light"
-            color={listing.type === 'favor' ? 'violet' : 'blue'}
-            // style={{ position: 'absolute', top: 10, right: 10 }}
-          >
-            {listing.type}
-          </Badge> */}
-        {/* </Group> */}
+        {displayLocation && (
+          <>
+            <Group position="apart">
+              <Text>{listing.zipcode}</Text>
+              <Text>{listing.distance} mi. away</Text>
+            </Group>
+            <Space h="sm" />
+          </>
+        )}
         <Text size="sm" lineClamp={3} component="em">
           {listing.description}
         </Text>
