@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import uuid from 'react-uuid';
 import {
   Button,
   Stack,
@@ -15,7 +16,7 @@ import {
   Checkbox,
   Group,
   Box,
-  Select
+  Select,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useInputState } from '@mantine/hooks';
@@ -24,126 +25,92 @@ import {
   faArrowRight,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
-import uuid from 'react-uuid';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
+import axios from 'axios';
 // console.log('🚀 ~ data', data);
 
 function Home() {
   const [query, setQuery] = useInputState('');
   const navigate = useNavigate();
+  const [zip, setZip] = useState();
 
   // const handleSearch = () => {
   //   navigate(`/results?query=${query.toLowerCase()}`);
   // };
 
+  useEffect(() => {
+    const getZip = async () => {
+      const ipResults = await axios.get('https://ipapi.co/json');
+      console.log('🚀 ~ getZip ~ ipResults', ipResults.data.postal);
+      setZip(ipResults.data.postal);
+    };
+    getZip();
+  }, []);
+
   const form = useForm({
     initialValues: {
-      query: 'chair',
-      zipcode: '78701',
-      radius: '5',
-    }
+      query: '',
+      zipcode: '',
+    },
   });
 
-  const handleSearch2 = (values) => {
-    return navigate(`/results?query=${values.query.toLowerCase()}&zipcode=${values.zipcode}&radius=${values.radius}`);
-}
+  const handleSearch = ({ query, zipcode }) => {
+    zipcode = zipcode || zip;
+    console.log('🚀 ~ handleSearch ~ zipcode', zipcode);
+    navigate(`/results?query=${query.toLowerCase()}&zipcode=${zipcode}`);
+  };
 
-return (
-  <>
-    <NavBar />
-    <main>
-      <Space h="xl" />
-      <Title order={1} align="center">
-        No money. Just people.
-      </Title>
-      <Space h={50} />
-      <Stack spacing={50}>
-        <Center>
-          <Button radius="xl" size="lg" component={Link} to="/signup">
-            Create an account
-          </Button>
-        </Center>
-        <Container style={{ position: 'relative', width: '70%' }}>
-          {/* <TextInput
-              size="xl"
-              placeholder="Search for swaps or favors"
-              radius="xl"
-              icon={<FontAwesomeIcon size="xl" icon={faMagnifyingGlass} />}
-              // style={{ width: '70%', transition: 300 }}
-              value={query}
-              onChange={setQuery}
-              onKeyUp={(e) => {
-                if (e.code === 'Enter') {
-                  handleSearch();
-                }
-              }}
-            /> */}
-          <Box sx={{ maxWidth: 300 }} mx="auto">
-            <form onSubmit={ form.onSubmit((values)=>handleSearch2(values))}>
-              <TextInput
-                required
-                placeholder="What are you looking for?"
-                {...form.getInputProps('query')}
-              />
-              <TextInput
-                required
-                placeholder="Zip code"
-                {...form.getInputProps('zipcode')}
-              />
-              <Select
-                label="Radius"
-                placeholder="Pick one"
-                data={[
-                  { value: '5', label: '5 mi' },
-                  { value: '10', label: '10 mi' },
-                ]}
-              />
-
-              <Group position="right" mt="md">
-                <Button type="submit">Submit</Button>
-              </Group>
-            </form>
-          </Box>
-          <Transition
-            mounted={query.length > 0}
-            transition="slide-right"
-            duration={200}
-            timingFunction="ease"
-          >
-            {(styles) => (
-              <ActionIcon
-                variant="transparent"
-                style={{
-                  ...styles,
-                  position: 'absolute',
-                  right: 35,
-                  top: 16,
-                }}
-                onClick={handleSearch}
-                color="blue"
-              >
-                <FontAwesomeIcon size="xl" icon={faArrowRight} />
-              </ActionIcon>
-            )}
-          </Transition>
-        </Container>
-      </Stack>
-      <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
-      <SimpleGrid cols={4} spacing="xl">
-        {data.results.map((listing) => (
-          <ListingCard listing={listing} />
-        ))}
-        {data.results.map((listing) => (
-          <ListingCard listing={listing} />
-        ))}
-      </SimpleGrid>
-    </main>
-  </>
-);
+  return (
+    <>
+      <NavBar />
+      <main>
+        <Space h="xl" />
+        <Title order={1} align="center">
+          No money. Just people.
+        </Title>
+        <Space h={50} />
+        <Stack spacing={50}>
+          <Center>
+            <Button radius="xl" size="lg" component={Link} to="/signup">
+              Create an account
+            </Button>
+          </Center>
+          <Container style={{ position: 'relative', width: '70%' }}>
+            <Box sx={{ maxWidth: 350 }} mx="auto">
+              <form onSubmit={form.onSubmit((values) => handleSearch(values))}>
+                <TextInput
+                  required
+                  placeholder="What are you looking for?"
+                  {...form.getInputProps('query')}
+                />
+                <TextInput
+                  autoComplete="nope"
+                  placeholder="Zip code"
+                  {...form.getInputProps('zipcode')}
+                />
+                <Button fullWidth type="submit">
+                  Submit
+                </Button>
+              </form>
+            </Box>
+          </Container>
+        </Stack>
+        <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
+        <SimpleGrid cols={4} spacing="xl">
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+          {data.results.map((listing) => (
+            <ListingCard key={uuid()} listing={listing} />
+          ))}
+        </SimpleGrid>
+      </main>
+    </>
+  );
 }
 
 export default Home;
