@@ -26,14 +26,14 @@ function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, r
               alt="Owner's photo"
               radius={160}
               withPlaceholder
-              placeholder={<Text align="center">This Owenr didn't provide a photo</Text>}/>
+              placeholder={<Text align="center">This Owenr didn't provide a photo</Text>} />
           </Card.Section>
 
-            <Text weight={700} size="xl">
-              {firstName}
-              {' '}
-              {lastName}
-            </Text>
+          <Text weight={700} size="xl">
+            {firstName}
+            {' '}
+            {lastName}
+          </Text>
         </Group>
 
         <Group position="left" style={{ marginBottom: 5, marginTop: theme.spacing.sm }}>
@@ -49,7 +49,7 @@ function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, r
         </Group>
 
         <Group spacing="lg">
-          <Rating rating={ratingStar} size="20px"/>
+          <Rating rating={ratingStar} size="20px" />
           <p>{rating.length} Ratings</p>
         </Group>
         <Spoiler maxHeight={70} showLabel="Show more" hideLabel="Hide">

@@ -42,8 +42,6 @@ const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
         let chatLists = data.map(x => x.toUser).concat(data.map(x => x.fromUser))
         chatLists = [...new Set(chatLists)].filter(x => x !== loginUser)
         setUserNames(chatLists)
-        //console.log(chatLists)
-        // this is the chat lists of users
       })
   }, [loginUser])
 
@@ -53,7 +51,7 @@ const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
         userNames.map(userName => {
           const pendingCount = pendingUserMessages[userName] || 0
           return (
-            <Box key={userName} sx={userName === activeChatUserName ? { backgroundColor: '#C4DDFF', width: '100%' } : {}}>
+            <Box key={userName} sx={userName === activeChatUserName ? { backgroundColor: '#eceff1', width: '100%', borderRadius: '10px' } : {}}>
               <Button variant="subtle" size="xl" radius="lg" onClick={() => handleContactClick(userName)}>
                 <Group>
                   <Indicator inline label={pendingCount} size={16} disabled={!pendingCount}>

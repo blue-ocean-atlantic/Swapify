@@ -19,6 +19,3 @@ export const getChatInfo = (userName, toUser) => {
   return axios(options)
 }
 
-
-
-// export default getChatInfo;

@@ -10,20 +10,20 @@ function AvailCalender({ availableDate }) {
 
   return (
     <Group position="center">
-    <Calendar
-      disableOutsideEvents
-      value={value}
-      onChange={setValue}
-      renderDay={(date) => {
-        const day = date.getDate();
-        return (
-          <Indicator size={10} color="red" offset={8} inline label="Available" disabled={day !== availableDay}>
-            <div>{day}</div>
-          </Indicator>
-        );
-      }}
-    />
-  </Group>
+      <Calendar
+        disableOutsideEvents
+        value={value}
+        onChange={setValue}
+        renderDay={(date) => {
+          const day = date.getDate();
+          return (
+            <Indicator size={10} color="red" offset={8} inline label="Available" disabled={day !== availableDay}>
+              <div>{day}</div>
+            </Indicator>
+          );
+        }}
+      />
+    </Group>
   )
 }
 

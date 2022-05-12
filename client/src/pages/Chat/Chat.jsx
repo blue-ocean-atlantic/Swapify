@@ -95,7 +95,6 @@ function Chat(props) {
   }
 
   const handleContactClick = (toUserName) => {
-    // console.log('toUserName=', toUserName)
     setPendingUserMessages(prevObj => {
       const obj = { ...prevObj }
       obj[toUserName] = 0
@@ -156,9 +155,7 @@ function Chat(props) {
               <ChatWindow
                 messageList={toUserMessageList}
                 onMessageSubmit={handleMessageSubmit}
-              // socket={socket}
-              // userName={userName}
-              // toUserName={toUserName}
+                toUserName={toUserName}
               />
             </Grid.Col>
           </Grid>
