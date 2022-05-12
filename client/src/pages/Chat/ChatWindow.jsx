@@ -32,7 +32,7 @@ const formatDate = (dateStr) => {
 
 function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile }) {
 
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState('')
   // const [messageList, setMessageList] = useState([])
 
   // useEffect(() => {
@@ -78,7 +78,9 @@ function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile })
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    onMessageSubmit(message)
+    onMessageSubmit(message);
+    setMessage('')
+
   }
 
   // const avatar = (
@@ -148,6 +150,7 @@ function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile })
           <form onSubmit={e => handleMessageSubmit(e)} >
             <TextInput
               onChange={e => setMessage(e.target.value)}
+              value={message}
               radius="xl"
               placeholder="Message"
               rightSection={

@@ -125,23 +125,6 @@ app.get('/api/imagekit', (req, res) => {
   res.json(authenticationParameters);
 });
 
-/* === Page Routes === */
-
-// serve react frontend
-// optional but i suggest doing so to ensure consistent result
-app.get('*', (req, res) => {
-  if (req.path.endsWith('bundle.js')) {
-    res.sendFile(
-      path.resolve(path.join(__dirname, '../client/dist'), 'bundle.js')
-    );
-  } else {
-    res.sendFile(
-      path.resolve(path.join(__dirname, '../client/dist'), 'index.html')
-    );
-  }
-});
-
-/* === Server Listener === */
 server.listen(PORT, () => {
   console.log(`Server is live at localhost:${PORT}.`);
 });

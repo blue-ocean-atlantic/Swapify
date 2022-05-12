@@ -29,18 +29,21 @@ import ownerProfileStore from '../../store.js';
 function Chat(props) {
   const navigate = useNavigate();
 
-  //fake login user
-  const user1 = ownerProfileStore(state => state.user1)
+  //TODO uncomment this,fake login user
+  //const user1 = ownerProfileStore(state => state.user1)
 
-  //const [userName, setUserName] = useState()
-  const userName = user1.userName
+  // TODO delete this later
+  const [userName, setUserName] = useState()
+
+  // TODO uncomment this
+  //const userName = user1.userName
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
   const [toUserProfile, setToUserProfile] = useState()
 
   // TODO delete this later
-  //const [textUserNameInput, setTextUserNameInput] = useState()
+  const [textUserNameInput, setTextUserNameInput] = useState()
 
   const toUserNameRef = useRef(toUserName)
 
@@ -123,11 +126,12 @@ function Chat(props) {
     setToUserProfile(profile)
   }
 
-  // const handleLoginClick = (e) => {
-  //   e.preventDefault();
-  //   setUserName(textUserNameInput)
-  //   // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
-  // }
+  // TODO delete this later
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    setUserName(textUserNameInput)
+    // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  }
 
   return (
     <>
@@ -145,10 +149,12 @@ function Chat(props) {
               Back
             </Button>
 
-            {/* <form onSubmit={e => handleLoginClick(e)}>
+            {/* // TODO delete this later */}
+
+            <form onSubmit={e => handleLoginClick(e)}>
               <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
-            </form> */}
+            </form>
 
             <Text sx={{ marginLeft: '10px' }}>
               Logged in as: {userName}
