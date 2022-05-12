@@ -9,7 +9,6 @@ const Users = require('./models/user.js');
 const Sessions = require('./models/session.js');
 const Model = require('./models/model.js');
 
-
 const CreateSession = require('./middleware/auth');
 const CookiesParser = require('./middleware/cookieParser');
 
@@ -38,6 +37,7 @@ app.post('/login', async (req, res, next) => {
 
   return await Users.get({ username })
   .then(result => {
+    console.log('result at post login', result)
     if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
       throw new Error('UserName and password do not match');
     } else {
@@ -60,7 +60,7 @@ app.post('/signup', (req, res, next) => {
   var username = req.body.userName;
   var password = req.body.password;
 
-  return Users.get({ email })
+  return Users.get({ username})
     .then(result => {
       console.log('result', result)
       if (result[0]) {
@@ -90,8 +90,17 @@ app.get('/test', (req, res, next) => {
     res.sendStatus(401);
     console.log('no cookies');
   }
-  console.log('current userName', req.cookies);
+  console.log('TEST ROUTE current userName', req.cookies.userName);
 })
+
+// app.get('/', (req, res, next) => {
+//   if(req.cookies.userName === '') {
+//     res.send('currently not loggedin')
+//     // console.log('no cookies');
+//   } else
+//   {console.log('currently loggedin');
+//   res.send('currently loggedin')}
+// })
 
 app.get('/logout', (req, res, next) => {
       res.clearCookie('userName');

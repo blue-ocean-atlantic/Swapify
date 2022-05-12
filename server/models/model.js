@@ -1,11 +1,6 @@
-// const db = require('../db');
 const _ = require('lodash');
 const db = require('/Users/wendyzhang/HR_RFC2202/blueocean/blue-ocean/server/db/index.js');
 const CreateUserSchema = require('/Users/wendyzhang/HR_RFC2202/blueocean/blue-ocean/server/db/models/users.js');
-
-// const executeQuery = (query) => {
-//   return queryAsync(query).spread(results => console.log('results at execute query', results));
-// };
 
 const parseData = options => {
   // console.log('options', options)
@@ -22,23 +17,24 @@ class Model {
   }
 
   get(options) {
-    let inputEmail = parseData(options).values[0];
-    // console.log('fad', inputEmail);
-    return CreateUserSchema.find({ 'email': inputEmail });
-    // return (executeQuery(queryString).then(results => console.log('results at get', results)));
+    let userInput = parseData(options).values[0];
+    // console.log('userinput', userInput)
+    // console.log('query result', CreateUserSchema.find({ 'username': userInput }))
+    // if (userInput.includes('@')) {
+    //   return CreateUserSchema.find({ 'email': userInput });
+    // } else {
+      return CreateUserSchema.find({ 'username': userInput });
+    // }
   }
-  update(options, values) {
-    console.log('option at update', options);
-    console.log('values at update', values);
-    let parsedOptions = parseData(options);
-    // let queryString = `UPDATE ${this.tablename} SET ? WHERE ${parsedOptions.string.join(' AND ')}`;
-    // return executeQuery(queryString, Array.prototype.concat(values, parsedOptions.values));
-  }
-  delete(options) {
-    let parsedOptions = parseData(options);
-    let queryString = `DELETE FROM ${this.tablename} WHERE ${parsedOptions.string.join(' AND ')}`;
-    return executeQuery(queryString, parsedOptions.values);
-  }
+
+  // getTwoVar(input1, input2) {
+  //   let userInput1 = parseData(input1).values[0]; //username
+  //   let userInput2 = parseData(input2).values[0]; //email
+
+  //   // console.log('input12', input1, input2)
+  //   return CreateUserSchema.find({'username': userInput1, 'email': userInput2})
+
+  // }
 
 }
 

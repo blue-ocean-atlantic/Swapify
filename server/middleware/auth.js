@@ -17,7 +17,7 @@ const CreateSession = (req, res, next) => {
   }
   next();
 
-  // console.log('req cookie ', req.cookies);
+  console.log('req cookie ', req.cookies);
 };
 
 module.exports = CreateSession;

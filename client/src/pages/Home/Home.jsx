@@ -30,9 +30,13 @@ import axios from 'axios';
 function Home() {
   const [query, setQuery] = useInputState('');
   const navigate = useNavigate();
+
   const handleLogout = () => {
-    axios.get('/logout').then(navigate('/login'));
+    axios.get('/logout').then(navigate('/'));
   }
+
+  const isLoggedIn = document.cookie;
+  console.log('isLoggedIn', isLoggedIn);
 
   const handleSearch = () => {
     navigate(`/results?query=${query.toLowerCase()}`);
@@ -48,17 +52,24 @@ function Home() {
         </Title>
         <Space h={50} />
         <Stack spacing={50}>
-          <Center>
-            <Button radius="xl" size="lg" component={Link} to="/signup">
-              Create an account
-            </Button>
-            <Button radius="xl" size="lg" component={Link} to="/login">
-              Login
-            </Button>
-            <Button radius="xl" size="lg" onClick={() => handleLogout()} >
-              LogOut
-            </Button>
-          </Center>
+          <div>
+            {isLoggedIn
+              ?
+              <Center>
+                <Button radius="xl" size="lg" onClick={() => handleLogout()} >
+                  LogOut
+                </Button>
+              </Center>
+
+              : <Center><Button radius="xl" size="lg" component={Link} to="/signup" onClick={() => checkLoginStatus()} >
+                Create an account
+              </Button>
+                <Button radius="xl" size="lg" component={Link} to="/login">
+                  Login
+                </Button></Center>
+            }
+          </div>
+
           <Container style={{ position: 'relative', width: '70%' }}>
             <TextInput
               size="xl"

@@ -14,12 +14,12 @@ const Login = () => {
     })
     .then((data) =>{
       //when correct email and pw combo, redirect to main page
-      //alert('successful login!');
+      alert('successful login!');
       navigate("/");
-      console.log('userName is passed back', data);
+      // console.log('userName is passed back', data);
     })
     .catch((err) => {
-      console.log('err at login button', err);
+      // console.log('err at login button', err);
       window.alert('incorrect login credential');
       setPassword('')
       setUsername('')
@@ -42,7 +42,6 @@ const Login = () => {
         <button onClick={() => loginbutton()}>Click to Log In</button>
       </div>
     )
-
 }
 
 export default Login;
