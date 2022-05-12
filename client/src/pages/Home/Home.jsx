@@ -30,6 +30,8 @@ import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
 import SearchBar from '../../components/SearchBar/SearchBar.jsx';
+import { v4 as uuidv4 } from 'uuid';
+
 // console.log('🚀 ~ data', data);
 
 function Home() {
@@ -135,10 +137,10 @@ return (
       <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
       <SimpleGrid cols={4} spacing="xl">
         {data.results.map((listing) => (
-          <ListingCard listing={listing} />
+          <ListingCard key={uuidv4()} listing={listing} />
         ))}
         {data.results.map((listing) => (
-          <ListingCard listing={listing} />
+          <ListingCard key={uuidv4()} listing={listing} />
         ))}
       </SimpleGrid>
     </main>

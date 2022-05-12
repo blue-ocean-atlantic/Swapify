@@ -5,4 +5,5 @@ export { default as Home } from './Home/Home.jsx';
 export { default as Login } from './Login/Login.jsx';
 export { default as NewListing } from './NewListing/NewListing.jsx';
 export { default as SearchResults } from './SearchResults/SearchResults.jsx';
+// export { default as SearchResults } from './SearchResults/SearchResults_class.jsx';
 export { default as Signup } from './Signup/Signup.jsx';
