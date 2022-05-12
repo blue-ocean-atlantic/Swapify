@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/messages');
+// mongoose.connect('mongodb://localhost/messages');
 let messageSchema = mongoose.Schema({
   fromUser: String,
   toUser: String,

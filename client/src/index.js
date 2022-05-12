@@ -12,7 +12,8 @@ import {
   Login,
   NewListing,
   SearchResults,
-  Signup
+  Signup,
+  Test
 } from './pages';
 
 
@@ -30,6 +31,7 @@ root.render(
       <Route path="/new" element={<NewListing />} />
       <Route path="/results" element={<SearchResults />} />
       <Route path="/chat" element={<Chat />} />
+      <Route path="/test" element={<Test />} />
     </Routes>
   </BrowserRouter>
 );

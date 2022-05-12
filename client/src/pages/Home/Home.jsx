@@ -12,11 +12,12 @@ import {
   Divider,
 } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import SearchBar from '../../components/SearchBar/SearchBar.jsx';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ListingCard from './ListingCard/ListingCard.jsx';
 import { data } from './dummy';
-import SearchBar from '../../components/SearchBar/SearchBar.jsx';
+// import axios from 'axios';
 // console.log('🚀 ~ data', data);
 
 function Home() {
