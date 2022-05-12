@@ -17,7 +17,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReceivedMessage from './ReceivedMessage.jsx'
 import SentMessage from './SentMessage.jsx';
-// import { data, chats } from './dummy'
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
   month: 'short',
@@ -31,7 +30,7 @@ const formatDate = (dateStr) => {
   return dateTimeFormat.format(new Date(dateStr))
 }
 
-function ChatWindow({ messageList, onMessageSubmit, toUserName }) {
+function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile }) {
 
   const [message, setMessage] = useState(null)
   // const [messageList, setMessageList] = useState([])
@@ -104,7 +103,7 @@ function ChatWindow({ messageList, onMessageSubmit, toUserName }) {
         {
           toUserName &&
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
-            <Avatar radius="xl" size={50} />
+            <Avatar src={toUserProfile} radius="xl" size={50} />
             <Box sx={{ fontSize: '15px' }}>{toUserName}</Box>
           </Box>
         }
@@ -139,7 +138,7 @@ function ChatWindow({ messageList, onMessageSubmit, toUserName }) {
               //   </Group>
               // </Box>
               (userName === toUserName ?
-                <ReceivedMessage createAt={formatDate(createAt)} message={message} key={createAt} />
+                <ReceivedMessage toUserProfile={toUserProfile} createAt={formatDate(createAt)} message={message} key={createAt} />
                 : <SentMessage createAt={formatDate(createAt)} message={message} key={createAt} />)
 
 

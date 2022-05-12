@@ -1,26 +1,19 @@
 import React from 'react';
 import {
-  ActionIcon,
   Avatar,
-  Container,
   Group,
-  Stack,
-  TextInput,
-  Title,
   Box,
-  ScrollArea,
-  Badge,
   Card,
   Text
 } from '@mantine/core';
 
-const ReceivedMessage = ({ createAt, message }) => {
+const ReceivedMessage = ({ createAt, message, toUserProfile }) => {
   return (
     <Box>
       <Box sx={{ display: 'flex', paddingLeft: '6px' }}><span style={{ fontSize: '10px' }}>{createAt}</span></Box>
 
       <Group sx={{ padding: '4px', display: 'flex', alignItems: 'start' }}>
-        <Avatar size={32}
+        <Avatar src={toUserProfile} size={32}
         />
         <Card
           shadow="sm"

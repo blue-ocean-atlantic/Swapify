@@ -18,7 +18,7 @@ const ownerProfileStore = create((set, get) => ({
   updateOwnerProfile: (val) => set({ ownerProfile: val }),
   user1: {
     userName: 'qiqi',
-    profile: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/jon-snow-rhaegar-targaryen-1554321615.jpg?crop=0.482xw:0.962xh;0,0&resize=480:*'
+    profile: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80'
   }
 }));
 

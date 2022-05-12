@@ -1,20 +1,17 @@
 import React from 'react';
 import {
-  ActionIcon,
   Avatar,
-  Container,
   Group,
-  Stack,
-  TextInput,
-  Title,
   Box,
-  ScrollArea,
-  Badge,
   Card,
   Text
 } from '@mantine/core';
 
+import ownerProfileStore from '../../store.js';
+
+
 const SentMessage = ({ createAt, message }) => {
+  const user1 = ownerProfileStore(state => state.user1)
   return (
     <Box>
       <Box sx={{ display: 'flex', paddingLeft: '6px', justifyContent: "end" }}><span style={{ fontSize: '10px' }}>{createAt}</span></Box>
@@ -28,6 +25,7 @@ const SentMessage = ({ createAt, message }) => {
           </Text>
         </Card>
         <Avatar size={32}
+          src={user1.profile}
         />
       </Group>
     </Box>

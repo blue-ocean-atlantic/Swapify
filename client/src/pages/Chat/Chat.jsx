@@ -19,23 +19,28 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
-import { data, chats } from './dummy';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ContactLists from './ContactLists.jsx'
 import ChatWindow from './ChatWindow.jsx';
+import ownerProfileStore from '../../store.js';
 
 
 
 function Chat(props) {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState()
+  //fake login user
+  const user1 = ownerProfileStore(state => state.user1)
+
+  //const [userName, setUserName] = useState()
+  const userName = user1.userName
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
+  const [toUserProfile, setToUserProfile] = useState()
 
   // TODO delete this later
-  const [textUserNameInput, setTextUserNameInput] = useState()
+  //const [textUserNameInput, setTextUserNameInput] = useState()
 
   const toUserNameRef = useRef(toUserName)
 
@@ -114,11 +119,15 @@ function Chat(props) {
     setToUserName(toUserName)
   }
 
-  const handleLoginClick = (e) => {
-    e.preventDefault();
-    setUserName(textUserNameInput)
-    // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  const handleUserProfile = (profile) => {
+    setToUserProfile(profile)
   }
+
+  // const handleLoginClick = (e) => {
+  //   e.preventDefault();
+  //   setUserName(textUserNameInput)
+  //   // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  // }
 
   return (
     <>
@@ -135,10 +144,12 @@ function Chat(props) {
             >
               Back
             </Button>
-            <form onSubmit={e => handleLoginClick(e)}>
+
+            {/* <form onSubmit={e => handleLoginClick(e)}>
               <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
-            </form>
+            </form> */}
+
             <Text sx={{ marginLeft: '10px' }}>
               Logged in as: {userName}
             </Text>
@@ -159,6 +170,7 @@ function Chat(props) {
                   onContactClick={handleContactClick}
                   pendingUserMessages={pendingUserMessages}
                   loginUser={userName}
+                  handleUserProfile={handleUserProfile}
                 />
               </Container>
             </Grid.Col>
@@ -167,6 +179,7 @@ function Chat(props) {
                 messageList={toUserMessageList}
                 onMessageSubmit={handleMessageSubmit}
                 toUserName={toUserName}
+                toUserProfile={toUserProfile}
               />
             </Grid.Col>
           </Grid>

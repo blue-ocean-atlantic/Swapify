@@ -9,7 +9,7 @@ import {
   Group
 } from '@mantine/core';
 
-import { getUserLists, addNewToUser } from './getChatInfo.js'
+import { getUserLists, addNewToUser, getUserProfiles } from './getChatInfo.js'
 
 import {
   faChevronRight,
@@ -22,19 +22,26 @@ import ownerProfileStore from '../../store.js';
 //const userNames = ['qiqi', 'eric', 'wendy']
 
 
-const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
+const ContactLists = ({ pendingUserMessages, onContactClick, loginUser, handleUserProfile }) => {
   const [activeChatUserName, setActiveChatUserName] = useState()
   const [userNames, setUserNames] = useState([])
+  const [userInfos, setUserInfos] = useState([])
 
   const ownerProfileInfo = ownerProfileStore(state => state.ownerProfile);
-
-  //fake login user
-  const user1 = ownerProfileStore(state => state.user1)
 
   const handleContactClick = (userName) => {
     setActiveChatUserName(userName)
     onContactClick(userName)
+    handleUserProfile(userInfos.filter(x => x.userName === userName)[0] ? userInfos.filter(x => x.userName === userName)[0].profile : '')
   }
+
+  useEffect(() => {
+    addNewToUser(ownerProfileInfo.toUserName, ownerProfileInfo.toUserProfile)
+  }, [ownerProfileInfo.toUserName, ownerProfileInfo.toUserProfile])
+
+  useEffect(() => {
+    getUserProfiles(userNames).then(({ data }) => setUserInfos(data))
+  }, [userNames])
 
   useEffect(() => {
     getUserLists(loginUser)
@@ -58,7 +65,7 @@ const ContactLists = ({ pendingUserMessages, onContactClick, loginUser }) => {
               <Button variant="subtle" size="xl" radius="lg" onClick={() => handleContactClick(userName)}>
                 <Group>
                   <Indicator inline label={pendingCount} size={16} disabled={!pendingCount}>
-                    <Avatar radius="xl" />
+                    <Avatar src={userInfos.filter(x => x.userName === userName)[0] ? userInfos.filter(x => x.userName === userName)[0].profile : ''} radius="xl" />
                   </Indicator>
                   <Text>{userName}</Text>
                   <FontAwesomeIcon size="xs" icon={faChevronRight} />

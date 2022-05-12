@@ -40,6 +40,17 @@ app.get('/userLists', (req, res) => {
   })
 })
 
+app.get('/getUserProfiles', (req, res) => {
+  const { userNames } = req.query;
+  if (userNames) {
+    ChatLogin.find({ 'userName': { $in: userNames } }).then((data) => {
+      res.send(data.map(x => ({ userName: x.userName, profile: x.profile })))
+    })
+  } else {
+    res.send([])
+  }
+})
+
 app.get('/getChatInfo', (req, res) => {
   const { userName, toUser } = req.query;
   //console.log(toUser, userName)
@@ -48,15 +59,15 @@ app.get('/getChatInfo', (req, res) => {
   })
 })
 
-// app.post('/addNewToUser', (req, res) => {
-//   const { userName, profile } = req.query
-//   ChatLogin.findOneAndUpdate({ userName }, { profile }).then(data => {
-//     if (!data) {
-//       let chatlogin = new ChatLogin({ userName, profile })
-//       chatlogin.save().then(() => { })
-//     }
-//   })
-// })
+app.post('/addNewToUser', (req, res) => {
+  const { userName, profile } = req.query
+  ChatLogin.findOneAndUpdate({ userName }, { profile }).then(data => {
+    if (!data) {
+      let chatlogin = new ChatLogin({ userName, profile })
+      chatlogin.save().then(() => { })
+    }
+  })
+})
 
 //socket
 io.on('connection', socket => {
