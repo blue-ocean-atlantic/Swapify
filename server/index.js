@@ -52,19 +52,19 @@ app.post('/login', async (req, res, next) => {
   var password = req.body.password;
   console.log('post login req', req.body.username)
   return await Users.get({ username })
-  .then(result => {
-    console.log('result at post login', result)
-    if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
-      throw new Error('UserName and password do not match');
-    } else {
-      res.cookie("userName", username)
-      res.send(result[0].username);
-    }
-  })
-  .catch(error => {
-    console.log('hi error', error);
-    res.redirect(308, '/')
-  })
+    .then(result => {
+      // console.log('result at post login', result)
+      if (!result.length || !Users.compare(password, result[0].password, result[0].salt)) {
+        throw new Error('UserName and password do not match');
+      } else {
+        res.cookie("userName", username)
+        res.send(result[0].username);
+      }
+    })
+    .catch(error => {
+      console.log('hi error', error);
+      res.redirect(308, '/')
+    })
 
 });
 
@@ -75,18 +75,18 @@ app.post('/signup', (req, res, next) => {
   var zipCode = req.body.values.zipCode;
   var username = req.body.values.username;
   var password = req.body.values.password;
-  console.log('req.username', username);
-  return Users.get({ username})
+
+  return Users.get({ username, email })
     .then(result => {
-      console.log('result', result)
       if (result[0]) {
-        console.log('email or username already exists')
+        // console.log('result', result)
+        // console.log('email or username already exists')
         res.write('fail')
         res.end()
       } else {
         Users.create({ firstName, lastName, email, zipCode, username, password })
           .then(result => {
-            console.log('profile created successfully')
+            // console.log('profile created successfully')
             res.write('success');
             res.end();
           })
@@ -102,11 +102,11 @@ app.post('/signup', (req, res, next) => {
 });
 
 app.get('/test', (req, res, next) => {
-  if(req.cookies.userName === '') {
+  if (req.cookies.userName === '') {
     res.sendStatus(401);
-    console.log('no cookies');
+    console.log('TEST ROUTE: currently no usrename');
   }
-  console.log('TEST ROUTE current userName', req.cookies.userName);
+  console.log('TEST ROUTE: current userName', req.cookies.userName);
 })
 
 // app.get('/', (req, res, next) => {
@@ -119,8 +119,8 @@ app.get('/test', (req, res, next) => {
 // })
 
 app.get('/logout', (req, res, next) => {
-      res.clearCookie('userName');
-      next();
+  res.clearCookie('userName');
+  next();
 });
 /* === Routes === */
 
