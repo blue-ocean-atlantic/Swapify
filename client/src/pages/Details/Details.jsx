@@ -32,7 +32,6 @@ function Details() {
   const ownerProfileUpdate = ownerProfileStore(state => state.updateOwnerProfile);
 
   useEffect(() => {
-<<<<<<< HEAD
     axios.get(`http://localhost:3001/api/listing/?id=${listingId}`)
       .then((results) => {
         console.log(results.data)
@@ -55,24 +54,6 @@ function Details() {
       })
       .catch((err) => console.log(err))
   }, []);
-=======
-    setType(listingInfo.typeOfTranscation);
-    setImages(listingInfo.listingImages);
-    setTitle(listingInfo.listingTitle);
-    setCategory(listingInfo.listingCategory);
-    setCondition(listingInfo.listingCondition);
-    setDescription(listingInfo.listingDescription);
-    setAvailableDate(listingInfo.availableDate);
-    setPostTime(listingInfo.postTime);
-    setLocation(listingInfo.location);
-    setProfilePhoto(ownerProfile.profilePicture);
-    setFirstName(ownerProfile.profileFirstName);
-    setLastName(ownerProfile.profileLastName);
-    setProfileDescription(ownerProfile.profileDescription);
-    setRating(ownerProfile.profileRatings);
-    ownerProfileUpdate({ toUserName: ownerProfile.username, toUserProfile: ownerProfile.profilePicture })
-  });
->>>>>>> main
 
   return (
     <div className="details-page">
