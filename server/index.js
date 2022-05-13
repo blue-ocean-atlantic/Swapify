@@ -14,7 +14,7 @@ const CreateSession = require('./middleware/auth');
 const CookiesParser = require('./middleware/cookieParser');
 
 const http = require('http');
-// const socketio = require('socket.io');
+const socketio = require('socket.io');
 const cors = require('cors');
 const bp = require('body-parser');
 
@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 3000;
 /* === Instanced Modules === */
 const app = express();
 const server = http.createServer(app);
-// const io = socketio(server);
+const io = socketio(server);
 
 /* === Middleware === */
 app.use(express.json());
@@ -160,43 +160,44 @@ app.post('/addNewToUser', (req, res) => {
   })
 })
 
-//socket
-// io.on('connection', socket => {
-//   // console.log(`${socket.id} connected`)
-//   socket.emit('success', `${socket.id} connected`)
-//   socket.on('disconnect', () => {
-//     io.emit('quit', `${socket.id} disconnected`)
-//   })
+io.on('connection', socket => {
+  //console.log(`${socket.id} connected`)
+  socket.emit('success', `${socket.id} connected`)
+  socket.on('disconnect', () => {
+    io.emit('quit', `${socket.id} disconnected`)
+  })
 
-//   socket.on('login', (userInfo) => {
-//     const socketId = userInfo.userId;
-//     const { createAt, userName } = userInfo
-//     ChatLogin.findOneAndUpdate({ userName }, { socketId, createAt }).then(data => {
-//       if (!data) {
-//         let chatlogin = new ChatLogin({ userName, socketId, createAt })
-//         chatlogin.save().then(() => { })
-//       }
-//     })
+  socket.on('login', (userInfo) => {
+    console.log('userInfo=', userInfo)
 
-//     socket.emit('login', `${socket.id} logged in`)
-//   })
+    const socketId = userInfo.userId;
+    const { createAt, userName } = userInfo
+    ChatLogin.findOneAndUpdate({ userName }, { socketId, createAt }).then(data => {
+      if (!data) {
+        let chatlogin = new ChatLogin({ userName, socketId, createAt })
+        chatlogin.save().then(() => { })
+      }
+    })
 
-//   socket.on('sendMessage', ({ message, toUserName, createAt, userName }) => {
-//     let msg = new Message({
-//       fromUser: userName,
-//       toUser: toUserName,
-//       message,
-//       createAt
-//     })
-//     msg.save().then(() => { })
-//     ChatLogin.findOne({ userName: toUserName }).then(data => {
-//       // console.log(data)
-//       const toUserId = data.socketId;
-//       socket.to(toUserId).emit('receiveMessage', { createAt, message, userName })
-//       //console.log({ message, toUserId, toUserName, createAt, userName })
-//     })
-//   })
-// })
+    socket.emit('login', `${socket.id} logged in`)
+  })
+
+  socket.on('sendMessage', ({ message, toUserName, createAt, userName }) => {
+    let msg = new Message({
+      fromUser: userName,
+      toUser: toUserName,
+      message,
+      createAt
+    })
+    msg.save().then(() => { })
+    ChatLogin.findOne({ userName: toUserName }).then(data => {
+      // console.log(data)
+      const toUserId = data.socketId;
+      socket.to(toUserId).emit('receiveMessage', { createAt, message, userName })
+      //console.log({ message, toUserId, toUserName, createAt, userName })
+    })
+  })
+})
 
 
 
