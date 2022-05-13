@@ -28,7 +28,7 @@ function ListingCard({ listing, displayLocation = false }) {
         })}
       >
         <Card.Section>
-          <Image height={160} src={listing.image_url} />
+          <Image height={160} src={listing.images_urls[0]} />
           <Badge
             variant="light"
             color={listing.type === 'favor' ? 'violet' : 'blue'}

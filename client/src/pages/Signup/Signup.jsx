@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator';
-import { useNavigate, Link } from "react-router-dom";
+import {
+  postcodeValidator,
+  postcodeValidatorExistsForCountry,
+} from 'postcode-validator';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Button,
@@ -12,7 +15,7 @@ import {
   TextInput,
   Title,
   Group,
-  PasswordInput
+  PasswordInput,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -20,20 +23,32 @@ import { z } from 'zod';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 
 const schema = z.object({
-  firstName: z.string().min(1, { message: 'Name should have at least 1 letter' }),
-  lastName: z.string().min(1, { message: 'Name should have at least 1 letter' }),
-  zipCode: z.string().min(5, { message: 'Zipcode should consist of 5 numbers' }),
-  username: z.string().min(5, { message: 'user name should consist of at least 5 letters' }),
+  firstName: z
+    .string()
+    .min(1, { message: 'Name should have at least 1 letter' }),
+  lastName: z
+    .string()
+    .min(1, { message: 'Name should have at least 1 letter' }),
+  zipCode: z
+    .string()
+    .min(5, { message: 'Zipcode should consist of 5 numbers' }),
+  username: z
+    .string()
+    .min(5, { message: 'user name should consist of at least 5 letters' }),
   email: z.string().email({ message: 'Must input a valid email address' }),
-  password: z.string().min(5, { message: 'Password should have at least 5 characters' }),
-  passwordConfirm: z.string().min(2, { message: 'Password should have at least 5 characters' }),
+  password: z
+    .string()
+    .min(5, { message: 'Password should have at least 5 characters' }),
+  passwordConfirm: z
+    .string()
+    .min(2, { message: 'Password should have at least 5 characters' }),
 });
 
 function Signup() {
   const navigate = useNavigate();
-  const [zipError, setZipError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [zipError, setZipError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const form = useForm({
     initialValues: {
       firstName: '',
@@ -51,34 +66,35 @@ function Signup() {
     console.log('signupbutton data:', values);
 
     if (values.password !== values.passwordConfirm) {
-      setPasswordError('passwords do not match.')
+      setPasswordError('passwords do not match.');
       return;
     } else {
-      setPasswordError('')
+      setPasswordError('');
     }
     if (!postcodeValidator(`${values.zipCode}`, 'US')) {
-      setZipError('invalid zipCode')
+      setZipError('invalid zipCode');
       return;
     } else {
-      setZipError('')
+      setZipError('');
     }
     delete values['passwordConfirm'];
 
-    axios.post('/signup', {values})
+    axios
+      .post('http://localhost:3005/signup', { values })
       .then((data) => {
         console.log('data from server:', data);
         if (data.data === 'fail') {
-          alert('Email or username already exists, choose a different one!')
-          window.location = '/';
+          alert('Email or username already exists, choose a different one!');
+          // navigate('/');
         } else if (data.data === 'success') {
-          alert('Profile Created!');
-          window.location = '/';
+          // alert('Profile Created!');
+          navigate('/');
         }
       })
       .catch((err) => {
         console.log('err at signup', err);
-      })
-  }
+      });
+  };
 
   return (
     <>
@@ -92,10 +108,8 @@ function Signup() {
         <Title order={1}>Sign-up</Title>
         <Space h="lg" />
         <Stack align="center">
-          <form
-            onSubmit={form.onSubmit(signupbutton)}
-          >
-            <Group >
+          <form onSubmit={form.onSubmit(signupbutton)}>
+            <Group>
               <TextInput
                 size="lg"
                 label="First Name"
@@ -148,7 +162,7 @@ function Signup() {
             />
             <Space h="lg" />
             <Space h="lg" />
-            <Button type="submit" >Submit</Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Stack>
       </Container>
