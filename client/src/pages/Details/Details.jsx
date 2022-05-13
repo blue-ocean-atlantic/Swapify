@@ -29,30 +29,47 @@ function Details() {
   const [rating, setRating] = useState([]);
   const [location, setLocation] = useState('');
   const [email, setEmail] = useState('');
+  const [userInfo, setUserInfo] = useState('');
+  const [ownerId, setOwnerId] = useState('');
   const ownerProfileUpdate = ownerProfileStore(state => state.updateOwnerProfile);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/listing/?id=${listingId}`)
-      .then((results) => {
-        // console.log(results.data)
-        setType(results.data.type);
-        setImages(results.data.image_urls);
-        setTitle(results.data.title);
-        setCategory(results.data.category);
-        setCondition(results.data.condition);
-        setDescription(results.data.description);
-        setAvailableDate(results.data.available_date);
-        setPostTime(listingInfo.postTime);
-        setLocation(results.data.zipcode);
-        setProfilePhoto(results.data.donor[0].photo_url);
-        setFirstName(results.data.donor[0].first_name);
-        setLastName(results.data.donor[0].last_name);
-        setProfileDescription(results.data.donor[0].bio);
-        setRating(results.data.donor[0].ratings);
-        setEmail(results.data.donor[0].email);
-        ownerProfileUpdate({toUserName: results.data.donor[0].username, toUserProfile: results.data.donor[0].photo_url})
-      })
-      .catch((err) => console.log(err))
+    const username = document.cookie.split('=')[1];
+
+    const fetchData = async () => {
+         await axios.get(`http://localhost:3005/api/listing/?id=${listingId}`)
+          .then((results) => {
+            console.log('listing data', results.data)
+            setType(results.data.type);
+            setImages(results.data.image_urls);
+            setTitle(results.data.title);
+            setCategory(results.data.category);
+            setCondition(results.data.condition);
+            setDescription(results.data.description);
+            setAvailableDate(results.data.available_date);
+            setPostTime(listingInfo.postTime);
+            setLocation(results.data.zipcode);
+            setProfilePhoto(results.data.donor[0].photo_url);
+            setFirstName(results.data.donor[0].first_name);
+            setLastName(results.data.donor[0].last_name);
+            setProfileDescription(results.data.donor[0].bio);
+            setRating(results.data.donor[0].ratings);
+            setEmail(results.data.donor[0].email);
+            setOwnerId(results.data.donor[0].user_id);
+            ownerProfileUpdate({toUserName: results.data.donor[0].username, toUserProfile: results.data.donor[0].photo_url})
+          })
+          .catch((err) => console.log(err))
+        await axios.get(`http://localhost:3005/api/username?username=${username}`)
+          .then((user) => {
+            if (user.data[0] === undefined) {
+              user.data[0] = {first_name: '', last_name: '', email:'', user_id: 0}
+            }
+            console.log('user info', user.data[0])
+            setUserInfo(user.data[0])
+          })
+          .catch((err) => console.log(err))
+    }
+    fetchData();
   }, []);
 
   return (
@@ -68,6 +85,15 @@ function Details() {
             condition={condition}
             availableDate={availableDate}
             postTime={postTime}
+            ownerEmail={email}
+            userFirstName={userInfo.first_name}
+            userLastName={userInfo.last_name}
+            userEmail={userInfo.email}
+            location={location}
+            ownerFirstName={firstName}
+            ownerLastName={lastName}
+            receiver_id={userInfo.user_id}
+            donor_id={ownerId}
           /></Grid.Col>
           <Grid.Col span={8}><Description description={description} location={location} /></Grid.Col>
           <Grid.Col span={4}><OwnerProfile
