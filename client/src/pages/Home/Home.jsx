@@ -43,7 +43,7 @@ function Home() {
 
     const getUser = async () => {
       try {
-        const user = await axios.get('/api/user', { params: { id } }); // -> { userinfo }
+        const user = await axios.get('http://localhost:3005/api/user', { params: { id } }); // -> { userinfo }
         setUserInfo(user.data);
       } catch (error) {
         console.log(error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Map, Marker } from "pigeon-maps";
-import test_searchResults from './testdata';
+// import test_searchResults from './testdata';
+import test_searchResults from './testdata2';
 import { Grid, SimpleGrid, Space, ScrollArea } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
 import ListingCard from '../Home/ListingCard/ListingCard.jsx'; // if home page cards includes zipcode & dist to center, use these
@@ -17,30 +18,41 @@ function SearchResults(props) {
   const [query, setQuery] = useState('');
   const [zipcode, setZipcode] = useState('');
 
-
   const selectedMarker = (zipcode) => {
     // console.log(zipcode)
     setSelected_marker(zipcode);
   };
 
   useEffect(() => {
-    // const func = async () => {
-
-    // }
     // obtain query, zipcode center, radius from center from url parameters
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     setQuery(urlParams.get('query'));
     setZipcode(urlParams.get('zipcode')); // || midpoint from cards
     const radius = urlParams.get('radius') || 5; // check, or hardcode const radius = 5
+    // console.log(window.location.search)
 
-    axios.get('/api/listings', {
-      params: {
-        query, zipcode, radius
-      }
-    })
-    .then(response => console.log('good here: ', response));
-    
+    // axios.get('/api/listings', {
+    //   params: {
+    //     query, zipcode, radius
+    //   }
+    // })
+    //   .then(response => console.log('good here: ', response.data));
+
+    // const getResults = async () => {
+    //   try {
+    //     const results = await axios.get('http://localhost:3005/api/listings', {
+    //       params: {
+    //         query, zipcode, radius
+    //       }
+    //     });
+    //     setSearchResults(results.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // getResults();
+
     // filter to only include posts within radius
     var filtered = test_searchResults.results.filter(post => post.distance < radius);
     var postList = filtered.sort((a, b) => { return (a.distance - b.distance) });
@@ -98,7 +110,7 @@ function SearchResults(props) {
                     }
                   </Map>
                 </div>
-                {selected_marker ? `zip: ${selected_marker}` : null}
+                <h3>{selected_marker ? `zip: ${selected_marker}` : null}</h3>
               </Grid.Col>
               <Grid.Col span={4}>
                 <div className='scroll' >

@@ -25,7 +25,7 @@ function NavBar({ disableSearch = false }) {
     const username = document.cookie.split('=')[1];
     const getUser = async () => {
       try {
-        const user = await axios.get('/api/users', { username }); // -> { userinfo }
+        const user = await axios.get('http://localhost:3005/api/user', { username }); // -> { userinfo }
         setUserinfo(user.data);
       } catch (error) {
         //console.log(error);
