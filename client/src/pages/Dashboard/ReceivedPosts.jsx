@@ -17,7 +17,7 @@ function ReceivedPosts() {
 
       return (
         <Container key={listing.listing_id} style={{ display: "flex", minHeight: "110px", width: "550px", margin: "5px 0px", justifyContent: "space-between", backgroundColor: "white", borderRadius: "5px", alignItems: "center" }}>
-          <img style={{ height: "100px", width: "100px" }} src={listing.image_urls[0]} component={Link} to={`/details/${listing.listing_id}`}></img>
+          <img style={{ height: "100px", width: "100px" }} src={listing.images_urls[0]} component={Link} to={`/details/${listing.listing_id}`}></img>
           <div style={{ minHeight: "100px", width: "400px" }}>
             <Title order={3} component={Link} to={`/details/${listing.listing_id}`}>
               {listing.title}
