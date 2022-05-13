@@ -6,9 +6,12 @@ import { IKContext, IKUpload } from 'imagekitio-react';
 import axios from 'axios';
 
 import dashStore from './dashStore.js';
+import Rating from '../Details/Rating.jsx';
+import '../Details/Rating.scss';
 import './UserInfo.scss';
 
 function UserInfo({ userInfo }) {
+  console.log(userInfo)
 
   const [showEdit, toggleShowEdit] = useToggle(false, [false, true]);
 
@@ -31,18 +34,26 @@ function UserInfo({ userInfo }) {
     // Maybe trigger a refresh or rerender to allow new profile image to be shown on page?
   };
 
-  const avgRatings = (arrRating) => {
-    if (arrRating.length === 0) {
-      return "No Ratings";
-    } else {
-      const sum = 0;
-      arrRating.forEach((rate) => {
-        sum += rate;
-      })
-      const avg = sum / arrRating.length;
-      return avg;
-    }
+  const avgRatings = (rating) => {
+    // if (arrRating.length === 0) {
+    //   return "No Ratings";
+    // } else {
+    //   const sum = 0;
+    //   arrRating.forEach((rate) => {
+    //     sum += rate;
+    //   })
+    //   const avg = sum / arrRating.length;
+    //   return avg;
+    // }
   };
+
+  let ratingStar = 0;
+  if (Object.keys(userInfo).length !== 0) {
+    if (userInfo.ratings.length !== 0) {
+      ratingStar = (userInfo.ratings.reduce(add, 0)) / userInfo.ratings.length;
+
+    }
+  }
 
   return (
     <div>
@@ -87,7 +98,7 @@ function UserInfo({ userInfo }) {
       </Button>
       <div className="user-info">
         <h4>username: {userInfo.username}</h4>
-        <h3>{userInfo.ratings} out of 5 stars</h3>
+        <Rating rating={ratingStar} size="20px" />
       </div>
     </div>
   );
