@@ -152,6 +152,7 @@ app.get('/getChatInfo', (req, res) => {
 
 app.post('/addNewToUser', (req, res) => {
   const { userName, profile } = req.query
+  //console.log(userName, profile)
   ChatLogin.findOneAndUpdate({ userName }, { profile }).then(data => {
     if (!data) {
       let chatlogin = new ChatLogin({ userName, profile })
@@ -168,7 +169,7 @@ io.on('connection', socket => {
   })
 
   socket.on('login', (userInfo) => {
-    console.log('userInfo=', userInfo)
+    //console.log('userInfo=', userInfo)
 
     const socketId = userInfo.userId;
     const { createAt, userName } = userInfo

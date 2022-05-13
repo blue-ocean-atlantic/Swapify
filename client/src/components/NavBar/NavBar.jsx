@@ -20,6 +20,10 @@ function NavBar({ disableSearch = false }) {
   const loggedIn = document.cookie.split('=')[1];
   //console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
   const navigate = useNavigate();
+  const handleLogout = () => {
+    axios.get('/logout')
+      .then(navigate('/'));
+  }
 
   useEffect(() => {
     const username = document.cookie.split('=')[1];
@@ -106,6 +110,7 @@ function NavBar({ disableSearch = false }) {
                   // component={Link}
                   // to="/logout"
                   onClick={() => {
+                    handleLogout();
                     console.log('Handle Logout');
                   }}
                   icon={<FontAwesomeIcon icon={faRightFromBracket} />}
