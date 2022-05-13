@@ -1,7 +1,7 @@
 export const data = {
   results: [
     {
-      listing_id: 123,
+      listing_id: 1,
       type: 'swap', // "swap" or "favor"
       title: 'Chair',
       description:
@@ -15,7 +15,7 @@ export const data = {
       distance: 3.6,
     },
     {
-      listing_id: 124,
+      listing_id: 2,
       type: 'favor', // "swap" or "favor"
       title: 'Snake Removal',
       description:

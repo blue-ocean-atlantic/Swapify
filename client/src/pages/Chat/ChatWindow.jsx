@@ -30,7 +30,7 @@ const formatDate = (dateStr) => {
   return dateTimeFormat.format(new Date(dateStr))
 }
 
-function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile }) {
+function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile, loginUserProfile }) {
 
   const [message, setMessage] = useState('')
   // const [messageList, setMessageList] = useState([])
@@ -141,7 +141,7 @@ function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile })
               // </Box>
               (userName === toUserName ?
                 <ReceivedMessage toUserProfile={toUserProfile} createAt={formatDate(createAt)} message={message} key={createAt} />
-                : <SentMessage createAt={formatDate(createAt)} message={message} key={createAt} />)
+                : <SentMessage loginUserProfile={loginUserProfile} createAt={formatDate(createAt)} message={message} key={createAt} />)
 
 
               )

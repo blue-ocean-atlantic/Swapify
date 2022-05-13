@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Image, Text, Badge, Button, Group, useMantineTheme, Spoiler, Avatar, Space} from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, useMantineTheme, Spoiler, Avatar, Space } from '@mantine/core';
 import Rating from './Rating.jsx';
 
 function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, rating }) {
@@ -21,7 +21,7 @@ function OwnerProfile({ profilePhoto, firstName, lastName, profileDescription, r
   return (
     <div style={{ width: 340, margin: 'auto' }}>
       <h2>Meet the owner/provider</h2>
-      <Space h="lg"/>
+      <Space h="lg" />
       <Card p="xl" radius="md">
         <Card.Section sx={{ backgroundImage: `url(https://i.pinimg.com/originals/8d/4e/17/8d4e17743cd519366c861b8db007284a.jpg)`, height: 140 }} />
         <Avatar src={profilePhoto} size={100} radius={100} mx="auto" mt={-50} />

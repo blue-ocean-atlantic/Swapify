@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import {
   Button,
@@ -69,10 +69,10 @@ function Signup() {
         console.log('data from server:', data);
         if (data.data === 'fail') {
           alert('Email or username already exists, choose a different one!')
-          window.location = '/signup';
+          window.location = '/';
         } else if (data.data === 'success') {
           alert('Profile Created!');
-          window.location = '/login';
+          window.location = '/';
         }
       })
       .catch((err) => {
@@ -148,7 +148,7 @@ function Signup() {
             />
             <Space h="lg" />
             <Space h="lg" />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" >Submit</Button>
           </form>
         </Stack>
       </Container>
