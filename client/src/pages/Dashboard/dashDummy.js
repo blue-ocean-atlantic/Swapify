@@ -51,17 +51,13 @@ const active = [
 
 const given = [
   {
-    post_id: 2,
+    listing_id: 2,
     title: "lamp",
-    message: "Legend says there's a genie inside",
+    description: "Legend says there's a genie inside",
     rating: 2,
-    images: [
-      {
-        thumbnail_url: "https://m.media-amazon.com/images/I/716pdiOH2uL._AC_SX679_.jpg"
-      },
-      {
-        thumbnail_url: "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/The_Genie_Aladdin.png/220px-The_Genie_Aladdin.png"
-      }
+    image_urls: [
+      "https://m.media-amazon.com/images/I/716pdiOH2uL._AC_SX679_.jpg",
+      "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/The_Genie_Aladdin.png/220px-The_Genie_Aladdin.png"
     ]
   }
 ]

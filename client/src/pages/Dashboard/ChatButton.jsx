@@ -10,6 +10,8 @@ import { Button } from '@mantine/core';
 
 function ChatButton() {
 
+  // DUE TO TIME CONSTARINTS - we were unable to generate the data necessary to dynamically render unread message
+
   // const allChats = dashStore((state) => state.allChats);
   let unreadChats = 0;
 
@@ -31,7 +33,8 @@ function ChatButton() {
   return (
     <Button color="blue" radius="md" size="md" component={Link}
       to="/chat">
-      CHATS! ({unreadChats} unread)
+      CHATS!
+      {/* ({unreadChats} unread) */}
     </Button>
   );
 }
