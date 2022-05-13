@@ -8,30 +8,31 @@ import {
   Group,
   Stack,
   TextInput,
-  Title,
-  Box
+  Box,
+  ScrollArea,
 } from '@mantine/core';
 import {
   faCircleArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { data, chats } from './dummy'
+import ReceivedMessage from './ReceivedMessage.jsx'
+import SentMessage from './SentMessage.jsx';
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
   month: 'short',
   day: 'numeric',
   hour: 'numeric',
-  minute: 'numeric'
+  minute: 'numeric',
+  weekday: 'short'
 })
 
 const formatDate = (dateStr) => {
   return dateTimeFormat.format(new Date(dateStr))
 }
 
-function ChatWindow({ messageList, onMessageSubmit }) {
+function ChatWindow({ messageList, onMessageSubmit, toUserName, toUserProfile }) {
 
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState('')
   // const [messageList, setMessageList] = useState([])
 
   // useEffect(() => {
@@ -77,8 +78,20 @@ function ChatWindow({ messageList, onMessageSubmit }) {
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    onMessageSubmit(message)
+    onMessageSubmit(message);
+    setMessage('')
+
   }
+
+  // const avatar = (
+  //   <Avatar
+  //     alt="Avatar for badge"
+  //     size={32}
+  //     mr={5}
+  //     src="image-link"
+  //   />
+  // );
+
 
   return (
     <Container
@@ -88,7 +101,15 @@ function ChatWindow({ messageList, onMessageSubmit }) {
         borderRadius: 15,
       }}
     >
-      <Title p={15}>Message</Title>
+      <Box sx={{ display: 'flex', alignItems: 'center', paddingTop: '8px' }}>
+        {
+          toUserName &&
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+            <Avatar src={toUserProfile} radius="xl" size={50} />
+            <Box sx={{ fontSize: '15px' }}>{toUserName}</Box>
+          </Box>
+        }
+      </Box>
       <Group
         grow
         position="apart"
@@ -99,18 +120,37 @@ function ChatWindow({ messageList, onMessageSubmit }) {
         }}
       >
         <Stack justify="flex-end" style={{ height: '100%', padding: 15 }}>
-          {
-            // messageList.filter((x) => x.userName === toUserName || x.userName === userName)
-            messageList.map(({ createAt, message, userName }) => (
-              <Group key={createAt}>
-                <Avatar radius="xl" />
-                <p>{userName} {formatDate(createAt)} {message}</p>
-              </Group>
-            ))
-          }
+          <ScrollArea>
+            {
+              messageList.map(({ createAt, message, userName }) =>
+              // <Box key={createAt}>
+              //   <Box sx={{ display: 'flex', paddingLeft: '6px' }}><span style={{ fontSize: '10px' }}>{formatDate(createAt)}</span></Box>
+
+              //   <Group sx={{ padding: '4px', display: 'flex', alignItems: 'start' }}>
+              //     <Avatar size={32}
+              //     />
+              //     <Card
+              //       shadow="sm"
+              //       style={{ backgroundColor: '#E4F4FD', padding: '5px 10px 5px 10px', maxWidth: '40%' }}
+              //     >
+              //       <Text >
+              //         {message}
+              //       </Text>
+              //     </Card>
+              //   </Group>
+              // </Box>
+              (userName === toUserName ?
+                <ReceivedMessage toUserProfile={toUserProfile} createAt={formatDate(createAt)} message={message} key={createAt} />
+                : <SentMessage createAt={formatDate(createAt)} message={message} key={createAt} />)
+
+
+              )
+            }
+          </ScrollArea>
           <form onSubmit={e => handleMessageSubmit(e)} >
             <TextInput
               onChange={e => setMessage(e.target.value)}
+              value={message}
               radius="xl"
               placeholder="Message"
               rightSection={

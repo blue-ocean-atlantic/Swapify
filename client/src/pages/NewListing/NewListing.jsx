@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { z } from 'zod';
+import axios from 'axios';
+import uuid from 'react-uuid';
 import {
   Button,
   Center,
@@ -18,10 +20,7 @@ import {
 } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
-import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-// import { IKImage, IKContext, IKUpload } from 'imagekitio-react';
-import axios from 'axios';
-import uuid from 'react-uuid';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import { categories, conditions } from './categories.js';
@@ -67,7 +66,7 @@ function NewListing() {
     ) : (
       <SimpleGrid style={{ minHeight: 220, pointerEvents: 'none' }} cols={4}>
         {uploadedImages.map((url) => (
-          <Center>
+          <Center key={url}>
             <Image height={100} width={100} key={uuid()} src={url} />
           </Center>
         ))}

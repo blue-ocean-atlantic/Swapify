@@ -7,3 +7,5 @@ export { default as NewListing } from './NewListing/NewListing.jsx';
 export { default as SearchResults } from './SearchResults/SearchResults.jsx';
 // export { default as SearchResults } from './SearchResults/SearchResults_class.jsx';
 export { default as Signup } from './Signup/Signup.jsx';
+export { default as Test } from './Test/Test.jsx';
+

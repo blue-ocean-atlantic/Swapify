@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/messages');
+// mongoose.connect('mongodb://localhost/messages');
 let messageSchema = mongoose.Schema({
   fromUser: String,
   toUser: String,
@@ -10,7 +10,8 @@ let messageSchema = mongoose.Schema({
 let chatLoginSchema = mongoose.Schema({
   createAt: String,
   userName: String,
-  socketId: String
+  socketId: String,
+  profile: String
 });
 
 let Message = mongoose.model('message', messageSchema);
