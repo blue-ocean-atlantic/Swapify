@@ -60,3 +60,30 @@ main {
   // margin-top: 86px;
   height: 100%;
 }
+
+.map {
+  height: 60vh;
+  width: 100%;
+  border: 1px solid grey;
+  // background-color: aquamarine;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.scroll {
+  height: 60vh;
+  // width: 100%;
+  // border: 1px solid grey;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.search_title {
+  display: flex;
+  flex-direction: column;
+}
+
+.search_container {
+  display: flex;
+  justify-content: center;
+}

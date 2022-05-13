@@ -3,9 +3,9 @@ import { Map, Marker } from "pigeon-maps";
 import test_searchResults from './testdata';
 import { Grid, SimpleGrid, Space, ScrollArea } from '@mantine/core';
 import { v4 as uuidv4 } from 'uuid';
-// import ListingCard from '../Home/ListingCard/ListingCard.jsx'; // if home page cards includes zipcode & dist to center, use these
+import ListingCard from '../Home/ListingCard/ListingCard.jsx'; // if home page cards includes zipcode & dist to center, use these
 // otherwise, use these
-import ListingCard from './ListingCard.jsx';
+// import ListingCard from './ListingCard.jsx';
 import { useScrollIntoView } from '@mantine/hooks';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import axios from 'axios';
@@ -14,9 +14,12 @@ function SearchResults(props) {
   const [searchResults, setSearchResults] = useState([]);
   const [selected_marker, setSelected_marker] = useState(null);
   const [mapCen, setMapCen] = useState([0, 0]);
+  const [query, setQuery] = useState('');
+  const [zipcode, setZipcode] = useState('');
+
 
   const selectedMarker = (zipcode) => {
-    console.log(zipcode)
+    // console.log(zipcode)
     setSelected_marker(zipcode);
   };
 
@@ -27,11 +30,11 @@ function SearchResults(props) {
     // obtain query, zipcode center, radius from center from url parameters
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const query = urlParams.get('query')
-    const zipcode = urlParams.get('zipcode') // || midpoint from cards
+    setQuery(urlParams.get('query'));
+    setZipcode(urlParams.get('zipcode')); // || midpoint from cards
     const radius = urlParams.get('radius') || 5; // check, or hardcode const radius = 5
 
-    axios.get('/api/query', {
+    axios.get('/api/listings', {
       params: {
         query, zipcode, radius
       }
@@ -66,41 +69,52 @@ function SearchResults(props) {
     <>
       <NavBar />
       <main>
-        <Space h={150} />
-        <Grid gutter="lg" columns={12} justify="center">
-          <Grid.Col span={6}>
-            <Map
-              height={700}
-              center={mapCen}
-              defaultZoom={10}>
-              {searchResults.map((post) =>
-                <Marker
-                  id={`marker_` + post.listing_id}
-                  key={uuidv4()}
-                  width={50}
-                  anchor={[post.lat, post.lng]}
-                  hover={true}
-                  onClick={() => selectedMarker(post.zipcode)}
-                />)
-              }
-            </Map>
-            {selected_marker ? `zip: ${selected_marker}` : null}
-          </Grid.Col>
-          <Grid.Col span={3}>
-            {searchResults.length > 0 ?
-              `There are ${searchResults.length} matches` :
-              'There are no matches for your search query.'}
-            <ScrollArea style={{ height: 700 }}>
-              <Grid columns={1} gutter="xl">
-                <Grid.Col span={1}>
-                  {searchResults.map((listing) => (
-                    <ListingCard key={uuidv4()} listing={listing} />
-                  ))}
-                </Grid.Col>
-              </Grid>
-            </ScrollArea>
-          </Grid.Col>
-        </Grid>
+        <Space h={50} />
+        <div className='search_container'>
+          <div>
+            <div className='search_title'>
+              <h3>You searched for: "{query}" near {zipcode}</h3>
+              {searchResults.length > 0 ?
+                `There are ${searchResults.length} matches` :
+                'There are no matches for your search query.'}
+            </div>
+            <Grid gutter="lg" columns={12} justify="center">
+              <Grid.Col span={8}>
+                <div className='map' >
+                  <Map
+                    // height={500}
+                    center={mapCen}
+                    defaultZoom={10}>
+                    {searchResults.map((post) =>
+                      <Marker
+                        id={'marker_' + post.listing_id}
+                        key={uuidv4()}
+                        width={50}
+                        anchor={[post.lat, post.lng]}
+                        hover={true}
+                        onClick={() => selectedMarker(post.zipcode)}
+                      />)
+                    }
+                  </Map>
+                </div>
+                {selected_marker ? `zip: ${selected_marker}` : null}
+              </Grid.Col>
+              <Grid.Col span={4}>
+                <div className='scroll' >
+                  <ScrollArea style={{ height: 700 }}>
+                    <Grid columns={3} gutter="xl" justify="center">
+                      <Grid.Col span={3}>
+                        {searchResults.map((listing) => (
+                          <ListingCard displayLocation key={uuidv4()} listing={listing} />
+                        ))}
+                      </Grid.Col>
+                    </Grid>
+                  </ScrollArea>
+                </div>
+              </Grid.Col>
+            </Grid>
+          </div>
+        </div>
       </main>
     </>
   )

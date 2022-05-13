@@ -12,7 +12,7 @@ import {
 
 function ListingCard({ listing, displayLocation = false }) {
   return (
-    <Container px={0}>
+    <Container px={0} style={{ marginBottom: 10}}>
       <Card
         radius="lg"
         shadow="md"
