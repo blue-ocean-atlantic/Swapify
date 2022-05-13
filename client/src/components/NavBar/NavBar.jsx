@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Group, Space, Text, Avatar, Menu } from '@mantine/core';
 import axios from 'axios';
-import { useToggle } from '@mantine/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRightFromBracket,
@@ -21,7 +20,7 @@ function NavBar({ disableSearch = false }) {
   const [userInfo, setUserInfo] = useState({});
 
   const handleLogout = () => {
-    axios.get('/logout').then(navigate('/'));
+    axios.get('http://localhost:3005/logout').then(navigate('/'));
   };
 
   useEffect(() => {
@@ -78,7 +77,7 @@ function NavBar({ disableSearch = false }) {
                     color="dark"
                     leftIcon={
                       <Avatar
-                        src={userInfo.photo_url}
+                        src={userInfo?.photo_url}
                         alt="profile avatar"
                         radius="xl"
                       />
@@ -89,7 +88,6 @@ function NavBar({ disableSearch = false }) {
                   </Button>
                 }
               >
-                {/* <Menu.Label>Menu</Menu.Label> */}
                 <Menu.Item
                   component={Link}
                   to="/dashboard"
@@ -113,12 +111,7 @@ function NavBar({ disableSearch = false }) {
                 </Menu.Item>
                 <Menu.Item
                   color="red"
-                  // component={Link}
-                  // to="/logout"
-                  onClick={() => {
-                    handleLogout();
-                    console.log('Handle Logout');
-                  }}
+                  onClick={handleLogout}
                   icon={<FontAwesomeIcon icon={faRightFromBracket} />}
                 >
                   Logout
@@ -130,15 +123,7 @@ function NavBar({ disableSearch = false }) {
               <Button radius="xl" component={Link} to="/signup">
                 Sign up
               </Button>
-              <Button
-                variant="subtle"
-                radius="xl"
-                component={Link}
-                to="/login"
-                // onClick={() => {
-                //   toggle();
-                // }}
-              >
+              <Button variant="subtle" radius="xl" component={Link} to="/login">
                 Login
               </Button>
             </>

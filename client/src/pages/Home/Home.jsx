@@ -77,9 +77,6 @@ function Home() {
           {listings.map((listing) => (
             <ListingCard key={uuid()} listing={listing} />
           ))}
-          {/* {data.results.map((listing) => (
-            <ListingCard key={uuid()} listing={listing} />
-          ))} */}
         </SimpleGrid>
       </main>
     </>
