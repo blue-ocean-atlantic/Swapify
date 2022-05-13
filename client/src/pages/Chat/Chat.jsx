@@ -21,6 +21,7 @@ import NavBar from '../../components/NavBar/NavBar.jsx';
 import ContactLists from './ContactLists.jsx'
 import ChatWindow from './ChatWindow.jsx';
 import ownerProfileStore from '../../store.js';
+import axios from 'axios'
 
 
 
@@ -28,23 +29,19 @@ function Chat(props) {
   const navigate = useNavigate();
 
 
-  const [userInfo, setUserInfo] = useState();
+  const [loginUserProfile, setloginUserProfile] = useState();
   const userName = document.cookie.split('=')[1]
 
-  // useEffect(() => {
-  //   setUserName(document.cookie.split('=')[1])
-  //   console.log(document.cookie.split('=')[1])
-
-  //   // const getUser = async () => {
-  //   //   try {
-  //   //     const user = await axios.get('/api/username', { username });
-  //   //     setUserInfo(user.data);
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // };
-  //   // getUser();
-  // }, []);
+  useEffect(() => {
+    axios.get(`http://localhost:3005/api/username?username=${userName}`)
+      .then((user) => {
+        if (user.data[0] === undefined) {
+          user.data[0] = { first_name: '', last_name: '', email: '', user_id: 0 }
+        }
+        // console.log('user info', user.data[0].photo_url)
+        setloginUserProfile(user.data[0].photo_url)
+      })
+  }, []);
 
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
@@ -188,6 +185,7 @@ function Chat(props) {
                 onMessageSubmit={handleMessageSubmit}
                 toUserName={toUserName}
                 toUserProfile={toUserProfile}
+                loginUserProfile={loginUserProfile}
               />
             </Grid.Col>
           </Grid>
