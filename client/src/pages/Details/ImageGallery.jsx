@@ -5,11 +5,15 @@ import './details.scss'
 
 function ImagesGallery({ images }) {
 
-  const imagesDisplay = [];
-  images.forEach((image) => {
-    imagesDisplay.push({original: image, thumbnail: image})
-  });
-
+  let imagesDisplay = [];
+  if( images === undefined ) {
+    imagesDisplay = ['https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640'];
+  } else {
+    images.forEach((image) => {
+      imagesDisplay.push({original: image, thumbnail: image})
+    });
+  }
+console.log(imagesDisplay)
   return (
           <div className="images-gallery">
             <ImageGallery items={imagesDisplay} />

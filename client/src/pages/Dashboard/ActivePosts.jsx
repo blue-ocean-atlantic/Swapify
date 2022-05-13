@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import dashStore from './dashStore.js';
 // import { active, given, received } from './dashDummy.js';
-import { data } from '../Home/dummy.js';
+// import { data } from '../Home/dummy.js';
 
 import { Title, Container } from '@mantine/core';
 
@@ -13,11 +13,12 @@ function ActivePosts() {
 
   const mapPosts = (data) => {
 
-    return data.results.slice(0, 5).map((listing) => {
+    return data.map((listing) => {
+
       return (
-        <Container key={listing.listing_id} style={{ display: "flex", height: "110px", width: "550px", margin: "5px 0px", justifyContent: "space-between", backgroundColor: "white", borderRadius: "5px", alignItems: "center" }}>
-          <img style={{ height: "100px", width: "100px" }} src={listing.image_url} component={Link} to={`/details/${listing.listing_id}`}></img>
-          <div style={{ height: "100px", width: "400px" }}>
+        <Container key={listing.listing_id} style={{ display: "flex", minHeight: "110px", width: "550px", margin: "5px 0px", justifyContent: "space-between", backgroundColor: "white", borderRadius: "5px", alignItems: "center" }}>
+          <img style={{ height: "100px", width: "100px" }} src={listing.image_urls[0]} component={Link} to={`/details/${listing.listing_id}`}></img>
+          <div style={{ minHeight: "100px", width: "400px" }}>
             <Title order={3} component={Link} to={`/details/${listing.listing_id}`}>
               {listing.title}
             </Title>
@@ -31,7 +32,7 @@ function ActivePosts() {
   return (
     <>
       {/* currently using dummy data being imported */}
-      {mapPosts(data)}
+      {mapPosts(activePosts)}
     </>
   )
 }

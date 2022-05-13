@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Group, Space, Text, Avatar, Menu } from '@mantine/core';
-import { useInputState } from '@mantine/hooks';
+import axios from 'axios';
 import { useToggle } from '@mantine/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRightFromBracket,
-  faMagnifyingGlass,
   faTableColumns,
   faPlus,
   faComments,
@@ -17,29 +16,32 @@ import './NavBar.scss';
 import { data } from './dummy';
 import SearchBar from '../SearchBar/SearchBar.jsx';
 
-const hover = (theme) => ({
-  '&:hover': {
-    backgroundColor: theme.colors.blue[0],
-  },
-});
-
-function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
-  const [loggedIn, toggle] = useToggle(true, [true, false]);
-  const [query, setQuery] = useInputState('');
+function NavBar({ disableSearch = false }) {
+  const loggedIn = document.cookie.split('=')[1];
+  //console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    navigate(`/results?query=${query.toLowerCase()}`);
-  };
+  useEffect(() => {
+    const username = document.cookie.split('=')[1];
+    const getUser = async () => {
+      try {
+        const user = await axios.get('/api/users', { username }); // -> { userinfo }
+        setUserinfo(user.data);
+      } catch (error) {
+        //console.log(error);
+      }
+    };
+    getUser();
+  }, []);
 
   return (
     <>
       <div className="navbar">
-        <Group noWrap style={{ width: '50%' }}>
+        <Group noWrap align="center" style={{ width: '50%' }}>
           <Text color="dark" component={Link} id="nav-logo" to="/">
             LOGO
           </Text>
-          {!disableSearch && <SearchBar size={'md'} />}
+          {!disableSearch && <SearchBar variant="nav" />}
         </Group>
 
         <div className="nav-menu">
@@ -101,6 +103,8 @@ function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
                 </Menu.Item>
                 <Menu.Item
                   color="red"
+                  // component={Link}
+                  // to="/logout"
                   onClick={() => {
                     console.log('Handle Logout');
                   }}
@@ -118,11 +122,11 @@ function NavBar(/*{loggedIn = false}*/ { disableSearch = false }) {
               <Button
                 variant="subtle"
                 radius="xl"
-                // component={Link}
-                // to="/login"
-                onClick={() => {
-                  toggle();
-                }}
+                component={Link}
+                to="/login"
+              // onClick={() => {
+              //   toggle();
+              // }}
               >
                 Login
               </Button>

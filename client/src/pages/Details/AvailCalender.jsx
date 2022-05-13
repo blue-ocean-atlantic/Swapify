@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Calendar } from '@mantine/dates';
 import { Indicator, Group, Button, useMantineTheme, Space, MantineProvider } from '@mantine/core';
 import { showNotification, NotificationsProvider } from '@mantine/notifications';
@@ -7,23 +9,25 @@ import emailjs from '@emailjs/browser';
 import moment from 'moment';
 // import EMAIL_ID from '../../../../config.js';
 
-function AvailCalender({ availableDate }) {
+function AvailCalender({ availableDate, ownerEmail, userFirstName, userLastName, userEmail,
+  location, ownerFirstName, ownerLastName, receiver_id, donor_id }) {
   const theme = useMantineTheme();
   const available = new Date(availableDate);
   const [value, setValue] = useState(available);
   const [timeValue, setTimeValue] = useState(new Date());
   const scheduleButton = () => {
-    console.log(moment(value).format("MMM Do YYYY"))
-    console.log(moment(timeValue).format('LT'))
+    console.log({appointment_time: moment(value).format("MMM Do YYYY") + ' ' + moment(timeValue).format('LT'),
+    receiver_id: receiver_id, donor_id: donor_id})
+    axios.post('http://localhost:3005/api/listing/appointment',{appointment_time: moment(value).format("MMM Do YYYY") + ' ' + moment(timeValue).format('LT'), receiver_id: receiver_id, donor_id: donor_id})
   }
  //...........................
 
   const sendEmail = () => {
     const templateParams = {
-      user: 'James',
-      owner: 'Check this out!',
-      email: 'justinchen9387@gmail.com, siennaj1121@gmail.com',
-      location: '12345',
+      user: userFirstName + ' ' + userLastName,
+      owner: ownerFirstName + ' ' + ownerLastName,
+      email: `${userEmail}, ${ownerEmail}`,
+      location: {location},
       date: moment(value).format("MMM Do YYYY") + 'at' +  moment(timeValue).format('LT')
     };
 
@@ -41,15 +45,15 @@ function AvailCalender({ availableDate }) {
       <NotificationsProvider>
       <Group position="center">
         <Calendar
-      value={value}
-      onChange={setValue}
-      minDate={available}
-      dayStyle={(date) =>
-        date.getMonth() === available.getMonth() && date.getDate() === available.getDate()
-          ? { backgroundColor: theme.colors.red[9], color: theme.white }
-          : null
-      }
-    />
+          value={value}
+          onChange={setValue}
+          minDate={available}
+          dayStyle={(date) =>
+            date.getMonth() === available.getMonth() && date.getDate() === available.getDate()
+              ? { backgroundColor: theme.colors.red[9], color: theme.white }
+              : null
+          }
+        />
       </Group>
       <Space h="xl"/>
       <Group position="center">
@@ -65,11 +69,15 @@ function AvailCalender({ availableDate }) {
       </Group>
       <Space h="xl"/>
       <Group position="center">
-        <Button radius="xl" size="lg" onClick={() =>
-          showNotification({
+        <Button
+          radius="xl"
+          size="lg"
+          component={Link} to="/"
+          onClick={() =>
+          {showNotification({
             title: 'Confirmed',
             message: 'You will receive a confirmation email soon.'
-          })
+          }), scheduleButton()}
         }>Confirm</Button>
       </Group>
       </NotificationsProvider>

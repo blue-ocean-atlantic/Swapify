@@ -19,6 +19,20 @@ export const getChatInfo = (userName, toUser) => {
   return axios(options)
 }
 
+export const addNewToUser = (userName, profile) => {
+  const options = {
+    url: '/addNewToUser',
+    method: 'post',
+    params: { userName, profile }
+  }
+  return axios(options)
+}
 
-
-// export default getChatInfo;
+export const getUserProfiles = (userNames) => {
+  const options = {
+    url: '/getUserProfiles',
+    method: 'get',
+    params: { userNames }
+  }
+  return axios(options)
+}

@@ -3,8 +3,6 @@ import socket from './socket.js'
 // import { io } from 'socket.io-client';
 import { getChatInfo } from './getChatInfo.js'
 import {
-  ActionIcon,
-  Avatar,
   Box,
   Button,
   Container,
@@ -19,19 +17,40 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
-import { data, chats } from './dummy';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import ContactLists from './ContactLists.jsx'
 import ChatWindow from './ChatWindow.jsx';
+import ownerProfileStore from '../../store.js';
+
 
 
 function Chat(props) {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState()
+
+  const [userInfo, setUserInfo] = useState();
+  const userName = document.cookie.split('=')[1]
+
+  // useEffect(() => {
+  //   setUserName(document.cookie.split('=')[1])
+  //   console.log(document.cookie.split('=')[1])
+
+  //   // const getUser = async () => {
+  //   //   try {
+  //   //     const user = await axios.get('/api/username', { username });
+  //   //     setUserInfo(user.data);
+  //   //   } catch (error) {
+  //   //     console.log(error);
+  //   //   }
+  //   // };
+  //   // getUser();
+  // }, []);
+
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
+  const [toUserProfile, setToUserProfile] = useState()
+
 
   const toUserNameRef = useRef(toUserName)
 
@@ -42,6 +61,7 @@ function Chat(props) {
 
     socket.on('success', (data) => {
       console.log(data)
+      socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
     })
 
     socket.on('receiveMessage', (msg) => {
@@ -60,7 +80,7 @@ function Chat(props) {
       socket.removeAllListeners()
       socket.disconnect()
     }
-  }, [])
+  }, [userName])
 
   useEffect(() => {
     getChatInfo(userName, toUserName)
@@ -95,7 +115,6 @@ function Chat(props) {
   }
 
   const handleContactClick = (toUserName) => {
-    // console.log('toUserName=', toUserName)
     setPendingUserMessages(prevObj => {
       const obj = { ...prevObj }
       obj[toUserName] = 0
@@ -105,10 +124,16 @@ function Chat(props) {
     setToUserName(toUserName)
   }
 
-  const handleLoginClick = (e) => {
-    e.preventDefault();
-    socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  const handleUserProfile = (profile) => {
+    setToUserProfile(profile)
   }
+
+  // TODO delete this later
+  // const handleLoginClick = (e) => {
+  //   e.preventDefault();
+  //   setUserName(textUserNameInput)
+  //   // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  // }
 
   return (
     <>
@@ -125,10 +150,14 @@ function Chat(props) {
             >
               Back
             </Button>
-            <form onSubmit={e => handleLoginClick(e)}>
-              <input type='text' onChange={e => setUserName(e.target.value)} />
+
+            {/* // TODO delete this later */}
+
+            {/* <form onSubmit={e => handleLoginClick(e)}>
+              <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
-            </form>
+            </form> */}
+
             <Text sx={{ marginLeft: '10px' }}>
               Logged in as: {userName}
             </Text>
@@ -149,6 +178,7 @@ function Chat(props) {
                   onContactClick={handleContactClick}
                   pendingUserMessages={pendingUserMessages}
                   loginUser={userName}
+                  handleUserProfile={handleUserProfile}
                 />
               </Container>
             </Grid.Col>
@@ -156,9 +186,8 @@ function Chat(props) {
               <ChatWindow
                 messageList={toUserMessageList}
                 onMessageSubmit={handleMessageSubmit}
-              // socket={socket}
-              // userName={userName}
-              // toUserName={toUserName}
+                toUserName={toUserName}
+                toUserProfile={toUserProfile}
               />
             </Grid.Col>
           </Grid>

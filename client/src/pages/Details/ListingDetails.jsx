@@ -12,7 +12,9 @@ import './details.scss';
 import AvailCalender from './AvailCalender.jsx';
 
 
-function ListingDetails({ title, category, condition, availableDate, postTime }) {
+function ListingDetails({ title, category, condition, availableDate, postTime,
+  ownerEmail, userFirstName, userLastName, userEmail, location, ownerFirstName, ownerLastName, receiver_id, donor_id})
+  {
   const [opened, setOpened] = useState(false);
   const [conditionOpened, setConditionOpened] = useState(false);
 
@@ -62,27 +64,57 @@ function ListingDetails({ title, category, condition, availableDate, postTime })
               onClose={() => setOpened(false)}
               title="Available Date"
             >
-              <AvailCalender availableDate={availableDate} />
+              <AvailCalender
+                availableDate={availableDate}
+                ownerEmail={ownerEmail}
+                userFirstName={userFirstName}
+                userLastName={userLastName}
+                userEmail={userEmail}
+                location={location}
+                ownerFirstName={ownerFirstName}
+                ownerLastName={ownerLastName}
+                donor_id={donor_id}
+                receiver_id={receiver_id}
+              />
             </Modal>
             <Space h="lg" />
             <Text size="xl">Posted: {moment(postTime).endOf('day').fromNow()} </Text>
             <Space h="xl" />
-            <Button
-              leftIcon={<FontAwesomeIcon icon={faCalendar} />} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
-              onClick={() => setOpened(true)}
-              size='xl'
-            >
-              Schedule
-            </Button>
+            {userFirstName === ''
+              ? <Button
+                  leftIcon={<FontAwesomeIcon icon={faCalendar} />} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+                  onClick={() => setOpened(true)}
+                  size='xl'
+                  disabled
+                >
+                  Schedule
+                </Button>
+              : <Button
+                  leftIcon={<FontAwesomeIcon icon={faCalendar} />} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+                  onClick={() => setOpened(true)}
+                  size='xl'
+                >
+                  Schedule
+                </Button>
+            }
             <Space h="xl" />
-            <Button
-              leftIcon={<FontAwesomeIcon icon={faComment}/>} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
-              size='xl'
-              component={Link}
-              to="/chat"
-            >
-              Chat Now
-            </Button>
+            {userFirstName === ''
+              ? <Button
+                  leftIcon={<FontAwesomeIcon icon={faComment}/>} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+                  size='xl'
+                  disabled
+                  >
+                  Chat Now
+                </Button>
+              : <Button
+                  leftIcon={<FontAwesomeIcon icon={faComment}/>} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+                  size='xl'
+                  component={Link}
+                  to="/chat"
+                  >
+                  Chat Now
+                </Button>
+            }
             <Space h="xl" />
             <Group>
               <FacebookShareButton
