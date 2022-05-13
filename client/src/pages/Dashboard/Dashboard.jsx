@@ -25,17 +25,19 @@ function Dashboard() {
   // </div>
   // );
 
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState({});
   console.log('🚀 ~ Home ~ userInfo', userInfo);
+  // debugger;
 
   useEffect(() => {
     const username = document.cookie.split('=')[1]; // = ''
-    console.log(document, 'its creack');
+    console.log(username)
+    // debugger;
 
     const getUser = async () => {
       try {
-        const user = await axios.get('http://localhost:3001/api/user', { username }); // -> { userinfo }
-        setUserInfo(user.data);
+        const user = await axios.get('http://localhost:3005/api/username', { params: { username } }); // -> { userinfo }
+        setUserInfo(user.data[0]);
         console.log('user :', user)
       } catch (error) {
         console.log(error);
@@ -54,10 +56,10 @@ function Dashboard() {
           p={30}
           style={{ backgroundColor: 'white', borderRadius: 15 }}
         >
-          {/* <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title> */}
+          <Title className="dash-greeting">Welcome {`${userInfo.first_name} ${userInfo.last_name}`}!</Title>
           <div className="dash-container">
             <div className="dash-basic-info">
-              <UserInfo />
+              <UserInfo userInfo={userInfo} />
               <ChatButton />
             </div>
             <div className="dash-user-post">
