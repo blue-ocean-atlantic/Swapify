@@ -34,19 +34,6 @@ function UserInfo({ userInfo }) {
     // Maybe trigger a refresh or rerender to allow new profile image to be shown on page?
   };
 
-  const avgRatings = (rating) => {
-    // if (arrRating.length === 0) {
-    //   return "No Ratings";
-    // } else {
-    //   const sum = 0;
-    //   arrRating.forEach((rate) => {
-    //     sum += rate;
-    //   })
-    //   const avg = sum / arrRating.length;
-    //   return avg;
-    // }
-  };
-
   let ratingStar = 0;
   if (Object.keys(userInfo).length !== 0) {
     if (userInfo.ratings.length !== 0) {
