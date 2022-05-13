@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import {
   Button,
@@ -35,9 +35,9 @@ const Login = () => {
       .then((data) => {
         alert('Successful Login!');
       })
-      .then(()=> {
-        window.location = '/';
-      })
+      // .then(()=> {
+      //   window.location = '/';
+      // })
       .catch((err) => {
         console.log('err at login button', err);
         alert('Incorrect Login Credential');
@@ -79,7 +79,7 @@ const Login = () => {
                 }}
               />
               <Space h="lg" />
-              <Button type="submit" onClick={() => loginbutton()}>Submit</Button>
+              <Button type="submit" onClick={() => loginbutton() } component={Link} to="/">Submit</Button>
           </form>
         </Stack>
       </Center>
