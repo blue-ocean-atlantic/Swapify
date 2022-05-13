@@ -3,8 +3,6 @@ import socket from './socket.js'
 // import { io } from 'socket.io-client';
 import { getChatInfo } from './getChatInfo.js'
 import {
-  ActionIcon,
-  Avatar,
   Box,
   Button,
   Container,
@@ -29,21 +27,30 @@ import ownerProfileStore from '../../store.js';
 function Chat(props) {
   const navigate = useNavigate();
 
-  //TODO uncomment this,fake login user
-  //const user1 = ownerProfileStore(state => state.user1)
 
-  // TODO delete this later
-  const [userName, setUserName] = useState()
+  const [userInfo, setUserInfo] = useState();
+  const userName = document.cookie.split('=')[1]
 
-  // TODO uncomment this
-  //const userName = user1.userName
+  // useEffect(() => {
+  //   setUserName(document.cookie.split('=')[1])
+  //   console.log(document.cookie.split('=')[1])
+
+  //   // const getUser = async () => {
+  //   //   try {
+  //   //     const user = await axios.get('/api/username', { username });
+  //   //     setUserInfo(user.data);
+  //   //   } catch (error) {
+  //   //     console.log(error);
+  //   //   }
+  //   // };
+  //   // getUser();
+  // }, []);
+
   const [toUserName, setToUserName] = useState()
   const [messageList, setMessageList] = useState([])
   const [pendingUserMessages, setPendingUserMessages] = useState({})
   const [toUserProfile, setToUserProfile] = useState()
 
-  // TODO delete this later
-  const [textUserNameInput, setTextUserNameInput] = useState()
 
   const toUserNameRef = useRef(toUserName)
 
@@ -54,6 +61,7 @@ function Chat(props) {
 
     socket.on('success', (data) => {
       console.log(data)
+      socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
     })
 
     socket.on('receiveMessage', (msg) => {
@@ -71,12 +79,6 @@ function Chat(props) {
     return () => {
       socket.removeAllListeners()
       socket.disconnect()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (userName) {
-      socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
     }
   }, [userName])
 
@@ -127,11 +129,11 @@ function Chat(props) {
   }
 
   // TODO delete this later
-  const handleLoginClick = (e) => {
-    e.preventDefault();
-    setUserName(textUserNameInput)
-    // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
-  }
+  // const handleLoginClick = (e) => {
+  //   e.preventDefault();
+  //   setUserName(textUserNameInput)
+  //   // socket.emit('login', { userId: socket.id, userName: userName, createAt: new Date() })
+  // }
 
   return (
     <>
@@ -151,10 +153,10 @@ function Chat(props) {
 
             {/* // TODO delete this later */}
 
-            <form onSubmit={e => handleLoginClick(e)}>
+            {/* <form onSubmit={e => handleLoginClick(e)}>
               <input type='text' onChange={e => setTextUserNameInput(e.target.value)} />
               <button type='submit'>Login</button>
-            </form>
+            </form> */}
 
             <Text sx={{ marginLeft: '10px' }}>
               Logged in as: {userName}

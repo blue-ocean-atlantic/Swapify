@@ -28,7 +28,7 @@ function Home() {
   const [zip, setZip] = useState();
 
   const [userInfo, setUserInfo] = useState();
-  console.log('🚀 ~ Home ~ userInfo', userInfo);
+  //console.log('🚀 ~ Home ~ userInfo', userInfo);
 
   useEffect(() => {
     const getZip = async () => {
