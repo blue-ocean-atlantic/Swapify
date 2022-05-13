@@ -51,7 +51,6 @@ function UserInfo({ userInfo }) {
   if (Object.keys(userInfo).length !== 0) {
     if (userInfo.ratings.length !== 0) {
       ratingStar = (userInfo.ratings.reduce(add, 0)) / userInfo.ratings.length;
-
     }
   }
 
