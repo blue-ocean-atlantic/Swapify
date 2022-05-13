@@ -18,16 +18,18 @@ function Posts() {
   const activePosts = dashStore((state) => state.activePosts);
   const givenPosts = dashStore((state) => state.givenPosts);
   const receivedPosts = dashStore((state) => state.receivedPosts);
+
   const setActivePosts = dashStore((state) => state.setActivePosts);
   const setGivenPosts = dashStore((state) => state.setGivenPosts);
   const setReceivedPosts = dashStore((state) => state.setReceivedPosts);
+
   const active = dashStore((state) => state.active);
   const given = dashStore((state) => state.given);
   const received = dashStore((state) => state.received);
 
   useEffect(() => {
     axios({
-      url: 'http://localhost:3001/api/listings/active?donor_id=90',
+      url: 'http://localhost:3005/api/listings/active?donor_id=90',
       method: 'GET',
     })
       .then((data) => {
@@ -36,7 +38,7 @@ function Posts() {
       })
       .then(() => {
         axios({
-          url: 'http://localhost:3001/api/listings/completed?donor_id=3',
+          url: 'http://localhost:3005/api/listings/completed?donor_id=3',
           method: 'GET',
         })
           .then((data) => {
@@ -49,7 +51,7 @@ function Posts() {
       })
       .then(() => {
         axios({
-          url: 'http://localhost:3001/api/listings/received?receiver_id=27',
+          url: 'http://localhost:3005/api/listings/received?receiver_id=27',
           method: 'GET',
         })
           .then((data) => {
