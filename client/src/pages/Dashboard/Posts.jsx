@@ -25,47 +25,51 @@ function Posts() {
   const given = dashStore((state) => state.given);
   const received = dashStore((state) => state.received);
 
-  // useEffect(() => {
-  //     axios({
-  //       url: '/active',
-  //       method: 'GET',
-  //     })
-  //       .then((data) => {
-  //         setActivePosts(data.data);
-  //       })
-  //       .then(() => {
-  //         axios({
-  //               url: '/given',
-  //               method: 'GET',
-  //             })
-  //               .then((data) => {
-  //                 setGivenPosts(data.data);
-  //               })
-  //               .catch((err) => {
-  //                 throw err;
-  //               })
-  //       })
-  //       .then(() => {
-  //         axios({
-  //               url: '/received',
-  //               method: 'GET',
-  //             })
-  //               .then((data) => {
-  //                 setReceivedPosts(data.data);
-  //               })
-  //               .then(() => {
-  //                 console.log('ALL POST SAVED IN STORE!')
-  //               })
-  //               .catch((err) => {
-  //                 throw err;
-  //               })
-  //       })
-  //       .catch((err) => {
-  //         throw err;
-  //       })
-  // }, [])
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:3001/api/listings/active?donor_id=90',
+      method: 'GET',
+    })
+      .then((data) => {
+        console.log(data.data)
+        setActivePosts(data.data);
+      })
+      .then(() => {
+        axios({
+          url: 'http://localhost:3001/api/listings/completed?donor_id=3',
+          method: 'GET',
+        })
+          .then((data) => {
+            console.log(data.data)
+            setGivenPosts(data.data);
+          })
+          .catch((err) => {
+            throw err;
+          })
+      })
+      .then(() => {
+        axios({
+          url: 'http://localhost:3001/api/listings/received?receiver_id=27',
+          method: 'GET',
+        })
+          .then((data) => {
+            console.log(data.data);
+            setReceivedPosts(data.data);
+          })
+          .then(() => {
+            console.log('ALL POST SAVED IN STORE!')
+          })
+          .catch((err) => {
+            throw err;
+          })
+      })
+      .catch((err) => {
+        throw err;
+      })
+  }, [])
 
   if (active) {
+
     return (
       <div className="dash-all-posts">
         <div className="dash-post-tabs">
