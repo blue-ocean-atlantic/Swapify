@@ -11,6 +11,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 124,
@@ -23,6 +25,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 125,
@@ -35,6 +39,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 126,
@@ -47,6 +53,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 957,
@@ -59,6 +67,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 654,
@@ -71,6 +81,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 321,
@@ -83,6 +95,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
     {
       listing_id: 789456,
@@ -95,6 +109,8 @@ export const data = {
       user_id: 'joshandromidas@gmail.com', // Should be same as email I think
       user_avatar_url:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2787&q=80',
+      zipcode: '78787',
+      distance: 3.6,
     },
   ],
 };

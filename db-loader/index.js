@@ -7,11 +7,11 @@ const mongoose = require('mongoose');
 
 var url = 'mongodb://localhost:27017/BlueOceanDummy';
 
-mongoose.connect(url, {autoIndex: false}, () => {
-  console.log('Database connected!')
+// mongoose.connect(url, {autoIndex: false}, () => {
+//   console.log('Database connected!')
 
 
-}, e => console.log('error: ',e))
+// }, e => console.log('error: ',e))
 
 
 let schema = new mongoose.Schema({},{strict: false});
