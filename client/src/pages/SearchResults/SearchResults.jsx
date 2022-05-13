@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import ListingCard from '../Home/ListingCard/ListingCard.jsx'; // if home page cards includes zipcode & dist to center, use these
 // otherwise, use these
 // import ListingCard from './ListingCard.jsx';
-import { useScrollIntoView } from '@mantine/hooks';
 import NavBar from '../../components/NavBar/NavBar.jsx';
 import axios from 'axios';
 
@@ -16,7 +15,7 @@ function SearchResults(props) {
   const [selected_marker, setSelected_marker] = useState(null);
   const [mapCen, setMapCen] = useState([0, 0]);
   const [query, setQuery] = useState('');
-  const [zipcode, setZipcode] = useState('');
+  const [zip, setZip] = useState('');
 
   const selectedMarker = (zipcode) => {
     // console.log(zipcode)
@@ -28,10 +27,13 @@ function SearchResults(props) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     setQuery(urlParams.get('query'));
-    setZipcode(urlParams.get('zipcode')); // || midpoint from cards
-    const radius = urlParams.get('radius') || 5; // check, or hardcode const radius = 5
-    console.log(queryString, radius)
-
+    setZip(urlParams.get('zipcode')); // || midpoint from cards
+    const radius = urlParams.get('radius') || 10; // check, or hardcode const radius = 5
+    console.log('queryString: ', queryString)
+    console.log('urlParams: ', urlParams)
+    console.log('query: ', query)
+    console.log('zip: ', zip)
+    console.log('radius: ', radius)
     // axios.get('/api/listings', {
     //   params: {
     //     query, zipcode, radius
@@ -73,9 +75,13 @@ function SearchResults(props) {
     let center = [];
     center[0] = (sortedDist[0].lat + sortedDist[sortedDist.length - 1].lat) / 2;
     center[1] = (sortedDist[0].lng + sortedDist[sortedDist.length - 1].lng) / 2;
-    setSearchResults(postList);
     setMapCen(center);
+    setSearchResults(postList);
+
     console.log('mapCen: ', mapCen);
+    console.log('postList: ', postList);
+    console.log('searchResults: ', searchResults);
+
   }, []);
 
   // listing_id
@@ -88,7 +94,7 @@ function SearchResults(props) {
         <div className='search_container'>
           <div>
             <div className='search_title'>
-              <h3>You searched for: "{query}" near {zipcode}</h3>
+              <h3>You searched for: "{query}" near {zip}</h3>
               {searchResults.length > 0 ?
                 `There are ${searchResults.length} matches` :
                 'There are no matches for your search query.'}
@@ -97,7 +103,7 @@ function SearchResults(props) {
               <Grid.Col span={8}>
                 <div className='map' >
                   <Map
-                    // height={500}
+                    height={700}
                     center={mapCen}
                     defaultZoom={10}>
                     {searchResults.map((post) =>
@@ -106,7 +112,7 @@ function SearchResults(props) {
                         key={uuidv4()}
                         width={50}
                         anchor={[post.lat, post.lng]}
-                        hover={true}
+                        // hover={true}
                         onClick={() => selectedMarker(post.zipcode)}
                       />)
                     }
