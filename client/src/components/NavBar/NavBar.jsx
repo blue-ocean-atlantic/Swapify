@@ -18,7 +18,7 @@ import SearchBar from '../SearchBar/SearchBar.jsx';
 
 function NavBar({ disableSearch = false }) {
   const loggedIn = document.cookie.split('=')[1];
-  console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
+  //console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function NavBar({ disableSearch = false }) {
         const user = await axios.get('/api/users', { username }); // -> { userinfo }
         setUserinfo(user.data);
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     getUser();
@@ -124,9 +124,9 @@ function NavBar({ disableSearch = false }) {
                 radius="xl"
                 component={Link}
                 to="/login"
-                // onClick={() => {
-                //   toggle();
-                // }}
+              // onClick={() => {
+              //   toggle();
+              // }}
               >
                 Login
               </Button>

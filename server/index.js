@@ -161,13 +161,15 @@ app.post('/addNewToUser', (req, res) => {
 })
 
 io.on('connection', socket => {
-  // console.log(`${socket.id} connected`)
+  //console.log(`${socket.id} connected`)
   socket.emit('success', `${socket.id} connected`)
   socket.on('disconnect', () => {
     io.emit('quit', `${socket.id} disconnected`)
   })
 
   socket.on('login', (userInfo) => {
+    console.log('userInfo=', userInfo)
+
     const socketId = userInfo.userId;
     const { createAt, userName } = userInfo
     ChatLogin.findOneAndUpdate({ userName }, { socketId, createAt }).then(data => {
