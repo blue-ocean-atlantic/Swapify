@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import UserInfo from './UserInfo.jsx';
 import Posts from './Posts.jsx';
@@ -12,7 +13,7 @@ import dashStore from './dashStore.js';
 import './Dashboard.scss';
 
 function Dashboard() {
-  const userInfo = dashStore((state) => state.userInfo);
+  // const userInfo = dashStore((state) => state.userInfo);
   // notes for later
   // return (
   // <div>
@@ -24,6 +25,25 @@ function Dashboard() {
   // </div>
   // );
 
+  const [userInfo, setUserInfo] = useState();
+  console.log('🚀 ~ Home ~ userInfo', userInfo);
+
+  useEffect(() => {
+    const username = document.cookie.split('=')[1]; // = ''
+    console.log(document, 'its creack');
+
+    const getUser = async () => {
+      try {
+        const user = await axios.get('http://localhost:3001/api/user', { username }); // -> { userinfo }
+        setUserInfo(user.data);
+        console.log('user :', user)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  }, []);
+
   return (
     <div className="dash-page">
       <NavBar />
@@ -34,7 +54,7 @@ function Dashboard() {
           p={30}
           style={{ backgroundColor: 'white', borderRadius: 15 }}
         >
-          <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title>
+          {/* <Title className="dash-greeting">Welcome {`${userInfo.user_first_name} ${userInfo.user_last_name}`}!</Title> */}
           <div className="dash-container">
             <div className="dash-basic-info">
               <UserInfo />
