@@ -39,7 +39,8 @@ function SearchResults(props) {
         query, zipcode, radius
       }
     })
-
+    .then(response => console.log('good here: ', response));
+    
     // filter to only include posts within radius
     var filtered = test_searchResults.results.filter(post => post.distance < radius);
     var postList = filtered.sort((a, b) => { return (a.distance - b.distance) });
