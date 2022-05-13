@@ -13,7 +13,7 @@ function ImagesGallery({ images }) {
       imagesDisplay.push({original: image, thumbnail: image})
     });
   }
-
+console.log(imagesDisplay)
   return (
           <div className="images-gallery">
             <ImageGallery items={imagesDisplay} />
