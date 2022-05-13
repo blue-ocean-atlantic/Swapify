@@ -30,7 +30,7 @@ function SearchResults(props) {
     setQuery(urlParams.get('query'));
     setZipcode(urlParams.get('zipcode')); // || midpoint from cards
     const radius = urlParams.get('radius') || 5; // check, or hardcode const radius = 5
-    // console.log(window.location.search)
+    console.log(queryString, radius)
 
     // axios.get('/api/listings', {
     //   params: {
@@ -39,6 +39,8 @@ function SearchResults(props) {
     // })
     //   .then(response => console.log('good here: ', response.data));
 
+    // http://localhost:3005/api/listings
+    // http://34.227.225.243:3000/api/listings/?zipcode=92648&radius=10&count=10&query=
     // const getResults = async () => {
     //   try {
     //     const results = await axios.get('http://localhost:3005/api/listings', {
@@ -73,7 +75,7 @@ function SearchResults(props) {
     center[1] = (sortedDist[0].lng + sortedDist[sortedDist.length - 1].lng) / 2;
     setSearchResults(postList);
     setMapCen(center);
-    // console.log('mapCen: ', mapCen);
+    console.log('mapCen: ', mapCen);
   }, []);
 
   // listing_id
