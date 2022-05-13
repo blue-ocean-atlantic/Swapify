@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import socket from './socket.js'
 // import { io } from 'socket.io-client';
-import { getChatInfo } from './getChatInfo.js'
+import { getChatInfo, addNewToUser } from './getChatInfo.js'
 import {
   Box,
   Button,
@@ -38,8 +38,10 @@ function Chat(props) {
         if (user.data[0] === undefined) {
           user.data[0] = { first_name: '', last_name: '', email: '', user_id: 0 }
         }
-        // console.log('user info', user.data[0].photo_url)
+        //console.log('user info', user.data[0].photo_url)
         setloginUserProfile(user.data[0].photo_url)
+        //console.log('addNewToUser', userName)
+        addNewToUser(userName, user.data[0].photo_url)
       })
   }, []);
 
