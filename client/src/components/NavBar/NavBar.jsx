@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Group, Space, Text, Avatar, Menu } from '@mantine/core';
 import axios from 'axios';
-import { useToggle } from '@mantine/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRightFromBracket,
@@ -13,26 +12,32 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import './NavBar.scss';
-import { data } from './dummy';
 import SearchBar from '../SearchBar/SearchBar.jsx';
 
 function NavBar({ disableSearch = false }) {
-  const loggedIn = document.cookie.split('=')[1];
-  //console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
   const navigate = useNavigate();
+  const loggedIn = document.cookie.split('=')[1];
+  const [userInfo, setUserInfo] = useState({});
+
   const handleLogout = () => {
-    axios.get('/logout')
-      .then(navigate('/'));
-  }
+    axios.get('http://localhost:3005/logout').then(navigate('/'));
+  };
 
   useEffect(() => {
     const username = document.cookie.split('=')[1];
+
     const getUser = async () => {
       try {
-        const user = await axios.get('/api/users', { username }); // -> { userinfo }
-        setUserinfo(user.data);
+        const user = await axios.get('http://localhost:3005/api/username', {
+          params: {
+            username,
+          },
+        });
+        console.log('🚀 ~ getUser ~ user', user);
+
+        setUserInfo(user.data[0]);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }
     };
     getUser();
@@ -43,7 +48,7 @@ function NavBar({ disableSearch = false }) {
       <div className="navbar">
         <Group noWrap align="center" style={{ width: '50%' }}>
           <Text color="dark" component={Link} id="nav-logo" to="/">
-            LOGO
+            Swapify
           </Text>
           {!disableSearch && <SearchBar variant="nav" />}
         </Group>
@@ -72,18 +77,17 @@ function NavBar({ disableSearch = false }) {
                     color="dark"
                     leftIcon={
                       <Avatar
-                        src={data.user.avatar}
+                        src={userInfo?.photo_url}
                         alt="profile avatar"
                         radius="xl"
                       />
                     }
                     rightIcon={<FontAwesomeIcon icon={faAngleDown} />}
                   >
-                    {data.user.firstName}
+                    {userInfo.first_name}
                   </Button>
                 }
               >
-                {/* <Menu.Label>Menu</Menu.Label> */}
                 <Menu.Item
                   component={Link}
                   to="/dashboard"
@@ -107,12 +111,7 @@ function NavBar({ disableSearch = false }) {
                 </Menu.Item>
                 <Menu.Item
                   color="red"
-                  // component={Link}
-                  // to="/logout"
-                  onClick={() => {
-                    handleLogout();
-                    console.log('Handle Logout');
-                  }}
+                  onClick={handleLogout}
                   icon={<FontAwesomeIcon icon={faRightFromBracket} />}
                 >
                   Logout
@@ -124,15 +123,7 @@ function NavBar({ disableSearch = false }) {
               <Button radius="xl" component={Link} to="/signup">
                 Sign up
               </Button>
-              <Button
-                variant="subtle"
-                radius="xl"
-                component={Link}
-                to="/login"
-              // onClick={() => {
-              //   toggle();
-              // }}
-              >
+              <Button variant="subtle" radius="xl" component={Link} to="/login">
                 Login
               </Button>
             </>

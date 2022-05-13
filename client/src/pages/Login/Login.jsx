@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   TextInput,
   Title,
   Group,
-  PasswordInput
+  PasswordInput,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { z } from 'zod';
@@ -19,32 +19,35 @@ import NavBar from '../../components/NavBar/NavBar.jsx';
 
 const schema = z.object({
   email: z.string().email({ message: 'Must input a valid email address' }),
-  password: z.string().min(5, { message: 'Password should have at least 5 characters' }),
+  password: z
+    .string()
+    .min(5, { message: 'Password should have at least 5 characters' }),
 });
 
 const Login = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const loginbutton = () => {
-    axios.post('/login', {
-      username: username,
-      password: password,
-    })
+    axios
+      .post('http://localhost:3005/login', {
+        username: username,
+        password: password,
+      })
       .then((data) => {
         alert('Successful Login!');
       })
-      // .then(()=> {
-      //   window.location = '/';
-      // })
+      .then(() => {
+        navigate('/');
+      })
       .catch((err) => {
         console.log('err at login button', err);
         alert('Incorrect Login Credential');
-        setPassword('')
-        setUsername('')
-      })
-  }
+        setPassword('');
+        setUsername('');
+      });
+  };
 
   return (
     <>
@@ -66,7 +69,7 @@ const Login = () => {
                 label="Username: "
                 placeholder="Your Username here"
                 onChange={(event) => {
-                  setUsername(event.target.value)
+                  setUsername(event.target.value);
                 }}
               />
               <Space h="lg" />
@@ -75,17 +78,24 @@ const Login = () => {
                 label="Password: "
                 placeholder="Your Password Here"
                 onChange={(event) => {
-                  setPassword(event.target.value)
+                  setPassword(event.target.value);
                 }}
               />
               <Space h="lg" />
-              <Button type="submit" onClick={() => loginbutton() } component={Link} to="/">Submit</Button>
-          </form>
-        </Stack>
-      </Center>
-    </Container>
+              <Button
+                type="submit"
+                onClick={() => loginbutton()}
+                component={Link}
+                to="/"
+              >
+                Submit
+              </Button>
+            </form>
+          </Stack>
+        </Center>
+      </Container>
     </>
   );
-}
+};
 
 export default Login;

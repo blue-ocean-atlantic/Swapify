@@ -24,11 +24,8 @@ function Home() {
   const loggedIn = document.cookie.split('=')[1]; // username=josh  "" -> undefined
 
   const navigate = useNavigate();
-  const [query, setQuery] = useInputState('');
+  const [listings, setListings] = useInputState([]);
   const [zip, setZip] = useState();
-
-  const [userInfo, setUserInfo] = useState();
-  //console.log('🚀 ~ Home ~ userInfo', userInfo);
 
   useEffect(() => {
     const getZip = async () => {
@@ -41,15 +38,19 @@ function Home() {
 
     // API GET for listings data (currently dummy data)
 
-    const getUser = async () => {
+    const getListings = async () => {
       try {
-        const user = await axios.get('/api/user', { params: { id } }); // -> { userinfo }
-        setUserInfo(user.data);
+        const listings = await axios.get(
+          'http://localhost:3005/api/listings/landing'
+        );
+        console.log('🚀 ~ getListings ~ listings', listings);
+
+        setListings(listings.data);
       } catch (error) {
         console.log(error);
       }
     };
-    getUser();
+    getListings();
   }, []);
 
   return (
@@ -73,10 +74,7 @@ function Home() {
         </Stack>
         <Divider my={50} label="LISTINGS NEAR YOU" labelPosition="center" />
         <SimpleGrid cols={4} spacing="xl">
-          {data.results.map((listing) => (
-            <ListingCard key={uuid()} listing={listing} />
-          ))}
-          {data.results.map((listing) => (
+          {listings.map((listing) => (
             <ListingCard key={uuid()} listing={listing} />
           ))}
         </SimpleGrid>
