@@ -13,22 +13,28 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import './NavBar.scss';
-import { data } from './dummy';
 import SearchBar from '../SearchBar/SearchBar.jsx';
 
 function NavBar({ disableSearch = false }) {
-  const loggedIn = document.cookie.split('=')[1];
-  //console.log('🚀 ~ NavBar ~ loggedIn', !!loggedIn);
   const navigate = useNavigate();
+  const loggedIn = document.cookie.split('=')[1];
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const username = document.cookie.split('=')[1];
+
     const getUser = async () => {
       try {
-        const user = await axios.get('/api/users', { username }); // -> { userinfo }
-        setUserinfo(user.data);
+        const user = await axios.get('http://localhost:3005/api/username', {
+          params: {
+            username,
+          },
+        });
+        console.log('🚀 ~ getUser ~ user', user);
+
+        setUserInfo(user.data[0]);
       } catch (error) {
-        //console.log(error);
+        console.log(error);
       }
     };
     getUser();
@@ -39,7 +45,7 @@ function NavBar({ disableSearch = false }) {
       <div className="navbar">
         <Group noWrap align="center" style={{ width: '50%' }}>
           <Text color="dark" component={Link} id="nav-logo" to="/">
-            LOGO
+            Swapify
           </Text>
           {!disableSearch && <SearchBar variant="nav" />}
         </Group>
@@ -68,14 +74,14 @@ function NavBar({ disableSearch = false }) {
                     color="dark"
                     leftIcon={
                       <Avatar
-                        src={data.user.avatar}
+                        src={userInfo.photo_url}
                         alt="profile avatar"
                         radius="xl"
                       />
                     }
                     rightIcon={<FontAwesomeIcon icon={faAngleDown} />}
                   >
-                    {data.user.firstName}
+                    {userInfo.first_name}
                   </Button>
                 }
               >
@@ -124,9 +130,9 @@ function NavBar({ disableSearch = false }) {
                 radius="xl"
                 component={Link}
                 to="/login"
-              // onClick={() => {
-              //   toggle();
-              // }}
+                // onClick={() => {
+                //   toggle();
+                // }}
               >
                 Login
               </Button>
