@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, Marker } from "pigeon-maps";
+import { Map, Marker } from 'pigeon-maps';
 import test_searchResults from './dummy_searchResults';
 import dummy_78701_5 from './dummy_78701_5';
 import dummy_zip_to_coordinates from './dummy_zip_to_coordinates';
@@ -9,17 +9,16 @@ import { v4 as uuidv4 } from 'uuid';
 // otherwise, use these
 import ListingCard from './ListingCard.jsx';
 
-
 class SearchResults extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       searchResults: [],
       query_matches_within_radius: [],
       dummy_zip_to_coordinates: {},
-      selected_marker: null
+      selected_marker: null,
     };
-    this.selectedMarker = this.selectedMarker.bind(this)
+    this.selectedMarker = this.selectedMarker.bind(this);
   }
 
   selectedMarker = (zip) => {
@@ -30,9 +29,9 @@ class SearchResults extends React.Component {
     // obtain query, zipcode center, radius from center from url parameters
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const query = urlParams.get('query')
-    const zipcode = urlParams.get('zipcode')
-    const radius = urlParams.get('radius')
+    const query = urlParams.get('query');
+    const zipcode = urlParams.get('zipcode');
+    const radius = urlParams.get('radius');
 
     // use dummy data to simulate map feature & list of searched items
     // LIST_A: make db call for search query (regardless of radius) ex. 'chair'
@@ -60,18 +59,23 @@ class SearchResults extends React.Component {
     const qualified_zips_map = {};
     for (const nearby_zip_obj of LIST_B) {
       // qualified_zips_map[nearby_zip_obj.zip_code] = True;
-      qualified_zips_map[nearby_zip_obj.zip_code] = {value: nearby_zip_obj.zip_code, distance: nearby_zip_obj.distance};
-
+      qualified_zips_map[nearby_zip_obj.zip_code] = {
+        value: nearby_zip_obj.zip_code,
+        distance: nearby_zip_obj.distance,
+      };
     }
     // console.log("qualified_zips_map: ", qualified_zips_map)
 
     // const query_matches_within_radius = LIST_A.filter(post => qualified_zips_map[post.zipcode]);
-     // this.setState({ query_matches_within_radius: query_matches_within_radius });
+    // this.setState({ query_matches_within_radius: query_matches_within_radius });
     // console.log('query_matches_within_radius: ', query_matches_within_radius)
-    var reduced = LIST_A.reduce(function(filtered, option) {
+    var reduced = LIST_A.reduce(function (filtered, option) {
       if (qualified_zips_map[option.zipcode]) {
-         var post = { ...option, distance: qualified_zips_map[option.zipcode].distance }
-         filtered.push(post);
+        var post = {
+          ...option,
+          distance: qualified_zips_map[option.zipcode].distance,
+        };
+        filtered.push(post);
       }
       return filtered;
     }, []);
@@ -85,10 +89,9 @@ class SearchResults extends React.Component {
     //   .then((response) => {
     //     this.setState({ coodinates: response.data.body.params }) // fix this syntax
     //   })
-    this.setState({ dummy_zip_to_coordinates })
+    this.setState({ dummy_zip_to_coordinates });
     // console.log('dummy_zip_to_coordinates: ', dummy_zip_to_coordinates)
-
-  };
+  }
 
   render() {
     // find out default zoom to be based on furthest item locations
@@ -101,19 +104,31 @@ class SearchResults extends React.Component {
         <Space h="xl" />
         <Grid gutter="lg" columns={12} justify="center">
           <Grid.Col span={6}>
-            <Map height={700} defaultCenter={[30.2634, -97.714517]} defaultZoom={6}>
+            <Map
+              height={700}
+              defaultCenter={[30.2634, -97.714517]}
+              defaultZoom={12}
+            >
               {Object.keys(dummy_zip_to_coordinates).map((coordinate) => {
-                const uu_id = uuidv4()
+                const uu_id = uuidv4();
                 return (
                   <Marker
                     key={uu_id}
                     width={50}
-                    anchor={[dummy_zip_to_coordinates[coordinate].lat, dummy_zip_to_coordinates[coordinate].lng]}
-                    onClick={() => { this.selectedMarker(coordinate) }}
-                  />)
+                    anchor={[
+                      dummy_zip_to_coordinates[coordinate].lat,
+                      dummy_zip_to_coordinates[coordinate].lng,
+                    ]}
+                    onClick={() => {
+                      this.selectedMarker(coordinate);
+                    }}
+                  />
+                );
               })}
             </Map>
-            {this.state.selected_marker ? `zip: ${this.state.selected_marker}` : null}
+            {this.state.selected_marker
+              ? `zip: ${this.state.selected_marker}`
+              : null}
           </Grid.Col>
           <Grid.Col span={3}>
             <ScrollArea style={{ height: 700 }}>
@@ -127,7 +142,7 @@ class SearchResults extends React.Component {
           </Grid.Col>
         </Grid>
       </>
-    )
+    );
   }
 }
 

@@ -11,7 +11,7 @@ import '../Details/Rating.scss';
 import './UserInfo.scss';
 
 function UserInfo({ userInfo }) {
-  console.log(userInfo)
+  console.log(userInfo);
 
   const [showEdit, toggleShowEdit] = useToggle(false, [false, true]);
 
@@ -34,10 +34,14 @@ function UserInfo({ userInfo }) {
     // Maybe trigger a refresh or rerender to allow new profile image to be shown on page?
   };
 
+  function add(accumulator, a) {
+    return accumulator + a;
+  }
+
   let ratingStar = 0;
   if (Object.keys(userInfo).length !== 0) {
     if (userInfo.ratings.length !== 0) {
-      ratingStar = (userInfo.ratings.reduce(add, 0)) / userInfo.ratings.length;
+      ratingStar = userInfo.ratings.reduce(add, 0) / userInfo.ratings.length;
     }
   }
 

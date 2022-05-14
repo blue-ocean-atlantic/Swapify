@@ -20,7 +20,7 @@ function NavBar({ disableSearch = false }) {
   const [userInfo, setUserInfo] = useState({});
 
   const handleLogout = () => {
-    axios.get('http://localhost:3005/logout').then(navigate('/'));
+    axios.get('http://localhost:3005/api/logout').then(navigate('/'));
   };
 
   useEffect(() => {
