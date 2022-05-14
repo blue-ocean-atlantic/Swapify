@@ -6,30 +6,12 @@ import { IKContext, IKUpload } from 'imagekitio-react';
 import axios from 'axios';
 
 import dashStore from './dashStore.js';
+import Rating from '../Details/Rating.jsx';
+import '../Details/Rating.scss';
 import './UserInfo.scss';
 
-function UserInfo() {
-  // call zustand variables here
-  const userInfo = dashStore((state) => state.userInfo);
-  const setUserInfo = dashStore((state) => state.setUserInfo);
-
-  // on page load: grab db data for specific user
-
-  // useEffect(() => {
-  //   axios({
-  //     url: '/userInfo',
-  //     method: 'GET',
-  //   })
-  //     .then((data) => {
-  //       // store info in zustand
-  //       setUserInfo(data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log('ERROR! couldn"t get user info from DB because :', err);
-  //     })
-  // });
-
-  // use variable populate return with real data
+function UserInfo({ userInfo }) {
+  console.log(userInfo)
 
   const [showEdit, toggleShowEdit] = useToggle(false, [false, true]);
 
@@ -51,6 +33,13 @@ function UserInfo() {
     toggleShowEdit();
     // Maybe trigger a refresh or rerender to allow new profile image to be shown on page?
   };
+
+  let ratingStar = 0;
+  if (Object.keys(userInfo).length !== 0) {
+    if (userInfo.ratings.length !== 0) {
+      ratingStar = (userInfo.ratings.reduce(add, 0)) / userInfo.ratings.length;
+    }
+  }
 
   return (
     <div>
@@ -77,12 +66,12 @@ function UserInfo() {
         </IKContext>
       </Modal>
       <Avatar
-        src={userInfo.profile_image}
-        alt={`${userInfo.user_first_name} ${userInfo.user_last_name}`}
+        src={userInfo.photo_url}
+        alt={`${userInfo.first_name} ${userInfo.last_name}`}
         radius="xl"
         size={300}
       >
-        {`${userInfo.user_first_name[0]} ${userInfo.user_last_name[0]}`}
+        {`${userInfo.first_name} ${userInfo.last_name}`}
       </Avatar>
       <Button
         onClick={() => {
@@ -95,7 +84,7 @@ function UserInfo() {
       </Button>
       <div className="user-info">
         <h4>username: {userInfo.username}</h4>
-        <h3>{userInfo.personal_rating} out of 5 stars</h3>
+        <Rating rating={ratingStar} size="20px" />
       </div>
     </div>
   );

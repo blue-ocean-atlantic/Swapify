@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, Link } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import regeneratorRuntime from 'regenerator-runtime';
 
@@ -13,10 +13,7 @@ import {
   NewListing,
   SearchResults,
   Signup,
-  Test
 } from './pages';
-
-
 
 const container = document.getElementById('root');
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
@@ -31,7 +28,6 @@ root.render(
       <Route path="/new" element={<NewListing />} />
       <Route path="/results" element={<SearchResults />} />
       <Route path="/chat" element={<Chat />} />
-      <Route path="/test" element={<Test />} />
     </Routes>
   </BrowserRouter>
 );

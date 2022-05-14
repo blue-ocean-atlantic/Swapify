@@ -20,6 +20,7 @@ export const getChatInfo = (userName, toUser) => {
 }
 
 export const addNewToUser = (userName, profile) => {
+  console.log(userName, profile)
   const options = {
     url: '/addNewToUser',
     method: 'post',
